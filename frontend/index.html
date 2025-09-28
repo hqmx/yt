@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HQMX - High Quality Media X</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/site.webmanifest" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1478922009946363"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-controls">
+                <button id="themeToggleBtn" class="theme-toggle-btn">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="language-switcher">
+                    <button id="language-selector-btn" class="language-selector-btn">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-language">English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="language-options" class="language-options">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="de">Deutsch</a>
+                        <a href="#" data-lang="es">Español</a>
+                        <a href="#" data-lang="fr">Français</a>
+                        <a href="#" data-lang="hi">हिन्दी / Hindī</a>
+                        <a href="#" data-lang="id">Bahasa Indonesia</a>
+                        <a href="#" data-lang="it">Italiano</a>
+                        <a href="#" data-lang="ko">한국어</a>
+                        <a href="#" data-lang="ja">日本語</a>
+                        <a href="#" data-lang="my">Myanmar (မြန်မာ)</a>
+                        <a href="#" data-lang="ms">Malay</a>
+                        <a href="#" data-lang="fil">Filipino</a>
+                        <a href="#" data-lang="pt">Português</a>
+                        <a href="#" data-lang="ru">Русский</a>
+                        <a href="#" data-lang="th">ไทย</a>
+                        <a href="#" data-lang="tr">Türkçe</a>
+                        <a href="#" data-lang="vi">Tiếng Việt</a>
+                        <a href="#" data-lang="zh-CN">简体中文</a>
+                        <a href="#" data-lang="zh-TW">繁體中文</a>
+                        <a href="#" data-lang="ar">عربي</a>
+                        <a href="#" data-lang="bn">বাঙালি</a>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">
+                <h1>HQM<span class="logo-x">X</span></h1>
+            </div>
+            <p class="tagline">High Quality Media X</p>
+        </header>
+
+        <main class="main-content">
+            <section class="url-section">
+                <div class="input-container">
+                    <h4 data-i18n-key="urlSectionTitle">Download all media on all platforms here.</h4>
+                    <div class="input-wrapper">
+                        <i class="fas fa-link input-icon"></i>
+                        <input type="text" id="urlInput" data-i18n-placeholder="urlInputPlaceholder" placeholder="Enter video or audio URL...">
+                        <button id="analyzeBtn" class="analyze-btn">
+                            <i class="fas fa-search"></i>
+                            <span data-i18n-key="analyzeBtn">Analyze</span>
+                        </button>
+                    </div>
+                    <p class="terms-notice" id="terms-notice" data-i18n-key="termsNotice">
+                        By using our service you accept our 
+                        <a href="terms.html" target="_blank">Terms of Service</a> and 
+                        <a href="privacy.html" target="_blank">Privacy Policy</a>.
+                    </p>
+                </div>
+            </section>
+
+            <section id="previewSection" class="preview-section" style="display: none;">
+                <div class="preview-content">
+                    <div class="thumbnail-container">
+                        <img id="thumbnailImg" src="" alt="Preview Thumbnail">
+                        <div class="thumbnail-fallback"><i class="fas fa-play-circle"></i></div>
+                    </div>
+                    <div class="info-container">
+                        <h2 id="mediaTitle" data-i18n-key="mediaTitleDefault">Media Title</h2>
+                        <div class="media-meta">
+                            <span id="mediaDuration"><i class="fas fa-clock"></i> --:--</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="format-tabs">
+                    <button class="format-tab active" data-media-type="video"><i class="fas fa-video"></i> <span data-i18n-key="videoTab">Video</span></button>
+                    <button class="format-tab" data-media-type="audio"><i class="fas fa-music"></i> <span data-i18n-key="audioTab">Audio</span></button>
+                </div>
+                <div class="options-container">
+                    <div id="videoFormats" class="format-group active">
+                        <div class="option-row">
+                            <label for="videoFormat" data-i18n-key="formatLabel">Format:</label>
+                            <select id="videoFormat">
+                                <option value="mp4">MP4</option>
+                                <option value="webm">WebM</option>
+                                <option value="mov">MOV</option>
+                                <option value="mkv">MKV</option>
+                            </select>
+                        </div>
+                        <div class="option-row">
+                            <label for="videoQuality" data-i18n-key="qualityLabel">Quality:</label>
+                            <select id="videoQuality"></select>
+                        </div>
+                        <div class="size-estimate" id="videoSizeEstimate" data-i18n-key="sizeEstimateDefault">Est. Size: --</div>
+                    </div>
+                    <div id="audioFormats" class="format-group">
+                        <div class="option-row">
+                            <label for="audioFormat" data-i18n-key="formatLabel">Format:</label>
+                            <select id="audioFormat">
+                                <option value="mp3">MP3</option>
+                                <option value="m4a">M4A</option>
+                                <option value="wav">WAV</option>
+                                <option value="flac">FLAC</option>
+                            </select>
+                        </div>
+                        <div class="option-row">
+                            <label for="audioQuality" data-i18n-key="qualityLabel">Quality:</label>
+                            <select id="audioQuality"></select>
+                        </div>
+                        <div class="size-estimate" id="audioSizeEstimate" data-i18n-key="sizeEstimateDefault">Est. Size: --</div>
+                    </div>
+                </div>
+                <button id="downloadBtn" class="download-btn"><i class="fas fa-download"></i> <span data-i18n-key="downloadBtn">Start Download</span></button>
+                
+                <div id="progressSection" class="progress-container" style="display: none;">
+                    <div class="spinner"></div>
+                    <div class="progress-details">
+                        <p id="progressStatus" data-i18n-key="progressStatusDefault">Preparing download...</p>
+                        <p class="progress-percentage">0%</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature-section">
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <img src="assets/4k-icon.png" alt="High-Quality Downloads Icon" class="feature-icon" id="icon-quality">
+                    </div>
+                    <h4 data-i18n-key="featureHighQualityTitle">High-Quality Downloads</h4>
+                    <p data-i18n-key="featureHighQualityDesc">Save videos in stunning 8K and 4K resolution.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <img src="assets/file-icon.png" alt="Various Formats Icon" class="feature-icon" id="icon-formats">
+                    </div>
+                    <h4 data-i18n-key="featureFormatsTitle">Various Formats Supported</h4>
+                    <div class="format-badges">
+                        <span class="format-badge video">MP4</span>
+                        <span class="format-badge video">WebM</span>
+                        <span class="format-badge video">MOV</span>
+                        <span class="format-badge video">MKV</span>
+                        <span class="format-badge audio">MP3</span>
+                        <span class="format-badge audio">M4A</span>
+                        <span class="format-badge audio">WAV</span>
+                        <span class="format-badge audio">FLAC</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <img src="assets/free-icon.png" alt="100% Free Icon" class="feature-icon" id="icon-free">
+                    </div>
+                    <h4 data-i18n-key="featureFreeTitle">100% Free</h4>
+                    <p data-i18n-key="featureFreeDesc">All features are provided completely free, no sign-up required.</p>
+                </div>
+            </section>
+
+            <section class="platform-support-section">
+                <h3 data-i18n-key="supportedPlatformsTitle">Supported Platforms</h3>
+                <div class="platform-grid">
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
+                        <span>YouTube</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/youtubeshorts/FF0000" alt="YouTube Shorts">
+                        <span>Shorts</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/youtubemusic/FF0000" alt="YouTube Music">
+                        <span>YT Music</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook">
+                        <span>Facebook</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
+                        <span>Instagram</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/tiktok/010101" alt="TikTok">
+                        <span>TikTok</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/xiaohongshu/FF2442" alt="Xiaohongshu">
+                        <span>Xiaohongshu (RedNote)</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/x/000000" alt="X (Twitter)">
+                        <span>X (Twitter)</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/dailymotion/0066DC" alt="Dailymotion">
+                        <span>Dailymotion</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/reddit/FF4500" alt="Reddit">
+                        <span>Reddit</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/soundcloud/FF5500" alt="SoundCloud">
+                        <span>SoundCloud</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/bilibili/00A1F1" alt="Bilibili">
+                        <span>Bilibili</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="usage-guide-section">
+                <h3 data-i18n-key="usageGuideTitle">How to Use</h3>
+                <p class="section-description" data-i18n-key="usageGuideDesc">Follow these three simple steps to quickly download your favorite videos and music.</p>
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-header">
+                            <span class="step-number">1</span>
+                            <h4 data-i18n-key="step1Title">Copy URL</h4>
+                        </div>
+                        <div class="step-image-container">
+                            <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'%3e%3cdefs%3e%3cstyle%3e.frame%7bfill:%23fff;stroke:%23e5e7eb;stroke-width:2;%7d.top-bar%7bfill:%23f3f4f6;%7d.dot%7bfill:%23e5e7eb;%7d.url-bar%7bfill:%23fff;stroke:%23e5e7eb;%7d.text%7bfont-family:monospace;font-size:10px;fill:%239ca3af;%7d.grid%7bfill:%23f3f4f6;%7d%3c/style%3e%3c/defs%3e%3crect class='frame' x='2' y='2' width='196' height='146' rx='8'/%3e%3cpath class='top-bar' d='M2,10.2A8.2,8.2,0,0,1,10.2,2H189.8a8.2,8.2,0,0,1,8.2,8.2V32H2Z'/%3e%3ccircle class='dot' cx='16' cy='17' r='4'/%3e%3ccircle class='dot' cx='32' cy='17' r='4'/%3e%3ccircle class='dot' cx='48' cy='17' r='4'/%3e%3crect class='url-bar' x='20' y='45' width='160' height='24' rx='4'/%3e%3ctext class='text' x='30' y='60'%3ehttps://youtu.be/...%3c/text%3e%3crect class='grid' x='20' y='80' width='45' height='30' rx='4'/%3e%3crect class='grid' x='77.5' y='80' width='45' height='30' rx='4'/%3e%3crect class='grid' x='135' y='80' width='45' height='30' rx='4'/%3e%3c/svg%3e" alt="Step 1 Illustration">
+                        </div>
+                        <p data-i18n-key="step1Desc">Find the video you want to download and copy its URL from the browser address bar.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-header">
+                            <span class="step-number">2</span>
+                            <h4 data-i18n-key="step2Title">Paste in HQMX</h4>
+                        </div>
+                        <div class="step-image-container">
+                            <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'%3e%3cdefs%3e%3cstyle%3e.bg%7bfill:%23f9fafb;%7d.input-stroke%7bstroke:%23e5e7eb;stroke-width:2;%7d.input-fill%7bfill:%23fff;%7d.icon%7bstroke:%23fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;%7d.text%7bfont-family:monospace;font-size:10px;fill:%239ca3af;%7d%3c/style%3e%3clinearGradient id='blue-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3e%3cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1' /%3e%3cstop offset='100%25' style='stop-color:%231D4ED8;stop-opacity:1' /%3e%3c/linearGradient%3e%3c/defs%3e%3crect class='bg' width='200' height='150' /%3e%3crect class='input-fill input-stroke' x='20' y='60' width='160' height='30' rx='6'/%3e%3crect fill='url(%23blue-grad)' x='140' y='60' width='40' height='30' rx='6'/%3e%3cpath class='icon' d='M162 72a5 5 0 11-10 0 5 5 0 0110 0z M160.5 75.5l4 4'/%3e%3ctext class='text' x='30' y='78'%3ehttps://...%3c/text%3e%3ctext x='75' y='40' font-family='sans-serif' font-weight='bold' font-size='14' fill='%23374151'%3eHQMX%3c/text%3e%3c/svg%3e" alt="Step 2 Illustration">
+                        </div>
+                        <p data-i18n-key="step2Desc">Return to the HQMX site, paste the copied link into the input field, and press 'Analyze'.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-header">
+                            <span class="step-number">3</span>
+                            <h4 data-i18n-key="step3Title">Select and Save</h4>
+                        </div>
+                        <div class="step-image-container">
+                            <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'%3e%3cdefs%3e%3cstyle%3e.bg%7bfill:%23f9fafb;%7d.preview%7bfill:%23f3f4f6;stroke:%23e5e7eb;stroke-width:2;%7d.text%7bfill:%23fff;font-family:sans-serif;font-size:12px;font-weight:bold;text-anchor:middle;%7d%3c/style%3e%3clinearGradient id='blue-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3e%3cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1' /%3e%3cstop offset='100%25' style='stop-color:%231D4ED8;stop-opacity:1' /%3e%3c/linearGradient%3e%3c/defs%3e%3crect class='bg' width='200' height='150' /%3e%3crect class='preview' x='30' y='20' width='140' height='80' rx='6' /%3e%3cpath fill='%23d1d5db' d='M90 50 l20 15 -20 15z' /%3e%3crect fill='url(%23blue-grad)' x='50' y='110' width='100' height='25' rx='6' /%3e%3ctext class='text' x='100' y='127'%3eDownload%3c/text%3e%3c/svg%3e" alt="Step 3 Illustration">
+                        </div>
+                        <p data-i18n-key="step3Desc">Choose your desired format and quality for the video/audio, then click the download button.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="social-links">
+                <a href="https://twitter.com/8hqmx" target="_blank" aria-label="Follow us on Twitter">
+                    <img src="https://cdn.simpleicons.org/x/000000" alt="X (Twitter) logo">
+                </a>
+            </div>
+            <p data-i18n-key="footer">&copy; 2024 HQMX. All Rights Reserved.</p>
+            <div class="company-info">
+                <p><strong>Company:</strong> OROMANO</p>
+                <p><strong>Business Number:</strong> 116-10-06201</p>
+                <p><strong>Address:</strong> 268, Wonhyo-ro, Yongsan-gu, Seoul, Republic of Korea</p>
+                <p><strong>Contact:</strong> <a href="mailto:support@hqmx.net">support@hqmx.net</a> | <a href="tel:+821058460028">+82)10-5846-0028</a></p>
+            </div>
+        </footer>
+    </div>
+    <script src="i18n.js"></script>
+    <script src="js/userProfileCollector.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

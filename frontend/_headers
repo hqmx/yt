@@ -1,0 +1,29 @@
+# Cloudflare Pages 헤더 설정
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# API 엔드포인트
+/api/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+
+# 정적 파일 캐싱
+*.css
+  Cache-Control: public, max-age=31536000
+
+*.js
+  Cache-Control: public, max-age=31536000
+
+*.png
+  Cache-Control: public, max-age=31536000
+
+*.jpg
+  Cache-Control: public, max-age=31536000
+
+*.svg
+  Cache-Control: public, max-age=31536000 
