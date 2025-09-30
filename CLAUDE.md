@@ -42,14 +42,25 @@ PROXY_PASSWORD=Straight8
 
 ## 개발 명령어
 
+### 환경 설정
+```bash
+# 백엔드 환경변수 설정 (필수)
+cp backend/.env.example backend/.env
+# .env 파일에서 필요한 설정값들을 확인하고 수정
+```
+
 ### 백엔드 개발
 ```bash
 cd backend
 npm install
 npm run dev        # nodemon으로 개발 서버 시작
 npm start          # 프로덕션 서버 시작
-npm run deploy     # PM2 배포
-npm test           # Jest 테스트 실행
+npm test           # Jest 테스트 실행 (현재 테스트 파일 없음)
+```
+
+### PM2 배포 (주의: ecosystem.config.js 파일 필요)
+```bash
+npm run deploy     # PM2 배포 (설정 파일 확인 필요)
 ```
 
 ### 프론트엔드 개발
@@ -65,7 +76,9 @@ npm run sync:translations  # 번역 동기화
 scp -i hqmx-ec2.pem -r backend ubuntu@54.242.63.16:/home/ubuntu/hqmx/
 ssh -i hqmx-ec2.pem ubuntu@54.242.63.16
 cd /home/ubuntu/hqmx/backend
-pm2 restart ecosystem.config.js
+pm2 restart all  # 또는 특정 프로세스명 사용
+pm2 status       # 상태 확인
+pm2 logs         # 로그 확인
 ```
 
 ## 핵심 기술적 접근법
@@ -151,6 +164,7 @@ curl http://54.242.63.16:3001/health
 ### 설정 파일
 - `backend/src/config/index.js`: 서버 설정 및 프록시 구성
 - `backend/.env`: 환경변수 (Smartproxy 인증정보)
+- `backend/.env.example`: 환경변수 템플릿
 - `hqmx-ec2.pem`: EC2 SSH 키
 
 ### 서비스 핵심 파일
@@ -162,6 +176,12 @@ curl http://54.242.63.16:3001/health
 - `frontend/script.js`: 메인 UI 로직
 - `frontend/i18n.js`: 다국어 지원
 - `frontend/js/userProfileCollector.js`: 사용자 프로파일링
+
+## 프로젝트 상태
+- **개발 환경**: Node.js + Express (백엔드), 바닐라 JS (프론트엔드)
+- **테스트 상태**: Jest 설정됨 (테스트 파일 작성 필요)
+- **배포 환경**: EC2 + PM2
+- **주요 종속성**: Playwright (브라우저 자동화), Cheerio (HTML 파싱), Axios (HTTP 클라이언트)
 
 ## 회사 정보 (푸터 표시)
 - Company: OROMANO
