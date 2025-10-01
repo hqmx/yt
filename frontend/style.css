@@ -1029,10 +1029,32 @@ body[dir="rtl"] .guide-steps {
 @media (max-width: 768px) {
     body {
         background-image: url('assets/mbg.png') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        /* iOS Safari 고정 배경 지원 */
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
     }
 
     body[data-theme="dark"] {
         background-image: url('assets/dkmbg.png') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+    }
+
+    /* iOS Safari에서 배경 고정을 위한 추가 설정 */
+    html {
+        height: -webkit-fill-available;
+    }
+
+    /* 스크롤 시 배경이 움직이지 않도록 보장 */
+    body::before {
+        position: fixed !important;
+        background-attachment: fixed !important;
     }
 }
  
