@@ -47,7 +47,7 @@ body {
 }
 
 body[data-theme="dark"] {
-    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%); /* 다크 모드 그라데이션 */
+    background: #000014; /* 다크 모드 배경색 */
 }
 
 
