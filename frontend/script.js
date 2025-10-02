@@ -1,23 +1,3 @@
-// --- BACKGROUND IMAGE LOADING ---
-(function() {
-    // 배경 이미지 프리로드 및 블러 효과
-    const isMobile = window.innerWidth <= 768;
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-
-    let bgImage;
-    if (isMobile) {
-        bgImage = isDark ? 'assets/dkmbg.webp' : 'assets/mbg.webp';
-    } else {
-        bgImage = isDark ? 'assets/bgdk.webp' : 'assets/bg.webp';
-    }
-
-    const img = new Image();
-    img.onload = () => {
-        document.body.classList.add('bg-loaded');
-    };
-    img.src = bgImage;
-})();
-
 document.addEventListener('DOMContentLoaded', () => {
     // --- STATE MANAGEMENT ---
     let state = {
@@ -64,6 +44,29 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
     // --- THEME MANAGEMENT ---
     const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.body.setAttribute('data-theme', currentTheme);
+
+    // --- BACKGROUND IMAGE LOADING ---
+    // 테마 설정 후 배경 이미지 로드
+    const isMobile = window.innerWidth <= 768;
+    const isDark = currentTheme === 'dark';
+
+    let bgImage;
+    if (isMobile) {
+        bgImage = isDark ? 'assets/dkmbg.webp' : 'assets/mbg.webp';
+    } else {
+        bgImage = isDark ? 'assets/bgdk.webp' : 'assets/bg.webp';
+    }
+
+    const img = new Image();
+    img.onload = () => {
+        document.body.classList.add('bg-loaded');
+    };
+    img.onerror = () => {
+        console.error('Background image failed to load:', bgImage);
+        // 이미지 로드 실패해도 투명하지 않게 fallback
+        document.body.classList.add('bg-loaded');
+    };
+    img.src = bgImage;
 
     function handleThemeToggle() {
         const newTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
