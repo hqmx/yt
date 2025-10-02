@@ -37,21 +37,33 @@ body[data-theme="dark"] {
 
 body {
     font-family: 'Inter', sans-serif;
-    background-image: url('assets/bg.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
     padding: 2rem;
     transition: background-color 0.3s, color 0.3s;
     position: relative;
+    min-height: 100vh;
 }
 
-/* 배경 위에 반투명 오버레이 */
+/* 고정 배경 이미지 레이어 (iOS Safari 호환) */
 body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* 반투명 오버레이 */
+body::after {
     content: '';
     position: fixed;
     top: 0;
@@ -63,12 +75,12 @@ body::before {
     pointer-events: none;
 }
 
-body[data-theme="dark"]::before {
+body[data-theme="dark"]::after {
     background: rgba(0, 0, 0, 0.4);
 }
 
 /* 다크 모드 전용 배경 이미지 */
-body[data-theme="dark"] {
+body[data-theme="dark"]::before {
     background-image: url('assets/bgdk.png');
 }
 
@@ -1027,34 +1039,43 @@ body[dir="rtl"] .guide-steps {
 
 /* Mobile Responsive Design - Background Images */
 @media (max-width: 768px) {
-    body {
-        background-image: url('assets/mbg.png') !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-attachment: fixed !important;
-        background-repeat: no-repeat !important;
-        /* iOS Safari 고정 배경 지원 */
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-
-    body[data-theme="dark"] {
-        background-image: url('assets/dkmbg.png') !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-attachment: fixed !important;
-        background-repeat: no-repeat !important;
-    }
-
-    /* iOS Safari에서 배경 고정을 위한 추가 설정 */
+    /* iOS Safari 뷰포트 높이 지원 */
     html {
         height: -webkit-fill-available;
     }
 
-    /* 스크롤 시 배경이 움직이지 않도록 보장 */
+    body {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+
+    /* 모바일 전용 고정 배경 이미지 */
     body::before {
+        background-image: url('assets/mbg.png') !important;
         position: fixed !important;
-        background-attachment: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        z-index: -2 !important;
+    }
+
+    /* 다크모드 모바일 배경 */
+    body[data-theme="dark"]::before {
+        background-image: url('assets/dkmbg.png') !important;
+    }
+
+    /* 모바일 오버레이 레이어 고정 */
+    body::after {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: -1 !important;
     }
 }
  
