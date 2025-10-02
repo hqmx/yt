@@ -1,3 +1,23 @@
+// --- BACKGROUND IMAGE LOADING ---
+(function() {
+    // 배경 이미지 프리로드 및 블러 효과
+    const isMobile = window.innerWidth <= 768;
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+
+    let bgImage;
+    if (isMobile) {
+        bgImage = isDark ? 'assets/dkmbg.webp' : 'assets/mbg.webp';
+    } else {
+        bgImage = isDark ? 'assets/bgdk.webp' : 'assets/bg.webp';
+    }
+
+    const img = new Image();
+    img.onload = () => {
+        document.body.classList.add('bg-loaded');
+    };
+    img.src = bgImage;
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- STATE MANAGEMENT ---
     let state = {
