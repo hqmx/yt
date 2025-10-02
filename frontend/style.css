@@ -37,7 +37,7 @@ body[data-theme="dark"] {
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 라이트 모드 그라데이션 */
+    background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
     padding: 2rem;
