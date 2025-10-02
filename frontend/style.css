@@ -21,7 +21,7 @@ body[data-theme="dark"] {
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --error-color: #ef4444;
-    --background-color: #111827;
+    --background-color: transparent; /* 그라데이션 사용하므로 투명 */
     --card-background: rgba(0, 0, 0, 0.6);
     --text-color: #f9fafb;
     --light-text-color: #9ca3af;
