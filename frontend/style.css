@@ -943,6 +943,11 @@ body[data-theme="dark"] .social-links img {
     filter: invert(1);
 }
 
+/* X(Twitter) 아이콘 다크모드 처리 */
+body[data-theme="dark"] .x-icon {
+    filter: invert(1) !important;
+}
+
 
 
 
