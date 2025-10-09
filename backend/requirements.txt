@@ -1,0 +1,6 @@
+Flask
+Flask-Cors
+yt-dlp
+mutagen
+APScheduler
+python-dotenv

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // API 엔드포인트 설정
 // 로컬 개발: http://localhost:5001
 // 프로덕션: https://hqmx.net/api
-const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : 'https://hqmx.net/api';
+const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://hqmx.net/api';
 
     // --- DOM ELEMENT CACHE ---
     const dom = {
@@ -47,35 +47,123 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
 
     // --- BACKGROUND IMAGE LOADING ---
     // 테마 설정 후 배경 이미지 로드
-    const isMobile = window.innerWidth <= 768;
-    const isDark = currentTheme === 'dark';
-
-    let bgImage;
-    if (isMobile) {
-        bgImage = isDark ? 'assets/dkmbg.webp' : 'assets/mbg.webp';
-    } else {
-        bgImage = isDark ? 'assets/bgdk.webp' : 'assets/bg.webp';
-    }
-
-    const img = new Image();
-    img.onload = () => {
-        document.body.classList.add('bg-loaded');
-    };
-    img.onerror = () => {
-        console.error('Background image failed to load:', bgImage);
-        // 이미지 로드 실패해도 투명하지 않게 fallback
-        document.body.classList.add('bg-loaded');
-    };
-    img.src = bgImage;
-
     function handleThemeToggle() {
         const newTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.body.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
     }
 
+    // Navigation Functions
+    function toggleMobileMenu() {
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+        hamburgerMenu.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('show');
+
+        // 모바일 메뉴가 열릴 때 토글 버튼들 강제 표시
+        if (mobileMenuOverlay.classList.contains('show')) {
+            const mobileControls = document.querySelector('.mobile-menu-controls');
+            const mobileControlItems = document.querySelectorAll('.mobile-control-item');
+            const mobileThemeBtn = document.getElementById('mobileThemeToggleBtn');
+            const mobileLangBtn = document.getElementById('mobileLanguageSelectorBtn');
+
+            if (mobileControls) {
+                mobileControls.style.display = 'block';
+                mobileControls.style.visibility = 'visible';
+                mobileControls.style.opacity = '1';
+            }
+
+            mobileControlItems.forEach(item => {
+                item.style.display = 'flex';
+                item.style.visibility = 'visible';
+                item.style.opacity = '1';
+            });
+
+            if (mobileThemeBtn) {
+                mobileThemeBtn.style.display = 'flex';
+                mobileThemeBtn.style.visibility = 'visible';
+                mobileThemeBtn.style.opacity = '1';
+            }
+
+            if (mobileLangBtn) {
+                mobileLangBtn.style.display = 'flex';
+                mobileLangBtn.style.visibility = 'visible';
+                mobileLangBtn.style.opacity = '1';
+            }
+        }
+    }
+
+    function closeMobileMenu() {
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+        hamburgerMenu.classList.remove('active');
+        mobileMenuOverlay.classList.remove('show');
+    }
+
     // --- EVENT LISTENERS ---
     dom.themeToggleBtn.addEventListener('click', handleThemeToggle);
+
+    // Navigation Event Listeners
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+    if (hamburgerMenu && mobileMenuOverlay) {
+        hamburgerMenu.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileMenuOverlay) {
+                closeMobileMenu();
+            }
+        });
+
+        // 모바일 메뉴 링크 클릭 시 메뉴 닫기
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                // 기존 네비게이션 로직 사용
+                document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll(`[data-section="${section}"]`).forEach(l => l.classList.add('active'));
+                closeMobileMenu();
+            });
+        });
+
+        // 모바일 토글 버튼 이벤트 리스너
+        const mobileThemeToggleBtn = document.getElementById('mobileThemeToggleBtn');
+        const mobileLanguageSelectorBtn = document.getElementById('mobileLanguageSelectorBtn');
+        const mobileLanguageOptions = document.getElementById('mobileLanguageOptions');
+
+        if (mobileThemeToggleBtn) {
+            mobileThemeToggleBtn.addEventListener('click', handleThemeToggle);
+        }
+
+        if (mobileLanguageSelectorBtn && mobileLanguageOptions) {
+            mobileLanguageSelectorBtn.addEventListener('click', () => {
+                mobileLanguageOptions.classList.toggle('show');
+            });
+
+            mobileLanguageOptions.addEventListener('click', async (e) => {
+                if (e.target.dataset.lang) {
+                    e.preventDefault(); // Prevent default <a> tag behavior
+                    const lang = e.target.dataset.lang;
+
+                    // Close mobile language selector
+                    mobileLanguageOptions.classList.remove('show');
+
+                    // Update language using i18n
+                    if (typeof i18n !== 'undefined' && i18n.changeLanguage) {
+                        await i18n.changeLanguage(lang);
+                        const currentLangElement = document.getElementById('mobileCurrentLanguage');
+                        if (currentLangElement) {
+                            currentLangElement.textContent = e.target.textContent;
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     dom.analyzeBtn.addEventListener('click', handleAnalyzeClick);
     dom.urlInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleAnalyzeClick();
@@ -1186,4 +1274,21 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
         if (h >= 720) return `HD (${h}p)`;
         return `${h}p`;
     };
+
+    // 스크롤 시 헤더 blur 효과
+    const topNav = document.querySelector('.top-nav');
+
+    function handleScroll() {
+        if (window.scrollY > 0) {
+            topNav.classList.add('scrolled');
+        } else {
+            topNav.classList.remove('scrolled');
+        }
+    }
+
+    // 초기 상태 확인
+    handleScroll();
+
+    // 스크롤 이벤트 리스너 추가
+    window.addEventListener('scroll', handleScroll, { passive: true });
 });

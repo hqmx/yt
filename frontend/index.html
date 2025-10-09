@@ -7,8 +7,17 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>HQMX - High Quality Media X</title>
+    <meta name="description" content="Download high quality media from YouTube and other platforms. Support for video and audio downloads with multiple format options.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20251003f">
+    <link rel="stylesheet" href="style.css?v=20251009e">
+
+    <!-- Dropbox API -->
+    <script src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="lsjgf5qy4g59sqz"></script>
+
+    <!-- Google Drive API -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="shortcut icon" href="assets/favicon.ico" />
@@ -19,51 +28,121 @@
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <div class="logo">
-                <h1>HQM<span class="logo-x">X</span></h1>
+        <!-- Navigation Header -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="downloader-logo">
+                    <span class="downloader-text"><span class="downloader-d">D</span><span class="downloader-rest">OWNLOADER</span></span>
+                </div>
             </div>
-            <p class="tagline">High Quality Media X</p>
+
+            <div class="nav-center">
+                <!-- 햄버거 메뉴 버튼 (모바일용) -->
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <div class="nav-menu">
+                    <a href="#" class="nav-link active" data-section="download">Download</a>
+                    <a href="#" class="nav-link" data-section="information">Information</a>
+                    <a href="#" class="nav-link" data-section="contact">Contact</a>
+                </div>
+
+                <!-- 모바일 메뉴 오버레이 -->
+                <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+                    <div class="mobile-menu-box">
+                        <a href="#" class="mobile-nav-link active" data-section="download">Download</a>
+                        <a href="#" class="mobile-nav-link" data-section="information">Information</a>
+                        <a href="#" class="mobile-nav-link" data-section="contact">Contact</a>
+
+                        <div class="mobile-menu-controls">
+                            <div class="mobile-control-item menu-divider">
+                                <button id="mobileThemeToggleBtn" class="mobile-theme-toggle-btn">
+                                    <i class="fas fa-sun"></i>
+                                    <i class="fas fa-moon"></i>
+                                </button>
+                                <button id="mobileLanguageSelectorBtn" class="mobile-language-selector-btn">
+                                    <i class="fas fa-globe"></i>
+                                    <span id="mobileCurrentLanguage">EN</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="mobile-control-item">
+                                <div id="mobileLanguageOptions" class="mobile-language-options">
+                                    <a href="#" data-lang="en">English</a>
+                                    <a href="#" data-lang="de">Deutsch</a>
+                                    <a href="#" data-lang="es">Español</a>
+                                    <a href="#" data-lang="fr">Français</a>
+                                    <a href="#" data-lang="hi">हिन्दी / Hindī</a>
+                                    <a href="#" data-lang="id">Bahasa Indonesia</a>
+                                    <a href="#" data-lang="it">Italiano</a>
+                                    <a href="#" data-lang="ko">한국어</a>
+                                    <a href="#" data-lang="ja">日本語</a>
+                                    <a href="#" data-lang="my">Myanmar (မြန်မာ)</a>
+                                    <a href="#" data-lang="ms">Malay</a>
+                                    <a href="#" data-lang="fil">Filipino</a>
+                                    <a href="#" data-lang="pt">Português</a>
+                                    <a href="#" data-lang="ru">Русский</a>
+                                    <a href="#" data-lang="th">ไทย</a>
+                                    <a href="#" data-lang="tr">Türkçe</a>
+                                    <a href="#" data-lang="vi">Tiếng Việt</a>
+                                    <a href="#" data-lang="zh-CN">简体中文</a>
+                                    <a href="#" data-lang="zh-TW">繁體中文</a>
+                                    <a href="#" data-lang="ar">عربي</a>
+                                    <a href="#" data-lang="bn">বাঙালি</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <button id="themeToggleBtn" class="theme-toggle-btn">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="language-switcher">
+                    <button id="language-selector-btn" class="language-selector-btn">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-language">English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="language-options" class="language-options">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="de">Deutsch</a>
+                        <a href="#" data-lang="es">Español</a>
+                        <a href="#" data-lang="fr">Français</a>
+                        <a href="#" data-lang="hi">हिन्दी / Hindī</a>
+                        <a href="#" data-lang="id">Bahasa Indonesia</a>
+                        <a href="#" data-lang="it">Italiano</a>
+                        <a href="#" data-lang="ko">한국어</a>
+                        <a href="#" data-lang="ja">日本語</a>
+                        <a href="#" data-lang="my">Myanmar (မြန်မာ)</a>
+                        <a href="#" data-lang="ms">Malay</a>
+                        <a href="#" data-lang="fil">Filipino</a>
+                        <a href="#" data-lang="pt">Português</a>
+                        <a href="#" data-lang="ru">Русский</a>
+                        <a href="#" data-lang="th">ไทย</a>
+                        <a href="#" data-lang="tr">Türkçe</a>
+                        <a href="#" data-lang="vi">Tiếng Việt</a>
+                        <a href="#" data-lang="zh-CN">简体中文</a>
+                        <a href="#" data-lang="zh-TW">繁體中文</a>
+                        <a href="#" data-lang="ar">عربي</a>
+                        <a href="#" data-lang="bn">বাঙালি</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="header">
+            <p class="tagline" data-i18n-key="tagline">Universal Media Downloader</p>
         </header>
 
         <main class="main-content">
             <section class="url-section">
-                <div class="header-controls">
-                    <button id="themeToggleBtn" class="theme-toggle-btn">
-                        <i class="fas fa-sun"></i>
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="language-switcher">
-                        <button id="language-selector-btn" class="language-selector-btn">
-                            <i class="fas fa-globe"></i>
-                            <span id="current-language">English</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div id="language-options" class="language-options">
-                            <a href="#" data-lang="en">English</a>
-                            <a href="#" data-lang="de">Deutsch</a>
-                            <a href="#" data-lang="es">Español</a>
-                            <a href="#" data-lang="fr">Français</a>
-                            <a href="#" data-lang="hi">हिन्दी / Hindī</a>
-                            <a href="#" data-lang="id">Bahasa Indonesia</a>
-                            <a href="#" data-lang="it">Italiano</a>
-                            <a href="#" data-lang="ko">한국어</a>
-                            <a href="#" data-lang="ja">日本語</a>
-                            <a href="#" data-lang="my">Myanmar (မြန်မာ)</a>
-                            <a href="#" data-lang="ms">Malay</a>
-                            <a href="#" data-lang="fil">Filipino</a>
-                            <a href="#" data-lang="pt">Português</a>
-                            <a href="#" data-lang="ru">Русский</a>
-                            <a href="#" data-lang="th">ไทย</a>
-                            <a href="#" data-lang="tr">Türkçe</a>
-                            <a href="#" data-lang="vi">Tiếng Việt</a>
-                            <a href="#" data-lang="zh-CN">简体中文</a>
-                            <a href="#" data-lang="zh-TW">繁體中文</a>
-                            <a href="#" data-lang="ar">عربي</a>
-                            <a href="#" data-lang="bn">বাঙালি</a>
-                        </div>
-                    </div>
-                </div>
                 <div class="input-container">
                     <h4 data-i18n-key="urlSectionTitle">Download all media on all platforms here.</h4>
                     <div class="input-wrapper">
@@ -272,19 +351,33 @@
             </section>
         </main>
         
+        <section class="sitemap">
+            <div class="sitemap-content">
+                <div class="sitemap-top">
+                    <div class="hqmx-brand">
+                        <h1>HQM<span class="logo-x">X</span></h1>
+                    </div>
+                    <p class="sitemap-tagline">High Quality Media X</p>
+                </div>
+
+                <div class="sitemap-bottom">
+                    <div class="sitemap-side sitemap-left">
+                        <div class="converter-logo">
+                            <span class="converter-text"><span class="converter-c">C</span><span class="converter-rest">ONVERTER</span></span>
+                        </div>
+                    </div>
+
+                    <div class="sitemap-side sitemap-right">
+                        <div class="downloader-logo">
+                            <span class="downloader-text"><span class="downloader-d">D</span><span class="downloader-rest">OWNLOADER</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <footer>
-            <div class="social-links">
-                <a href="https://twitter.com/8hqmx" target="_blank" aria-label="Follow us on Twitter">
-                    <img src="https://cdn.simpleicons.org/x/000000" alt="X (Twitter) logo" class="x-icon">
-                </a>
-            </div>
             <p data-i18n-key="footer">&copy; 2024 HQMX. All Rights Reserved.</p>
-            <div class="company-info">
-                <p><strong>Company:</strong> OROMANO</p>
-                <p><strong>Business Number:</strong> 116-10-06201</p>
-                <p><strong>Address:</strong> 268, Wonhyo-ro, Yongsan-gu, Seoul, Republic of Korea</p>
-                <p><strong>Contact:</strong> <a href="mailto:support@hqmx.net">support@hqmx.net</a> | <a href="tel:+821058460028">+82)10-5846-0028</a></p>
-            </div>
         </footer>
     </div>
     <script src="i18n.js"></script>

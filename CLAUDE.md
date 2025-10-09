@@ -3,48 +3,29 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## 프로젝트 개요
-HQMX는 YouTube를 비롯한 다양한 SNS 플랫폼에서 고품질 미디어를 다운로드할 수 있는 통합 플랫폼입니다. yt-dlp를 사용하지 않고 자체 개발된 안정적이고 빠른 다운로드 시스템을 구축하였습니다.
+HQMX는 YouTube를 비롯한 다양한 SNS 플랫폼(Instagram, Facebook, TikTok, Twitter 등 1000+ 사이트)에서 고품질 미디어를 다운로드할 수 있는 통합 플랫폼입니다. **yt-dlp**를 핵심 엔진으로 사용하여 안정적이고 빠른 다운로드 시스템을 구축하였습니다.
 
 ## 아키텍처 구조
 
-### 백엔드 (Node.js + Express)
-- **메인 서버**: [backend/src/app.js](backend/src/app.js) - PM2로 EC2에서 운영 중
-  - 보안: Helmet, CORS, Rate Limiting
-  - 에러 핸들링: 전역 에러 핸들러, 타입별 처리 (ValidationError, UnauthorizedError)
-  - 우아한 종료: SIGTERM/SIGINT 처리, 서비스 정리
+### 백엔드 (Python Flask + yt-dlp)
+- **메인 서버**: [backend/app.py](backend/app.py) - systemd 서비스로 EC2에서 운영
+  - **프레임워크**: Flask (Python 3.8+)
+  - **다운로드 엔진**: yt-dlp (1000+ 사이트 지원)
+  - **보안**: Flask-CORS, 환경변수 기반 설정
+  - **백그라운드 작업**: APScheduler (임시 파일 정리)
+  - **메타데이터 처리**: mutagen (오디오 태그 편집)
 
-- **API 계층** (라우트):
-  - v1: `/api/youtube/*` - 기본 YouTube 분석
-  - v2-v3: 추가 분석 방법들
-  - v4: `/api/youtube/v4/*` - **현재 운영 버전** (다중 프록시 + 경쟁사 통합)
+- **핵심 기능**:
+  - `/api/analyze` - YouTube 및 SNS URL 메타데이터 분석
+  - `/api/download` - 다운로드 및 스트리밍
+  - `/health` - 서버 상태 체크
+  - **다국어 지원**: frontend/locales/*.json 기반 20개 언어
 
-- **서비스 계층** (핵심 비즈니스 로직):
-  - [proxyPoolManager.js](backend/src/services/proxyPoolManager.js): 8개 프록시 풀 관리 (지역별 분산)
-  - [competitorIntegrationService.js](backend/src/services/competitorIntegrationService.js): 경쟁사 서비스 통합 오케스트레이터
-  - [youtubeBrowserService.js](backend/src/services/youtubeBrowserService.js): Playwright 기반 브라우저 자동화
-  - [parallelDownloader.js](backend/src/services/parallelDownloader.js): 청크 기반 병렬 다운로드
-
-- **추출기 계층** (Extractor Pattern):
-  - [saveFromExtractor.js](backend/src/services/extractors/saveFromExtractor.js): SaveFrom.net (2단계 Google Video URL 추출)
-  - [ssyoutubeExtractor.js](backend/src/services/extractors/ssyoutubeExtractor.js): SSYouTube.com (HTML 파싱)
-  - [playwrightExtractor.js](backend/src/services/extractors/playwrightExtractor.js): Playwright 기반 (Y2mate 자동화)
-  - [youtube4kdownloaderExtractor.js](backend/src/services/extractors/youtube4kdownloaderExtractor.js): 4K Downloader 서비스
-  - [curlExtractor.js](backend/src/services/extractors/curlExtractor.js): cURL 기반 추출
-  - **패턴**: 모든 추출기는 동일한 인터페이스 구현 (`extract(videoUrl, quality)`)
-
-### 서비스 의존성 그래프
-```
-competitorIntegrationService
-├── extractors/* (5개 추출기)
-├── proxyPoolManager (프록시 선택)
-└── parallelDownloader (청크 다운로드)
-
-youtubeBrowserService
-└── proxyPoolManager
-
-routes/youtube-v4.js
-└── competitorIntegrationService
-```
+- **yt-dlp 특징**:
+  - YouTube, Instagram, Facebook, TikTok, Twitter 등 1000+ 사이트 지원
+  - 자동 포맷 선택 및 최적화
+  - 청크 기반 다운로드로 메모리 효율적
+  - 주기적 업데이트로 사이트 변경사항 대응
 
 ### 프론트엔드 (바닐라 JS)
 - **메인 페이지**: [frontend/index.html](frontend/index.html) - 다국어 지원 (20개 언어)
@@ -54,26 +35,19 @@ routes/youtube-v4.js
   - [userProfileCollector.js](frontend/js/userProfileCollector.js): 사용자 프로파일링
 - **스타일링**: [style.css](frontend/style.css) - 반응형 디자인, 다크모드 지원
 
-## 필수 설정 (절대 변경 금지)
-
-### Smartproxy 설정
-```env
-PROXY_HOST=proxy.smartproxy.net
-PROXY_PORT=3120
-PROXY_USERNAME=smart-hqmx0000
-PROXY_PASSWORD=Straight8
-```
+## 필수 설정
 
 ### EC2 배포 정보
 - **IP**: 54.242.63.16
 - **도메인**: https://hqmx.net
 - **SSH 키**: hqmx-ec2.pem
 
-#### 백엔드 설정
-- **포트**: 3001
+#### 백엔드 설정 (Python Flask)
+- **포트**: 5000
 - **배포 경로**: /home/ubuntu/hqmx/backend/
-- **프로세스 관리**: PM2
-- **실행 명령**: `pm2 restart all`
+- **프로세스 관리**: systemd (hqmx-backend.service)
+- **실행 명령**: `sudo systemctl restart hqmx-backend`
+- **로그 확인**: `sudo journalctl -u hqmx-backend -f`
 
 #### 프론트엔드 설정 (⚠️ 중요)
 - **웹 서버**: Nginx
@@ -83,25 +57,26 @@ PROXY_PASSWORD=Straight8
 
 ## 개발 명령어
 
-### 환경 설정
-```bash
-# 백엔드 환경변수 설정 (필수)
-cp backend/.env.example backend/.env
-# .env 파일에서 필요한 설정값들을 확인하고 수정
-```
-
-### 백엔드 개발
+### 백엔드 개발 (Python Flask)
 ```bash
 cd backend
-npm install
-npm run dev        # nodemon으로 개발 서버 시작
-npm start          # 프로덕션 서버 시작
-npm test           # Jest 테스트 실행 (현재 테스트 파일 없음)
-```
 
-### PM2 배포 (주의: ecosystem.config.js 파일 필요)
-```bash
-npm run deploy     # PM2 배포 (설정 파일 확인 필요)
+# 1. 가상환경 생성
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 2. 패키지 설치
+pip install -r requirements.txt
+
+# 3. 환경변수 설정 (선택사항)
+cp .env.example .env
+# .env 파일에서 필요한 설정값들을 확인하고 수정
+
+# 4. 서버 실행
+python app.py  # http://localhost:5000
+
+# 개발 모드 (디버그 활성화)
+FLASK_ENV=development python app.py
 ```
 
 ### 프론트엔드 개발
@@ -111,46 +86,56 @@ npm install
 npm run sync:translations  # Google Translate API로 다국어 번역 동기화
 
 # 프론트엔드 로컬 테스트 (백엔드 연동)
-# 1. 백엔드 서버 시작 (별도 터미널)
-cd backend && npm run dev
-
-# 2. 프론트엔드 제공 (Live Server 또는 간단한 HTTP 서버)
 # VSCode: Live Server 확장 사용
 # 또는 Python: python3 -m http.server 8000
 # 또는 Node.js: npx http-server -p 8000
-
-# 3. 브라우저에서 http://localhost:8000 접속
 ```
 
 ### 로컬 전체 시스템 테스트
 ```bash
 # 터미널 1: 백엔드 시작
 cd backend
-npm run dev
+source venv/bin/activate
+python app.py  # http://localhost:5000
 
 # 터미널 2: 프론트엔드 HTTP 서버
 cd frontend
-npx http-server -p 8000
+python3 -m http.server 8000  # http://localhost:8000
 
 # 테스트 URL: http://localhost:8000
-# API 엔드포인트: http://localhost:3001/api/youtube/v4/analyze
+# API 엔드포인트: http://localhost:5000/api/analyze
 ```
 
 ### EC2 배포
 
-#### 백엔드 배포 (PM2)
+#### 백엔드 배포 (systemd) ⭐ 자동화 추천
 ```bash
-# 1. 백엔드 파일 업로드
+# 옵션 1: 자동 배포 스크립트 (추천)
 cd /Users/wonjunjang/hqmx
-scp -i hqmx-ec2.pem -r backend/src backend/package.json backend/.env ubuntu@54.242.63.16:/home/ubuntu/hqmx/backend/
+./deploy-backend.sh
 
-# 2. SSH 접속 및 재시작
+# 옵션 2: 수동 배포
+# 1. 백엔드 파일 업로드
+scp -i hqmx-ec2.pem -r backend/*.py backend/requirements.txt backend/*.service ubuntu@54.242.63.16:/tmp/
+
+# 2. SSH 접속 및 설정
 ssh -i hqmx-ec2.pem ubuntu@54.242.63.16
 cd /home/ubuntu/hqmx/backend
-npm install  # 새 패키지가 있는 경우만
-pm2 restart all
-pm2 status
-pm2 logs --lines 50
+
+# 3. 가상환경 및 패키지 설치
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 4. systemd 서비스 활성화
+sudo cp hqmx-backend.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable hqmx-backend
+sudo systemctl restart hqmx-backend
+
+# 5. 상태 확인
+sudo systemctl status hqmx-backend
+sudo journalctl -u hqmx-backend -f
 ```
 
 #### 프론트엔드 배포 (Nginx) ⚠️ 핵심!
@@ -202,97 +187,119 @@ bash deploy-frontend.sh
 
 ## 핵심 기술적 접근법
 
-### 1. 하이브리드 다운로드 시스템
-YouTube 직접 접근이 차단되므로 경쟁사 서비스를 활용:
-- **SaveFrom.net**: 2단계 프로세스로 Google Video URL 추출
-- **Y2mate.com**: Playwright 자동화로 실제 파일 다운로드
-- **SSYouTube.com**: HTML 파싱으로 다운로드 URL 추출
-- **Promise.race()**: 가장 빠른 응답 서비스 자동 선택
+### 1. yt-dlp 기반 다운로드 시스템
+**yt-dlp**를 사용하여 1000+ 사이트 지원:
+- **YouTube**: 모든 품질 옵션, 자막, 플레이리스트
+- **Instagram**: 게시물, 스토리, 릴스
+- **Facebook**: 비디오, 스토리
+- **TikTok**: 워터마크 제거 옵션
+- **Twitter/X**: 비디오, GIF
+- 기타 1000+ 사이트 자동 지원
 
-### 2. 프록시 시스템
-```javascript
-// 8개 프록시 풀 관리
-const proxyPool = {
-  basic: 3개 로테이팅 프록시,
-  regional: 5개 지역별 프록시 (US, DE, GB, JP, SG)
-};
+### 2. 스트리밍 및 메모리 최적화
+```python
+# 청크 기반 스트리밍으로 메모리 효율성
+def generate():
+    with open(file_path, 'rb') as f:
+        while True:
+            chunk = f.read(1024 * 1024)  # 1MB
+            if not chunk:
+                break
+            yield chunk
 ```
 
-### 3. 성능 최적화
-- **분석 시간**: 10초 이내 (요구사항)
-- **다운로드 시작**: 30초 이내 (요구사항)
-- **병렬 다운로드**: 청크 기반 (1MB 단위)
-- **실시간 진행률**: WebSocket 기반
+### 3. 성능 특징
+- **분석 시간**: yt-dlp의 빠른 메타데이터 추출
+- **다운로드**: 청크 기반 스트리밍으로 메모리 효율적
+- **임시 파일 관리**: APScheduler로 자동 정리
+- **다국어 지원**: 20개 언어, frontend/locales/*.json
 
 ## API 엔드포인트 가이드
 
 ### 분석 API
 ```bash
-# YouTube URL 분석
-curl -X POST http://54.242.63.16:3001/api/youtube/v4/analyze \
+# YouTube/SNS URL 분석 (메타데이터 추출)
+curl -X POST http://54.242.63.16:5000/api/analyze \
   -H "Content-Type: application/json" \
+  -H "Accept-Language: ko" \
   -d '{"url": "https://youtu.be/yjWnTxHMbhI"}'
 
-# 경쟁사 서비스 통한 URL 추출
-curl -X POST http://54.242.63.16:3001/api/youtube/v4/extract-via-competitors \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://youtu.be/yjWnTxHMbhI"}'
+# 응답 예시
+{
+  "success": true,
+  "title": "Video Title",
+  "thumbnail": "https://...",
+  "duration": "3:45",
+  "formats": [
+    {"quality": "1080p", "format": "mp4", "filesize": 12345678},
+    {"quality": "720p", "format": "mp4", "filesize": 8765432}
+  ]
+}
 ```
 
 ### 다운로드 API
 ```bash
-# 전체 다운로드 프로세스
-curl -X POST http://54.242.63.16:3001/api/youtube/v4/download-via-competitors \
+# 비디오 다운로드
+curl -X POST http://54.242.63.16:5000/api/download \
   -H "Content-Type: application/json" \
-  -d '{"url": "https://youtu.be/yjWnTxHMbhI", "quality": "720p", "format": "mp4"}'
+  -d '{"url": "https://youtu.be/yjWnTxHMbhI", "quality": "720p", "format": "mp4"}' \
+  -O video.mp4
+
+# 오디오 전용 다운로드 (MP3)
+curl -X POST http://54.242.63.16:5000/api/download \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://youtu.be/yjWnTxHMbhI", "format": "mp3"}' \
+  -O audio.mp3
 ```
 
 ### 시스템 상태 API
 ```bash
-# 프록시 상태 체크
-curl http://54.242.63.16:3001/api/youtube/v4/proxy-status
-
-# 경쟁사 서비스 상태
-curl http://54.242.63.16:3001/api/youtube/v4/competitors-status
-
 # 헬스체크
-curl http://54.242.63.16:3001/health
+curl http://54.242.63.16:5000/health
+
+# 응답 예시
+{
+  "status": "healthy",
+  "timestamp": "2025-10-08T10:00:00Z"
+}
 ```
 
-## 현재 이슈 및 해결 방안
+## 프로젝트 상태
 
-### 주요 이슈: EC2 프록시 라이브러리 호환성
-**문제**: Node.js `https-proxy-agent`와 Smartproxy 간 헤더 파싱 오류
-**상태**: 로컬에서는 완벽 작동, EC2에서만 발생
-**해결 우선순위**:
-1. `https-proxy-agent` → `socks-proxy-agent` 교체
-2. 커스텀 HTTP 터널링 구현
-3. Playwright 완전 전환 시스템
+### 시스템 특징
+- ✅ **yt-dlp 기반**: 1000+ 사이트 자동 지원
+- ✅ **메타데이터 분석**: 빠르고 정확한 정보 추출
+- ✅ **스트리밍 다운로드**: 청크 기반 메모리 효율적 처리
+- ✅ **다국어 지원**: 20개 언어 완벽 지원
+- ✅ **자동 정리**: APScheduler로 임시 파일 관리
 
-### 성공 지표
-- ✅ YouTube 메타데이터 분석 100% 성공
-- ✅ 경쟁사 통합 시스템 구현 완료
-- ✅ 로컬 환경에서 1.7MB 실제 파일 다운로드 검증
-- ⚠️ EC2 환경 프록시 이슈 해결 필요
+### 주요 장점
+- **단순성**: Python Flask + yt-dlp로 복잡도 최소화
+- **안정성**: yt-dlp의 검증된 다운로드 엔진
+- **확장성**: yt-dlp 업데이트로 새 사이트 자동 지원
+- **유지보수성**: 적은 의존성, 명확한 구조
 
 ## 디버깅 및 트러블슈팅
 
 ### 로컬 디버깅
 ```bash
-# 1. 백엔드 로그 확인
+# 1. 백엔드 로그 확인 (디버그 모드)
 cd backend
-npm run dev  # nodemon이 자동으로 변경 감지 및 재시작
+source venv/bin/activate
+FLASK_ENV=development python app.py
 
-# 2. 프록시 연결 테스트
-curl http://localhost:3001/api/youtube/v4/proxy-status
-
-# 3. 특정 추출기 단독 테스트
-# backend/src/services/extractors/ 파일에서 각 extractor의 extract() 함수 호출
-
-# 4. API 엔드포인트 직접 테스트
-curl -X POST http://localhost:3001/api/youtube/v4/analyze \
+# 2. API 엔드포인트 직접 테스트
+curl -X POST http://localhost:5000/api/analyze \
   -H "Content-Type: application/json" \
+  -H "Accept-Language: ko" \
   -d '{"url": "https://youtu.be/yjWnTxHMbhI"}'
+
+# 3. yt-dlp 직접 테스트
+yt-dlp --list-formats "https://youtu.be/yjWnTxHMbhI"
+yt-dlp -f best "https://youtu.be/yjWnTxHMbhI"
+
+# 4. yt-dlp 업데이트 (다운로드 실패 시)
+pip install --upgrade yt-dlp
 ```
 
 ### EC2 운영 디버깅
@@ -300,85 +307,69 @@ curl -X POST http://localhost:3001/api/youtube/v4/analyze \
 # SSH 접속
 ssh -i hqmx-ec2.pem ubuntu@54.242.63.16
 
-# PM2 상태 확인
-pm2 status
-pm2 logs           # 전체 로그
-pm2 logs --lines 100  # 최근 100줄
-pm2 logs --err     # 에러 로그만
+# systemd 서비스 상태 확인
+sudo systemctl status hqmx-backend
 
-# 프로세스 재시작 (문제 발생 시)
-pm2 restart all
-pm2 restart hqmx-backend  # 특정 프로세스만
+# 실시간 로그 확인
+sudo journalctl -u hqmx-backend -f
 
-# 메모리/CPU 모니터링
-pm2 monit
+# 최근 로그 확인
+sudo journalctl -u hqmx-backend --lines 100
 
-# 프로세스 완전 재시작 (메모리 누수 의심 시)
-pm2 stop all
-pm2 delete all
-pm2 start ecosystem.config.js
+# 에러 로그만 확인
+sudo journalctl -u hqmx-backend -p err
+
+# 서비스 재시작
+sudo systemctl restart hqmx-backend
+
+# 수동 실행으로 에러 확인
+cd /home/ubuntu/hqmx/backend
+source venv/bin/activate
+python app.py
 ```
 
 ### 일반적인 문제 해결
 
-#### 문제: "PROXY_ERROR" 또는 프록시 연결 실패
+#### 문제: 다운로드 실패 또는 "ERROR: unable to download"
 ```bash
-# 해결 1: .env 파일 확인
-cat backend/.env  # Smartproxy 인증 정보 확인
+# 해결 1: yt-dlp 업데이트 (가장 흔한 원인)
+pip install --upgrade yt-dlp
 
-# 해결 2: 프록시 상태 API 호출
-curl http://54.242.63.16:3001/api/youtube/v4/proxy-status
+# 해결 2: yt-dlp 직접 테스트
+yt-dlp "https://youtu.be/VIDEO_ID"
 
-# 해결 3: 다른 추출기 시도 (Promise.race가 자동으로 처리)
-# 로그에서 어떤 extractor가 성공했는지 확인
+# 해결 3: 사이트별 이슈 확인
+# yt-dlp GitHub Issues: https://github.com/yt-dlp/yt-dlp/issues
 ```
 
-#### 문제: 특정 YouTube URL이 분석 안됨
+#### 문제: 특정 URL이 분석 안됨
 ```bash
-# 해결 1: 다른 테스트 URL 시도
-curl -X POST http://localhost:3001/api/youtube/v4/analyze \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://www.youtube.com/watch?v=VIDEO_ID"}'
+# 해결 1: URL 포맷 확인
+# 지원 포맷: https://youtu.be/ID, https://www.youtube.com/watch?v=ID
 
-# 해결 2: 경쟁사 서비스 상태 확인
-curl http://54.242.63.16:3001/api/youtube/v4/competitors-status
+# 해결 2: yt-dlp로 직접 확인
+yt-dlp --list-formats "URL"
 
-# 해결 3: Playwright 브라우저 확인 (EC2)
-# Playwright가 headless 모드로 실행되는지 확인
+# 해결 3: 로그 확인
+sudo journalctl -u hqmx-backend -f
 ```
 
 #### 문제: 프론트엔드에서 API 호출 CORS 에러
 ```bash
-# backend/.env 확인
+# backend/.env 확인 (필요시)
 ALLOWED_ORIGINS=http://localhost:3000,https://hqmx.net,http://localhost:8000
 
-# 로컬 개발 시 http://localhost:8000 추가 필요
+# Flask-CORS가 기본적으로 모든 origin 허용하도록 설정됨
+# app.py에서 CORS(app, expose_headers=['Content-Disposition'])
 ```
 
-### 새 추출기(Extractor) 추가 방법
-```javascript
-// 1. backend/src/services/extractors/newExtractor.js 생성
-class NewExtractor {
-  async extract(videoUrl, quality = '720p') {
-    // 구현
-    return {
-      success: true,
-      downloadUrl: 'https://...',
-      quality,
-      fileSize: 1234567,
-      metadata: { /* ... */ }
-    };
-  }
-}
+#### 문제: "No module named 'yt_dlp'" 에러
+```bash
+# 가상환경 활성화 확인
+source venv/bin/activate
 
-// 2. competitorIntegrationService.js에 등록
-const newExtractor = require('./extractors/newExtractor');
-this.extractors = {
-  // ...existing
-  newService: newExtractor
-};
-
-// 3. Promise.race에서 자동으로 경쟁하게 됨
+# 패키지 재설치
+pip install -r requirements.txt
 ```
 
 ## 테스트 URL
@@ -412,21 +403,25 @@ scp -i hqmx-ec2.pem frontend/*.{html,css,js} ubuntu@54.242.63.16:/home/ubuntu/hq
 
 ## 중요 파일들
 
-### 설정 파일
-- `backend/src/config/index.js`: 서버 설정 및 프록시 구성
-- `backend/.env`: 환경변수 (Smartproxy 인증정보)
+### 백엔드 핵심 파일
+- `backend/app.py`: Flask 메인 애플리케이션 (447줄)
+- `backend/requirements.txt`: Python 패키지 의존성
 - `backend/.env.example`: 환경변수 템플릿
-- `hqmx-ec2.pem`: EC2 SSH 키
-- `deploy-frontend.sh`: 프론트엔드 자동 배포 스크립트
+- `backend/.gitignore`: Git 제외 파일
+- `backend/hqmx-backend.service`: systemd 서비스 파일
+- `backend/README.md`: 백엔드 개발/배포 가이드
 
-### 서비스 핵심 파일
-- `backend/src/services/competitorIntegrationService.js`: 경쟁사 통합 시스템
-- `backend/src/services/proxyPoolManager.js`: 프록시 풀 관리
-- `backend/src/routes/youtube-v4.js`: 최신 API 엔드포인트
+### 배포 스크립트
+- `deploy-backend.sh`: 백엔드 자동 배포 (Python Flask)
+- `deploy-frontend.sh`: 프론트엔드 자동 배포 (Nginx)
+- `hqmx-ec2.pem`: EC2 SSH 키
 
 ### 프론트엔드 핵심 파일
-- `frontend/script.js`: 메인 UI 로직
+- `frontend/index.html`: 메인 페이지
+- `frontend/script.js`: 메인 UI 로직, API 통신
 - `frontend/i18n.js`: 다국어 지원
+- `frontend/style.css`: 반응형 디자인, 다크모드
+- `frontend/locales/*.json`: 20개 언어 번역 파일
 - `frontend/js/userProfileCollector.js`: 사용자 프로파일링
 
 ## 에러 핸들링 패턴
@@ -435,38 +430,39 @@ scp -i hqmx-ec2.pem frontend/*.{html,css,js} ubuntu@54.242.63.16:/home/ubuntu/hq
 ```json
 {
   "success": false,
-  "error": {
-    "message": "사용자 친화적 메시지",
-    "code": "ERROR_CODE",
-    "details": "개발 환경에서만 표시"
-  },
-  "timestamp": "2025-10-02T12:00:00.000Z"
+  "error": "다국어 지원 에러 메시지",
+  "details": "상세 에러 정보 (디버그용)"
 }
 ```
 
-### 지원되는 에러 타입 (app.js 전역 에러 핸들러)
-- `ValidationError`: 400 - 입력 데이터 유효하지 않음
-- `UnauthorizedError`: 401 - 인증 필요
-- `LIMIT_FILE_SIZE`: 413 - 파일 크기 초과
-- `INTERNAL_SERVER_ERROR`: 500 - 서버 내부 오류
-- `PROXY_ERROR`: 502 - 프록시 연결 실패
-- `RATE_LIMIT_EXCEEDED`: 429 - 너무 많은 요청
+### 주요 에러 타입
+- **yt-dlp 다운로드 에러**: URL 분석 실패, 사이트 변경사항
+- **파일 시스템 에러**: 임시 디렉토리 권한, 디스크 공간
+- **네트워크 에러**: 타임아웃, 연결 실패
+- **입력 검증 에러**: 잘못된 URL 포맷
 
-## 프로젝트 상태
-- **개발 환경**: Node.js 20+ + Express (백엔드), 바닐라 JS (프론트엔드)
-- **테스트 상태**: Jest 설정됨, 테스트 파일 미작성 (필요 시 `backend/src/__tests__/` 디렉토리 생성)
-- **배포 환경**: AWS EC2 (Ubuntu) + PM2
-- **주요 종속성**:
-  - Playwright (브라우저 자동화)
-  - Cheerio (HTML 파싱)
-  - Axios (HTTP 클라이언트)
-  - https-proxy-agent, socks-proxy-agent (프록시 연동)
+## 기술 스택
 
-## 성능 요구사항
-- 분석 응답: 10초 이내
-- 다운로드 시작: 30초 이내
-- Rate Limit: 100 요청/15분
-- 청크 크기: 1MB (병렬 다운로드)
+### 백엔드
+- **런타임**: Python 3.8+
+- **웹 프레임워크**: Flask
+- **다운로드 엔진**: yt-dlp
+- **CORS**: Flask-CORS
+- **스케줄러**: APScheduler
+- **메타데이터**: mutagen
+- **배포**: systemd + EC2
+
+### 프론트엔드
+- **순수 바닐라 JavaScript** (프레임워크 없음)
+- **스타일**: CSS3 (반응형, 다크모드)
+- **다국어**: frontend/locales/*.json
+- **배포**: Nginx
+
+## 성능 특성
+- **분석 속도**: yt-dlp의 빠른 메타데이터 추출
+- **메모리 효율**: 청크 기반 스트리밍 (1MB)
+- **임시 파일**: APScheduler로 자동 정리
+- **확장성**: yt-dlp 업데이트로 새 사이트 자동 지원
 
 ## 회사 정보 (푸터 표시)
 - Company: OROMANO
