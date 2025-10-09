@@ -398,9 +398,9 @@ def health_check():
 @api.route('/user-analyze', methods=['POST'])
 @api.route('/client-analyze', methods=['POST'])
 def analyze_url():
+    lang = get_request_language()
     data = request.get_json()
     if not data or 'url' not in data:
-        lang = get_request_language()
         return jsonify({'error': t('url_not_provided', lang=lang)}), 400
     url = data['url']
     # Convert HTTPS to HTTP for SmartProxy compatibility
