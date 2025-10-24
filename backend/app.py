@@ -108,25 +108,71 @@ def sanitize_filename(filename):
 def convert_https_to_http(url):
     """Convert HTTPS URLs to HTTP for SmartProxy compatibility.
 
-    SmartProxy only supports HTTP connections. YouTube/SNS URLs are converted
-    from https:// to http:// to work with the proxy.
+    SmartProxy works reliably with HTTP for YouTube, Instagram, and Facebook.
+    Convert these platforms to HTTP to avoid PO Token and bot detection issues.
+
+    Args:
+        url: The URL to potentially convert
+
+    Returns:
+        str: HTTP URL for proxy-required platforms, HTTPS for others
     """
+    # Platforms that work better with HTTP + SmartProxy (following Instagram's successful pattern)
+    http_conversion_domains = ['youtube.com', 'youtu.be', 'instagram.com', 'facebook.com', 'fb.com', 'fb.watch']
+    url_lower = url.lower()
+    needs_http_conversion = any(domain in url_lower for domain in http_conversion_domains)
+
+    if not needs_http_conversion:
+        logging.info(f"Keeping HTTPS (no proxy needed or HTTPS preferred)")
+        return url  # Keep HTTPS for other platforms
+
     if url.startswith('https://'):
         converted_url = 'http://' + url[8:]
         # Log conversion (truncate URL for privacy/readability)
-        logging.info(f"URL converted for SmartProxy: https://... → http://...")
+        logging.info(f"URL converted to HTTP for SmartProxy: https://... → http://...")
         return converted_url
     return url
 
-def get_proxy_url():
-    """Generate SmartProxy URL from environment variables.
+def needs_proxy(url):
+    """Check if URL requires proxy (YouTube, Instagram, Facebook, etc.)
+
+    Using residential proxy helps bypass bot detection and rate limiting
+    for platforms that restrict datacenter IPs.
+
+    Args:
+        url: The URL to check
 
     Returns:
-        str: Proxy URL in format 'http://username:password@host:port' or None if disabled
+        bool: True if proxy is needed
+    """
+    proxy_domains = [
+        'youtube.com',
+        'youtu.be',
+        'instagram.com',
+        'facebook.com',
+        'fb.com',
+        'fb.watch'
+    ]
+    url_lower = url.lower()
+    return any(domain in url_lower for domain in proxy_domains)
+
+def get_proxy_url(url=None):
+    """Generate SmartProxy URL from environment variables.
+
+    Args:
+        url: Optional URL to check if proxy is needed
+
+    Returns:
+        str: Proxy URL in format 'http://username:password@host:port' or None if disabled/not needed
     """
     use_proxy = os.getenv('USE_PROXY', 'false').lower() == 'true'
 
     if not use_proxy:
+        return None
+
+    # If URL provided, check if it actually needs proxy
+    if url and not needs_proxy(url):
+        logging.info(f"Proxy available but not needed for this URL (direct connection faster)")
         return None
 
     host = os.getenv('SMARTPROXY_HOST')
@@ -136,7 +182,7 @@ def get_proxy_url():
 
     if all([host, port, username, password]):
         proxy_url = f'http://{username}:{password}@{host}:{port}'
-        logging.info(f"SmartProxy enabled: {host}:{port}")
+        logging.info(f"SmartProxy enabled for this URL: {host}:{port}")
         return proxy_url
     else:
         logging.warning("SmartProxy enabled but configuration incomplete")
@@ -180,7 +226,7 @@ def cleanup_old_files():
         logging.error(f"Could not list items in temp directory {TEMP_DIR}: {e}")
 
 # --- 4. Core Download Logic (Worker Thread) ---
-def download_media_worker(task_id, url, media_type, format_type, quality, request_lang='en'):
+def download_media_worker(task_id, url, media_type, format_type, quality, request_lang='en', fps='any', audio_quality='192'):
     class ProgressHook:
         def __init__(self, d_id, lang):
             self.d_id = d_id
@@ -226,87 +272,89 @@ def download_media_worker(task_id, url, media_type, format_type, quality, reques
         url = convert_https_to_http(url)
         update_progress(task_id, 5, t('analyzing_media_info', lang=lang), status='starting')
 
-        # Initial metadata extraction with proxy
-        metadata_opts = {'quiet': True, 'noplaylist': True, 'nocolor': True}
-        proxy_url = get_proxy_url()
-        if proxy_url:
-            metadata_opts['proxy'] = proxy_url
+        # Get proxy URL conditionally (only for Instagram/Facebook)
+        proxy_url = get_proxy_url(url)
 
-        with yt_dlp.YoutubeDL(metadata_opts) as ydl:
-            info = ydl.extract_info(url, download=False)
-        
-        clean_title = get_clean_title(info)
-        safe_filename_base = sanitize_filename(clean_title)
-        download_name = f"{safe_filename_base}.{format_type}"
-        update_progress(task_id, 0, "", download_name=download_name)
-
+        # Setup base download options with optimizations
         base_filename = f"{task_id}_{int(time.time())}"
         ydl_opts = {
-            'outtmpl': os.path.join(TEMP_DIR, f"{base_filename}.%(ext)s"),
-            'noplaylist': True, 'nocolor': True, 'quiet': True, 'progress': True,
+            'outtmpl': os.path.join(TEMP_DIR, f"{base_filename}.%(title)s.%(ext)s"),
+            'noplaylist': True,
+            'nocolor': True,
+            'quiet': True,
+            'progress': True,
             'progress_hooks': [ProgressHook(task_id, lang)],
             'postprocessor_hooks': [PostprocessorHook(task_id, lang)],
-            'http_headers': { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36' }
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+            },
+            # Performance optimizations
+            'concurrent_fragment_downloads': 8,  # Download fragments in parallel (increased from 5)
+            'buffer_size': 2 * 1024 * 1024,  # 2MB buffer (increased from 1MB)
+            'http_chunk_size': 5 * 1024 * 1024,  # 5MB chunks (reduced from 10MB for better parallelization)
+            'socket_timeout': 30,
+            # YouTube bot detection bypass and SABR streaming fix
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['ios', 'android', 'web'],  # Try ios first (no PO Token needed), fallback to android/web
+                    'player_skip': ['webpage', 'configs'],  # Skip unnecessary requests
+                }
+            }
         }
 
-        # Add SmartProxy for actual download
+        # Add proxy if needed
         if proxy_url:
             ydl_opts['proxy'] = proxy_url
 
+        update_progress(task_id, 5, t('analyzing_media_info', lang=lang), status='starting')
+
         if media_type == 'video':
-            def find_best_stream(formats, quality_str, codec_prefix, stream_type='video'):
-                target_quality = int(quality_str) if quality_str != 'best' else 9999
-                
-                key_map = {'video': ('vcodec', 'height'), 'audio': ('acodec', 'abr')}
-                codec_key, quality_key = key_map[stream_type]
+            update_progress(task_id, 10, t('analyzing_media_info', lang=lang))
 
-                filtered = [f for f in formats if f.get(codec_key, 'none').startswith(codec_prefix) and f.get(quality_key)]
-                if not filtered: return None
-                
-                # Find the stream with the quality closest to the target
-                return min(filtered, key=lambda f: abs(f[quality_key] - target_quality))
+            # Build format selection string with optimized quality selection
+            if quality == 'best':
+                # Original quality - use modern yt-dlp syntax for best quality
+                # Prefer mp4 container with highest resolution, fallback to any format
+                # bv*: best video with any codec
+                # ba: best audio
+                # [ext=mp4]: prefer mp4 container (widely compatible)
+                format_str = 'bv*[ext=mp4]+ba[ext=m4a]/bv*+ba/b'
+                logging.info(f"Best quality mode: prioritizing highest available resolution")
+            else:
+                # Specific quality requested
+                format_str = f'bestvideo[height<={quality}]'
 
-            remux_possible = False
-            # 1. Attempt to REMUX (fast, lossless combination)
-            if format_type == 'webm':
-                best_video = find_best_stream(info['formats'], quality, 'vp9', 'video')
-                best_audio = find_best_stream(info['formats'], 'best', 'opus', 'audio')
-                if best_video and best_audio:
-                    update_progress(task_id, 10, t('compatible_webm_streams_found', lang=lang))
-                    ydl_opts['format'] = f"{best_video['format_id']}+{best_audio['format_id']}"
-                    ydl_opts['merge_output_format'] = 'webm'
-                    remux_possible = True
-            elif format_type == 'mp4':
-                best_video = find_best_stream(info['formats'], quality, 'avc1', 'video')
-                best_audio = find_best_stream(info['formats'], 'best', 'mp4a', 'audio')
-                if best_video and best_audio:
-                    update_progress(task_id, 10, t('compatible_mp4_streams_found', lang=lang))
-                    ydl_opts['format'] = f"{best_video['format_id']}+{best_audio['format_id']}"
-                    ydl_opts['merge_output_format'] = 'mp4'
-                    remux_possible = True
+                # Add FPS filter if specified
+                if fps and fps != 'any':
+                    try:
+                        fps_int = int(fps)
+                        format_str += f'[fps<={fps_int}]'
+                    except (ValueError, TypeError):
+                        pass
 
-            # 2. Fallback to RE-ENCODE (slower, lossy conversion)
-            if not remux_possible:
-                update_progress(task_id, 10, t('no_direct_streams_converting', lang=lang, format=format_type))
-                
-                ffmpeg_args = []
-                if format_type == 'webm':
-                    ffmpeg_args = ['-c:v', 'libvpx-vp9', '-crf', '30', '-b:v', '0', '-c:a', 'libopus', '-b:a', '192k']
-                else: # Default for MP4
-                    ffmpeg_args = ['-c:v', 'libx264', '-c:a', 'aac', '-pix_fmt', 'yuv420p', '-preset', 'fast']
+                # Add audio and fallback
+                format_str += '+bestaudio/best'
 
-                ydl_opts['format'] = 'bestvideo+bestaudio/best'
-                ydl_opts['merge_output_format'] = 'mkv'
-                ydl_opts['postprocessors'] = [{'key': 'FFmpegVideoConvertor', 'preferedformat': format_type}]
-                ydl_opts['postprocessor_args'] = {'videoconvertor': ffmpeg_args}
+            ydl_opts['format'] = format_str
+            ydl_opts['merge_output_format'] = format_type  # mp4, webm, mkv, mov
+            logging.info(f"Video format selection: {format_str} → {format_type}")
 
         elif media_type == 'audio':
             update_progress(task_id, 10, t('starting_audio_extraction', lang=lang))
-            audio_quality_arg = quality if quality != 'best' else '0'
+
+            if audio_quality == 'lossless' or audio_quality == 'best':
+                # Original quality: use best available quality (0 = copy best quality)
+                audio_quality_arg = '0'
+            else:
+                # Specific bitrate: use specified bitrate
+                audio_quality_arg = audio_quality
+
             ydl_opts.update({
                 'format': 'bestaudio/best',
-                'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': format_type, 'preferredquality': audio_quality_arg}, 
-                                   {'key': 'FFmpegMetadata'}],
+                'postprocessors': [
+                    {'key': 'FFmpegExtractAudio', 'preferredcodec': format_type, 'preferredquality': audio_quality_arg},
+                    {'key': 'FFmpegMetadata'}
+                ],
             })
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -316,12 +364,35 @@ def download_media_worker(task_id, url, media_type, format_type, quality, reques
         with update_lock:
             final_path_from_hook = tasks.get(task_id, {}).get('final_filepath')
         if final_path_from_hook and os.path.exists(final_path_from_hook):
-            update_progress(task_id, 100, t('download_complete_ready', lang=lang), status='complete', filepath=final_path_from_hook)
+            # Extract clean filename from the downloaded file
+            final_filename = os.path.basename(final_path_from_hook)
+            # Remove task_id and timestamp prefix (format: taskid_timestamp.Title.ext)
+            # Split by '.' and take everything after the second dot
+            parts = final_filename.split('.', 2)
+            if len(parts) >= 3:
+                # parts[0] = taskid_timestamp, parts[1] = first part of title, parts[2] = rest.ext
+                # Reconstruct title: parts[1].parts[2]
+                clean_download_name = f"{parts[1]}.{parts[2]}"
+            else:
+                # Fallback: use the entire filename
+                clean_download_name = final_filename
+
+            clean_download_name = sanitize_filename(clean_download_name)
+            update_progress(task_id, 100, t('download_complete_ready', lang=lang), status='complete', filepath=final_path_from_hook, download_name=clean_download_name)
         else:
             for f in os.listdir(TEMP_DIR):
                 if f.startswith(base_filename):
                     final_path = os.path.join(TEMP_DIR, f)
-                    update_progress(task_id, 100, t('download_complete_ready', lang=lang), status='complete', filepath=final_path)
+                    # Extract clean filename
+                    final_filename = os.path.basename(final_path)
+                    parts = final_filename.split('.', 2)
+                    if len(parts) >= 3:
+                        clean_download_name = f"{parts[1]}.{parts[2]}"
+                    else:
+                        clean_download_name = final_filename
+
+                    clean_download_name = sanitize_filename(clean_download_name)
+                    update_progress(task_id, 100, t('download_complete_ready', lang=lang), status='complete', filepath=final_path, download_name=clean_download_name)
                     return
             raise yt_dlp.utils.DownloadError(t('converted_file_not_found', lang=lang))
 
@@ -347,13 +418,14 @@ def extract_format_info(f):
             filesize = (bitrate * 1000 / 8) * f.get('duration')
     
     return {
-        'format_id': f.get('format_id'), 
-        'ext': f.get('ext'), 
+        'format_id': f.get('format_id'),
+        'ext': f.get('ext'),
         'resolution': f.get('resolution'),
-        'height': f.get('height'), 
-        'vcodec': f.get('vcodec'), 
+        'height': f.get('height'),
+        'fps': f.get('fps'),
+        'vcodec': f.get('vcodec'),
         'acodec': f.get('acodec'),
-        'abr': f.get('abr'), 
+        'abr': f.get('abr'),
         'filesize': filesize,
         'tbr': f.get('tbr'),
         'vbr': f.get('vbr'),
@@ -412,7 +484,7 @@ def analyze_url():
             'skip_download': True,
             'forcejson': True,
             'http_headers': {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-us,en;q=0.5',
                 'Accept-Encoding': 'gzip,deflate',
@@ -424,11 +496,18 @@ def analyze_url():
             'retries': 10,
             'extractor_retries': 3,
             'ignoreerrors': False,
-            'no_warnings': False
+            'no_warnings': False,
+            # YouTube bot detection bypass and SABR streaming fix
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['ios', 'android', 'web'],  # Try ios first (no PO Token needed), fallback to android/web
+                    'player_skip': ['webpage', 'configs'],  # Skip unnecessary requests
+                }
+            }
         }
 
-        # Add SmartProxy if configured
-        proxy_url = get_proxy_url()
+        # Add SmartProxy if needed for this URL
+        proxy_url = get_proxy_url(url)
         if proxy_url:
             ydl_opts['proxy'] = proxy_url
 
@@ -453,9 +532,14 @@ def download_media():
     task_id = str(uuid.uuid4())
     lang = get_request_language()
     tasks[task_id] = {'status': 'queued', 'percentage': 0, 'message': t('task_added_to_queue', lang=lang)}
+
+    # Extract new parameters with defaults
+    fps = data.get('fps', 'any')
+    audio_quality = data.get('audio_quality', '192')
+
     thread = threading.Thread(
         target=download_media_worker,
-        args=(task_id, data['url'], data['mediaType'], data['formatType'], data['quality'], lang)
+        args=(task_id, data['url'], data['mediaType'], data['formatType'], data['quality'], lang, fps, audio_quality)
     )
     thread.daemon = True
     thread.start()

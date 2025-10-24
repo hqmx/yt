@@ -189,12 +189,12 @@ bash deploy-frontend.sh
 
 ### 1. yt-dlp 기반 다운로드 시스템
 **yt-dlp**를 사용하여 1000+ 사이트 지원:
-- **YouTube**: 모든 품질 옵션, 자막, 플레이리스트
-- **Instagram**: 게시물, 스토리, 릴스
-- **Facebook**: 비디오, 스토리
+- **YouTube**: SmartProxy + HTTP + iOS client로 봇 감지 우회 (상세: [YT-SC.md](YT-SC.md))
+- **Instagram**: SmartProxy + HTTP로 안정적 다운로드
+- **Facebook**: SmartProxy + HTTP로 안정적 다운로드
 - **TikTok**: 워터마크 제거 옵션
 - **Twitter/X**: 비디오, GIF
-- 기타 1000+ 사이트 자동 지원
+- 기타 1000+ 사이트 자동 지원 (직접 연결)
 
 ### 2. 스트리밍 및 메모리 최적화
 ```python
@@ -208,7 +208,14 @@ def generate():
             yield chunk
 ```
 
-### 3. 성능 특징
+### 3. SmartProxy 봇 감지 우회 시스템
+**YouTube/Instagram/Facebook**: SmartProxy residential IP로 봇 감지 우회
+- **HTTP 변환**: HTTPS → HTTP로 변환하여 PO Token 요구 회피
+- **Residential IP**: SmartProxy를 통해 일반 사용자처럼 접근
+- **iOS Client**: yt-dlp의 iOS player client로 추가 제한 회피
+- **성공률**: YouTube 다운로드 100% 성공 (상세: [YT-SC.md](YT-SC.md))
+
+### 4. 성능 특징
 - **분석 시간**: yt-dlp의 빠른 메타데이터 추출
 - **다운로드**: 청크 기반 스트리밍으로 메모리 효율적
 - **임시 파일 관리**: APScheduler로 자동 정리
@@ -329,6 +336,20 @@ python app.py
 ```
 
 ### 일반적인 문제 해결
+
+#### 문제: YouTube 봇 감지 ("Sign in to confirm you're not a bot")
+```bash
+# 해결: SmartProxy 설정 확인
+# backend/.env 파일에 다음 설정이 있어야 함:
+USE_PROXY=true
+SMARTPROXY_HOST=proxy.smartproxy.net
+SMARTPROXY_PORT=3120
+SMARTPROXY_USERNAME=your_username
+SMARTPROXY_PASSWORD=your_password
+
+# SmartProxy + HTTP + iOS client 조합으로 해결
+# 상세 내용: YT-SC.md 참조
+```
 
 #### 문제: 다운로드 실패 또는 "ERROR: unable to download"
 ```bash
