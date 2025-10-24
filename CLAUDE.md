@@ -38,7 +38,7 @@ HQMX는 YouTube를 비롯한 다양한 SNS 플랫폼(Instagram, Facebook, TikTok
 ## 필수 설정
 
 ### EC2 배포 정보
-- **IP**: 54.242.63.16
+- **IP**: 52.55.219.204 (탄력적 IP)
 - **도메인**: https://hqmx.net
 - **SSH 키**: hqmx-ec2.pem
 
@@ -116,10 +116,10 @@ cd /Users/wonjunjang/hqmx
 
 # 옵션 2: 수동 배포
 # 1. 백엔드 파일 업로드
-scp -i hqmx-ec2.pem -r backend/*.py backend/requirements.txt backend/*.service ubuntu@54.242.63.16:/tmp/
+scp -i hqmx-ec2.pem -r backend/*.py backend/requirements.txt backend/*.service ubuntu@52.55.219.204:/tmp/
 
 # 2. SSH 접속 및 설정
-ssh -i hqmx-ec2.pem ubuntu@54.242.63.16
+ssh -i hqmx-ec2.pem ubuntu@52.55.219.204
 cd /home/ubuntu/hqmx/backend
 
 # 3. 가상환경 및 패키지 설치
@@ -142,10 +142,10 @@ sudo journalctl -u hqmx-backend -f
 ```bash
 # 1. 프론트엔드 파일을 Nginx DocumentRoot로 직접 업로드
 cd /Users/wonjunjang/hqmx/frontend
-scp -i ../hqmx-ec2.pem index.html style.css script.js i18n.js ubuntu@54.242.63.16:/tmp/
+scp -i ../hqmx-ec2.pem index.html style.css script.js i18n.js ubuntu@52.55.219.204:/tmp/
 
 # 2. 서버에서 올바른 위치로 이동 (sudo 필요)
-ssh -i ../hqmx-ec2.pem ubuntu@54.242.63.16 << 'EOF'
+ssh -i ../hqmx-ec2.pem ubuntu@52.55.219.204 << 'EOF'
 sudo mv /tmp/index.html /var/www/html/
 sudo mv /tmp/style.css /var/www/html/
 sudo mv /tmp/script.js /var/www/html/
@@ -160,8 +160,8 @@ EOF
 #### assets 폴더 업데이트 (이미지/아이콘 변경 시)
 ```bash
 cd /Users/wonjunjang/hqmx/frontend
-scp -i ../hqmx-ec2.pem -r assets ubuntu@54.242.63.16:/tmp/
-ssh -i ../hqmx-ec2.pem ubuntu@54.242.63.16 << 'EOF'
+scp -i ../hqmx-ec2.pem -r assets ubuntu@52.55.219.204:/tmp/
+ssh -i ../hqmx-ec2.pem ubuntu@52.55.219.204 << 'EOF'
 sudo rm -rf /var/www/html/assets
 sudo mv /tmp/assets /var/www/html/
 sudo chown -R www-data:www-data /var/www/html/assets
@@ -219,7 +219,7 @@ def generate():
 ### 분석 API
 ```bash
 # YouTube/SNS URL 분석 (메타데이터 추출)
-curl -X POST http://54.242.63.16:5000/api/analyze \
+curl -X POST http://52.55.219.204:5000/api/analyze \
   -H "Content-Type: application/json" \
   -H "Accept-Language: ko" \
   -d '{"url": "https://youtu.be/yjWnTxHMbhI"}'
@@ -240,13 +240,13 @@ curl -X POST http://54.242.63.16:5000/api/analyze \
 ### 다운로드 API
 ```bash
 # 비디오 다운로드
-curl -X POST http://54.242.63.16:5000/api/download \
+curl -X POST http://52.55.219.204:5000/api/download \
   -H "Content-Type: application/json" \
   -d '{"url": "https://youtu.be/yjWnTxHMbhI", "quality": "720p", "format": "mp4"}' \
   -O video.mp4
 
 # 오디오 전용 다운로드 (MP3)
-curl -X POST http://54.242.63.16:5000/api/download \
+curl -X POST http://52.55.219.204:5000/api/download \
   -H "Content-Type: application/json" \
   -d '{"url": "https://youtu.be/yjWnTxHMbhI", "format": "mp3"}' \
   -O audio.mp3
@@ -255,7 +255,7 @@ curl -X POST http://54.242.63.16:5000/api/download \
 ### 시스템 상태 API
 ```bash
 # 헬스체크
-curl http://54.242.63.16:5000/health
+curl http://52.55.219.204:5000/health
 
 # 응답 예시
 {
@@ -305,7 +305,7 @@ pip install --upgrade yt-dlp
 ### EC2 운영 디버깅
 ```bash
 # SSH 접속
-ssh -i hqmx-ec2.pem ubuntu@54.242.63.16
+ssh -i hqmx-ec2.pem ubuntu@52.55.219.204
 
 # systemd 서비스 상태 확인
 sudo systemctl status hqmx-backend
@@ -381,7 +381,7 @@ pip install -r requirements.txt
 ❌ **절대 하지 말 것**:
 ```bash
 # 이렇게 하면 웹사이트에 반영 안됨!
-scp -i hqmx-ec2.pem frontend/*.{html,css,js} ubuntu@54.242.63.16:/home/ubuntu/hqmx/frontend/
+scp -i hqmx-ec2.pem frontend/*.{html,css,js} ubuntu@52.55.219.204:/home/ubuntu/hqmx/frontend/
 ```
 
 ✅ **올바른 방법**:

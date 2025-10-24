@@ -7,7 +7,7 @@ Type=simple
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu/hqmx/backend
-Environment="PATH=/home/ubuntu/hqmx/backend/venv/bin"
+Environment="PATH=/home/ubuntu/hqmx/backend/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ExecStart=/home/ubuntu/hqmx/backend/venv/bin/python app.py
 Restart=always
 RestartSec=10

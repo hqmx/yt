@@ -4,3 +4,4 @@ yt-dlp
 mutagen
 APScheduler
 python-dotenv
+requests

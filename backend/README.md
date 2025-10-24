@@ -78,8 +78,8 @@ GET /health
 - Ubuntu 20.04+ EC2 인스턴스
 - Python 3.8+ 설치
 - nginx 설치 (프론트엔드 서빙)
-- 도메인: hqmx.net
-- IP: 54.242.63.16
+- 도메인: https://yt.hqmx.net (메인), https://hqmx.net (레거시)
+- IP: 52.55.219.204 (탄력적 IP)
 
 ### 자동 배포 (추천)
 ```bash
@@ -91,10 +91,10 @@ GET /health
 ```bash
 # 1. 파일 업로드
 cd /path/to/hqmx
-scp -i hqmx-ec2.pem -r backend ubuntu@54.242.63.16:/home/ubuntu/hqmx/
+scp -i hqmx-ec2.pem -r backend ubuntu@34.203.200.77:/home/ubuntu/hqmx/
 
 # 2. 서버 접속 및 설정
-ssh -i hqmx-ec2.pem ubuntu@54.242.63.16
+ssh -i hqmx-ec2.pem ubuntu@34.203.200.77
 
 # 3. 가상환경 및 패키지 설치
 cd /home/ubuntu/hqmx/backend

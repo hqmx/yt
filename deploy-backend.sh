@@ -6,7 +6,7 @@
 set -e  # 에러 발생 시 중단
 
 # 설정
-EC2_IP="54.242.63.16"
+EC2_IP="52.55.219.204"
 EC2_USER="ubuntu"
 SSH_KEY="hqmx-ec2.pem"
 REMOTE_DIR="/home/ubuntu/hqmx/backend"

@@ -12,10 +12,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR/frontend"
 
 echo "📦 1. 프론트엔드 파일을 /tmp/로 업로드..."
-scp -i ../hqmx-ec2.pem index.html style.css script.js i18n.js ubuntu@54.242.63.16:/tmp/
+scp -i ../hqmx-ec2.pem index.html style.css script.js i18n.js ubuntu@52.55.219.204:/tmp/
 
 echo "📂 2. 파일을 /var/www/html/로 이동 및 권한 설정..."
-ssh -i ../hqmx-ec2.pem ubuntu@54.242.63.16 << 'EOF'
+ssh -i ../hqmx-ec2.pem ubuntu@52.55.219.204 << 'EOF'
 sudo mv /tmp/index.html /var/www/html/
 sudo mv /tmp/style.css /var/www/html/
 sudo mv /tmp/script.js /var/www/html/
@@ -26,8 +26,8 @@ EOF
 
 echo "✅ 3. 배포 완료!"
 echo "📋 배포된 파일 확인:"
-ssh -i ../hqmx-ec2.pem ubuntu@54.242.63.16 "ls -lh /var/www/html/*.{html,css,js} | grep -E '(index|style|script|i18n)'"
+ssh -i ../hqmx-ec2.pem ubuntu@52.55.219.204 "ls -lh /var/www/html/*.{html,css,js} | grep -E '(index|style|script|i18n)'"
 
 echo ""
-echo "🌐 브라우저에서 확인: https://hqmx.net"
+echo "🌐 브라우저에서 확인: https://yt.hqmx.net (메인) 또는 https://hqmx.net (레거시)"
 echo "💡 Hard Refresh: Ctrl+Shift+R (Windows/Linux) 또는 Cmd+Shift+R (Mac)"
