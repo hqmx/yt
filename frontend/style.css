@@ -44,6 +44,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
     position: relative;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 body[data-theme="dark"] {
@@ -978,8 +979,7 @@ body[data-theme="dark"] .input-icon {
     height: 44px; /* 크기 조정 */
     border-radius: 50%;
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    /* 내부 아이콘 중앙 정렬을 위한 flex 속성 */
-    display: flex;
+    /* 내부 아이콘 중앙 정렬을 위한 flex 속성 (fallback-active일 때만 적용) */
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -1453,8 +1453,6 @@ body[data-theme="dark"] .platform-item img[src*="tumblr"] {
     margin-top: 60px;
     color: var(--light-text-color);
     padding: 3rem 0 3rem 0;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
     opacity: 1;
 }
 
@@ -1703,7 +1701,7 @@ footer p {
 @media (max-width: 480px) {
     .sitemap-tagline {
         font-size: 0.8rem;
-        letter-spacing: 6px;
+        letter-spacing: 2px;
     }
 
     .sitemap-bottom {
