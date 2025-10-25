@@ -394,13 +394,11 @@ body[data-theme="dark"] .mobile-menu-box {
 .mobile-menu-controls {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
     display: block !important;
     visibility: visible !important;
 }
 
 [data-theme="dark"] .mobile-menu-controls {
-    border-top-color: rgba(55, 65, 81, 0.8);
 }
 
 .mobile-control-item {
@@ -417,14 +415,12 @@ body[data-theme="dark"] .mobile-menu-box {
 .mobile-control-item.menu-divider {
     flex-direction: column;
     gap: 0.5rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 0.5rem;
     justify-content: flex-start;
     align-items: flex-end;
 }
 
 [data-theme="dark"] .mobile-control-item.menu-divider {
-    border-top-color: rgba(55, 65, 81, 0.8);
 }
 
 .control-label {
@@ -946,6 +942,8 @@ body[data-theme="dark"] .input-icon {
     height: 100%;
     object-fit: contain; /* 이미지 전체를 표시 (세로/가로 모드 모두 지원) */
     display: block;
+    position: relative;
+    z-index: 1; /* 썸네일을 fallback보다 위에 표시 */
 }
 
 /* Hide Instagram's built-in play button overlay */
@@ -983,6 +981,7 @@ body[data-theme="dark"] .input-icon {
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 0; /* 썸네일 이미지보다 뒤에 표시 */
 }
 
 /* fallback 활성화 시 이미지 숨김 */
@@ -1453,6 +1452,8 @@ body[data-theme="dark"] .platform-item img[src*="tumblr"] {
     margin-top: 60px;
     color: var(--light-text-color);
     padding: 3rem 0 3rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
     opacity: 1;
 }
 
