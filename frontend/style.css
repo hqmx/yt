@@ -1671,7 +1671,7 @@ footer p {
     }
 
     .sitemap-tagline {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         letter-spacing: 4px;
         margin: 0.5rem 0;
     }
@@ -1702,8 +1702,8 @@ footer p {
 
 @media (max-width: 480px) {
     .sitemap-tagline {
-        font-size: 0.6rem;
-        letter-spacing: 2px;
+        font-size: 0.8rem;
+        letter-spacing: 6px;
     }
 
     .sitemap-bottom {
@@ -2656,7 +2656,7 @@ body[data-theme="dark"] .conversion-category[data-category="archive"] .conversio
         row-gap: 0.8rem;
         column-gap: 0.8rem;
         max-width: 100%;
-        margin: 10rem auto 0.5rem auto;
+        margin: 0rem auto 0.5rem auto;
     }
 
     .platform-icons-nav.show {
@@ -2666,6 +2666,6 @@ body[data-theme="dark"] .conversion-category[data-category="archive"] .conversio
         row-gap: 0.8rem;
         column-gap: 0.8rem;
         max-width: 100%;
-        margin: 10rem auto 0.5rem auto;
+        margin: 0rem auto 0.5rem auto;
     }
 }

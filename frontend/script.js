@@ -9,9 +9,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CONFIGURATION ---
     // API 엔드포인트 설정
-// 로컬 개발: http://localhost:5001
-// 프로덕션: https://hqmx.net/api
-const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://hqmx.net/api';
+// 로컬 개발: http://localhost:5001/api
+// 프로덕션: https://yt.hqmx.net/api (메인), https://hqmx.net/api (레거시)
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '10.0.1.65'
+    ? 'http://10.0.1.65:5001/api'
+    : 'https://yt.hqmx.net/api';
+
+    // Quality preset definitions
+    const VIDEO_PRESETS = [
+        { label: '4K', height: 2160 },
+        { label: '2K', height: 1440 },
+        { label: '1080HD', height: 1080 },
+        { label: '720p', height: 720 },
+        { label: '480p', height: 480 },
+        { label: '360p', height: 360 },
+        { label: '240p', height: 240 },
+        { label: '144p', height: 144 }
+    ];
+
+    const FPS_PRESETS = [60, 30, 24];
+
+    const AUDIO_PRESETS = [
+        { label: 'Lossless', value: 'lossless' },
+        { label: '320kbps', value: '320' },
+        { label: '192kbps', value: '192' },
+        { label: '128kbps', value: '128' }
+    ];
 
     // --- DOM ELEMENT CACHE ---
     const dom = {
@@ -21,6 +44,9 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
         analyzeBtnIcon: document.getElementById('analyzeBtn').querySelector('i'),
         analyzeBtnText: document.getElementById('analyzeBtn').querySelector('span'),
         previewSection: document.getElementById('previewSection'),
+        previewContainer: document.getElementById('previewContainer'),
+        urlSection: document.getElementById('urlSection'),
+        adBannerSection: document.getElementById('adBannerSection'),
         thumbnailImg: document.getElementById('thumbnailImg'),
         mediaTitle: document.getElementById('mediaTitle'),
         mediaDuration: document.getElementById('mediaDuration'),
@@ -29,6 +55,7 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
         audioFormatsContainer: document.getElementById('audioFormats'),
         videoFormat: document.getElementById('videoFormat'),
         videoQuality: document.getElementById('videoQuality'),
+        videoFps: document.getElementById('videoFps'),
         audioFormat: document.getElementById('audioFormat'),
         audioQuality: document.getElementById('audioQuality'),
         videoSizeEstimate: document.getElementById('videoSizeEstimate'),
@@ -212,6 +239,9 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
             renderPreview(clientAnalysisResult);
             dom.previewSection.style.display = 'block';
 
+            // 레이아웃 재배치: 미리보기를 상단으로, URL 입력창을 하단으로 이동
+            rearrangeLayout();
+
         } catch (error) {
             console.error('❌ Analysis Error:', error);
             console.error('❌ Error stack:', error.stack);
@@ -242,6 +272,8 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
             mediaType: state.currentFormat,
             formatType: state.currentFormat === 'video' ? dom.videoFormat.value : dom.audioFormat.value,
             quality: state.currentFormat === 'video' ? dom.videoQuality.value : dom.audioQuality.value,
+            fps: state.currentFormat === 'video' ? dom.videoFps.value : undefined,
+            audio_quality: state.currentFormat === 'audio' ? dom.audioQuality.value : undefined,
             useClientIP: true
         };
         setDownloadingState(true);
@@ -355,17 +387,87 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
         state.currentTaskId = null;
         setDownloadingState(false);
     }
-    
+
+    /**
+     * Get thumbnail URL - use direct URL (CORS is handled by CDN)
+     * @param {string} thumbnailUrl - Original thumbnail URL
+     * @returns {string} Direct thumbnail URL
+     */
+    function getProxiedThumbnailUrl(thumbnailUrl) {
+        if (!thumbnailUrl) return '';
+
+        // Return direct URL - Instagram/YouTube CDNs allow cross-origin image loading
+        return thumbnailUrl;
+    }
+
+    // --- LAYOUT REARRANGEMENT ---
+    function rearrangeLayout() {
+        // 미리보기 섹션을 previewContainer로 이동 (상단)
+        if (dom.previewSection && dom.previewContainer) {
+            dom.previewContainer.appendChild(dom.previewSection);
+        }
+
+        // 광고 배너 표시
+        if (dom.adBannerSection) {
+            dom.adBannerSection.style.display = 'block';
+        }
+
+        // URL 섹션의 제목 숨기기 (선택사항: 분석 후에는 제목 불필요)
+        const urlSectionTitle = dom.urlSection.querySelector('h4');
+        if (urlSectionTitle) {
+            urlSectionTitle.style.display = 'none';
+        }
+    }
+
     function renderPreview(info) {
         const thumbContainer = dom.thumbnailImg.parentElement;
         thumbContainer.classList.remove('fallback-active');
-        dom.thumbnailImg.onerror = () => {
-            thumbContainer.classList.add('fallback-active');
+
+        let attemptedProxy = false;
+
+        // Detect aspect ratio and apply appropriate class
+        dom.thumbnailImg.onload = () => {
+            const img = dom.thumbnailImg;
+            const aspectRatio = img.naturalWidth / img.naturalHeight;
+
+            // Thumbnail loaded successfully - hide fallback icon
+            thumbContainer.classList.remove('fallback-active');
+
+            // Remove all aspect ratio classes
+            thumbContainer.classList.remove('vertical', 'horizontal', 'square');
+
+            // Apply appropriate class based on aspect ratio
+            if (aspectRatio < 0.75) {
+                // Vertical video (9:16 or taller) - Instagram Reels, TikTok
+                thumbContainer.classList.add('vertical');
+            } else if (aspectRatio > 1.5) {
+                // Horizontal video (16:9 or wider) - YouTube, standard videos
+                thumbContainer.classList.add('horizontal');
+            } else {
+                // Square or near-square (1:1)
+                thumbContainer.classList.add('square');
+            }
+        };
+
+        dom.thumbnailImg.onerror = (e) => {
+            console.error('❌ Thumbnail load failed:', dom.thumbnailImg.src);
+            console.error('Error event:', e);
+            // If proxy failed, try original URL as fallback
+            if (attemptedProxy && info.thumbnail) {
+                console.log('🔄 Thumbnail proxy failed, trying original URL');
+                dom.thumbnailImg.src = info.thumbnail;
+                attemptedProxy = false;
+            } else {
+                thumbContainer.classList.add('fallback-active');
+            }
         };
 
         if (info.thumbnail) {
-            dom.thumbnailImg.src = info.thumbnail;
+            console.log('🖼️ Loading thumbnail:', info.thumbnail.substring(0, 100) + '...');
+            attemptedProxy = true;
+            dom.thumbnailImg.src = getProxiedThumbnailUrl(info.thumbnail);
         } else {
+            console.warn('⚠️ No thumbnail in response');
             thumbContainer.classList.add('fallback-active');
             dom.thumbnailImg.src = '';
         }
@@ -380,52 +482,46 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
     }
     
     function populateQualityDropdowns(info) {
+        // Extract available values from formats
+        const availableHeights = [...new Set(info.video_formats?.map(f => f.height).filter(h => h))];
+        const availableFps = [...new Set(info.video_formats?.map(f => f.fps).filter(fps => fps))].sort((a, b) => b - a);
+
+        // Filter video presets to show only available qualities
+        const availableVideoPresets = VIDEO_PRESETS.filter(preset =>
+            availableHeights.includes(preset.height)
+        );
+
+        // Filter FPS presets to show only available frame rates
+        const availableFpsPresets = FPS_PRESETS.filter(fps =>
+            availableFps.includes(fps)
+        );
+
+        // Populate video quality dropdown - "원본 화질" as default
         dom.videoQuality.innerHTML = '';
-        
-        const h264formats = info.video_formats?.filter(f => 
-            f.vcodec?.startsWith('avc1') && f.height
-        ) || [];
-
-        let recommendedFormat = null;
-        if (h264formats.length > 0) {
-            recommendedFormat = h264formats.reduce((best, current) => 
-                (current.height > best.height) ? current : best
-            , h264formats[0]);
+        dom.videoQuality.innerHTML += `<option value="best" selected>${t('originalQuality')}</option>`;
+        if (availableVideoPresets.length > 0) {
+            availableVideoPresets.forEach((preset) => {
+                dom.videoQuality.innerHTML += `<option value="${preset.height}">${preset.label}</option>`;
+            });
         }
 
-        const allAvailableHeights = [...new Set(info.video_formats?.map(f => f.height).filter(h => h))].sort((a, b) => b - a);
-        const addedValues = new Set();
-
-        if (recommendedFormat) {
-            const value = recommendedFormat.height.toString();
-            const text = `${t('recommended')}: ${getQualityLabel(recommendedFormat.height)} (${t('fast')})`;
-            dom.videoQuality.innerHTML += `<option value="${value}" selected>${text}</option>`;
-            addedValues.add(value);
+        // Populate FPS dropdown - "원본 fps" as default
+        dom.videoFps.innerHTML = '';
+        dom.videoFps.innerHTML += `<option value="any" selected>${t('originalFps')}</option>`;
+        if (availableFpsPresets.length > 0) {
+            availableFpsPresets.forEach((fps) => {
+                dom.videoFps.innerHTML += `<option value="${fps}">${fps}fps</option>`;
+            });
         }
-        
-        const bestOptionSelected = !recommendedFormat ? 'selected' : '';
-        dom.videoQuality.innerHTML += `<option value="best" ${bestOptionSelected}>${t('bestQuality')} (${t('mayBeSlow')})</option>`;
-        addedValues.add('best');
 
-        allAvailableHeights.forEach(height => {
-            const value = height.toString();
-            if (!addedValues.has(value)) {
-                dom.videoQuality.innerHTML += `<option value="${value}">${getQualityLabel(height)}</option>`;
-                addedValues.add(value);
+        // Populate audio quality dropdown - "원본 음질" as default
+        dom.audioQuality.innerHTML = '';
+        dom.audioQuality.innerHTML += `<option value="best" selected>${t('originalAudioQuality')}</option>`;
+        AUDIO_PRESETS.forEach(preset => {
+            if (preset.value !== 'lossless') { // Skip lossless since "원본 음질" serves same purpose
+                dom.audioQuality.innerHTML += `<option value="${preset.value}">${preset.label}</option>`;
             }
         });
-        
-        const defaultAudioBitrates = [
-            { value: '320', text: `320 kbps (${t('best')})` },
-            { value: '256', text: `256 kbps (${t('high')})` },
-            { value: '192', text: `192 kbps (${t('standard')})` },
-            { value: '128', text: `128 kbps (${t('normal')})` },
-        ];
-        dom.audioQuality.innerHTML = '';
-        defaultAudioBitrates.forEach(opt => {
-            dom.audioQuality.innerHTML += `<option value="${opt.value}">${opt.text}</option>`;
-        });
-        dom.audioQuality.value = '192';
     }
 
     function updateProgress(percentage, message) {
@@ -449,7 +545,7 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
         if (directSize && directSize > 0) {
             return parseFloat(directSize);
         }
-        
+
         // Calculate from bitrate and duration
         const bitrate = format?.tbr || format?.abr || format?.vbr || fallbackBitrate;
         if (bitrate && duration > 0) {
@@ -458,25 +554,40 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
 
         // Fallback estimation for formats with no size/bitrate info
         if (duration > 0) {
-            // Estimate based on format type and quality
             let assumedBitrate = 192; // Default audio bitrate
-            
-            if (format?.vcodec) {
-                // Video format - estimate based on resolution
+
+            if (format?.vcodec && format?.vcodec !== 'none') {
+                // Video format - codec-aware bitrate estimation
                 const height = format?.height || 360;
-                if (height >= 1080) assumedBitrate = 8000; // 8 Mbps for 1080p+
-                else if (height >= 720) assumedBitrate = 4000; // 4 Mbps for 720p
-                else if (height >= 480) assumedBitrate = 2000; // 2 Mbps for 480p
-                else assumedBitrate = 1000; // 1 Mbps for lower resolutions
-            } else if (format?.acodec) {
+                const codec = (format?.vcodec || '').toLowerCase();
+
+                // AV1 and VP9 have better compression than H.264
+                const isModernCodec = codec.includes('av01') || codec.includes('av1') ||
+                                      codec.includes('vp09') || codec.includes('vp9');
+
+                if (height >= 2160) { // 4K
+                    assumedBitrate = isModernCodec ? 12000 : 20000;
+                } else if (height >= 1440) { // 2K
+                    assumedBitrate = isModernCodec ? 8000 : 12000;
+                } else if (height >= 1080) { // 1080p
+                    assumedBitrate = isModernCodec ? 3500 : 5000;
+                } else if (height >= 720) { // 720p
+                    assumedBitrate = isModernCodec ? 2000 : 3000;
+                } else if (height >= 480) { // 480p
+                    assumedBitrate = isModernCodec ? 1200 : 1800;
+                } else if (height >= 360) { // 360p
+                    assumedBitrate = isModernCodec ? 800 : 1200;
+                } else { // 240p and below
+                    assumedBitrate = isModernCodec ? 400 : 600;
+                }
+            } else if (format?.acodec && format?.acodec !== 'none') {
                 // Audio format - estimate based on quality
-                const abr = format?.abr || 192;
-                assumedBitrate = abr;
+                assumedBitrate = format?.abr || 192;
             }
-            
+
             return (assumedBitrate * 1000 / 8) * duration;
         }
-        
+
         return 0;
     }
 
@@ -570,6 +681,29 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
             }
         }
 
+        console.log('Base estimated size:', estimatedSize);
+
+        // Add container conversion overhead for non-MP4 formats
+        if (selectedMediaType === 'video' && estimatedSize > 0) {
+            const selectedFormat = dom.videoFormat.value;
+            let conversionOverhead = 1.0; // No overhead by default
+
+            // FFmpeg remuxing adds slight overhead (metadata, container structure)
+            if (selectedFormat === 'mkv') {
+                conversionOverhead = 1.03; // ~3% overhead for MKV container
+            } else if (selectedFormat === 'webm') {
+                conversionOverhead = 1.02; // ~2% overhead for WebM (already efficient)
+            } else if (selectedFormat === 'mov') {
+                conversionOverhead = 1.04; // ~4% overhead for MOV (Apple container)
+            }
+            // MP4 has no overhead since most sources are already MP4
+
+            if (conversionOverhead > 1.0) {
+                estimatedSize *= conversionOverhead;
+                console.log(`Applied ${selectedFormat.toUpperCase()} conversion overhead (${((conversionOverhead - 1) * 100).toFixed(1)}%)`);
+            }
+        }
+
         console.log('Final estimated size:', estimatedSize);
 
         if (estimatedSize > 0) {
@@ -590,7 +724,7 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
         showStatus('🔄 YouTube 분석 중...', 'info');
         
         try {
-            const response = await fetch(`${API_BASE_URL}/youtube/analyze`, {
+            const response = await fetch(`${API_BASE_URL}/analyze`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -602,27 +736,25 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
                 })
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            // Parse JSON response first (works for both success and error responses)
+            const result = await response.json();
+
+            // Check for error in response (HTTP 400/500 with error details)
+            if (!response.ok || result.error) {
+                throw new Error(result.error || `HTTP ${response.status}: ${response.statusText}`);
             }
 
-            const result = await response.json();
-            
-            if (result.success) {
-                console.log('✅ YouTube analysis succeeded:', result);
-                showStatus('✅ 분석 완료!', 'success');
-                return {
-                    success: true,
-                    title: result.data.title,
-                    thumbnail: result.data.thumbnail,
-                    duration: result.data.duration,
-                    formats: result.data.formats || [],
-                    id: result.data.id,
-                    original_url: url
-                };
-            } else {
-                throw new Error(result.error?.message || 'Analysis failed');
-            }
+            console.log('✅ Analysis succeeded:', result);
+            showStatus('✅ 분석 완료!', 'success');
+            return {
+                success: true,
+                title: result.title,
+                thumbnail: result.thumbnail,
+                duration: result.duration,
+                video_formats: result.video_formats || [],
+                audio_formats: result.audio_formats || [],
+                original_url: url
+            };
         } catch (error) {
             console.error('❌ YouTube analysis failed:', error);
             throw new Error(`분석 실패: ${error.message}`);
@@ -1256,7 +1388,13 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
     function showError(message) {
         alert(message);
     }
-    const formatDuration = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2, '0')}`;
+    const formatDuration = (s) => {
+        // Round to nearest second (remove sub-second precision)
+        const totalSeconds = Math.round(s);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
     const formatViews = (n) => n > 1_000_000 ? `${(n/1_000_000).toFixed(1)}M` : n > 1000 ? `${(n/1000).toFixed(1)}K` : n.toString();
     function formatBytes(bytes, decimals = 2) {
         if (!+bytes) return '0 Bytes'
@@ -1291,4 +1429,203 @@ const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhos
 
     // 스크롤 이벤트 리스너 추가
     window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // --- CONVERTER EXPAND FUNCTIONALITY ---
+    const converterExpandBtn = document.getElementById('converterExpandBtn');
+    const converterLogoLink = document.querySelector('.sitemap-left .logo-link');
+    const categoryIconsNav = document.querySelector('.category-icons-nav');
+    const categoryIconBtns = document.querySelectorAll('.category-icon-btn');
+    const supportedConversions = document.querySelector('.supported-conversions');
+
+    // Function to toggle category icons
+    function toggleCategoryIcons() {
+        if (categoryIconsNav) {
+            // Close DOWNLOADER panel if it's open (mutual exclusion)
+            const platformNav = document.querySelector('.platform-icons-nav');
+            const dlExpandBtn = document.getElementById('downloaderExpandBtn');
+            const platformBtns = document.querySelectorAll('.platform-icon-btn');
+
+            if (platformNav && platformNav.classList.contains('show')) {
+                platformNav.classList.remove('show');
+                if (dlExpandBtn) {
+                    dlExpandBtn.classList.remove('expanded');
+                }
+                platformBtns.forEach(btn => btn.classList.remove('active'));
+            }
+
+            categoryIconsNav.classList.toggle('show');
+            if (converterExpandBtn) {
+                converterExpandBtn.classList.toggle('expanded');
+            }
+
+            // If hiding, also hide all categories
+            if (!categoryIconsNav.classList.contains('show')) {
+                const allCategories = document.querySelectorAll('.conversion-category');
+                allCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.classList.remove('show-badges');
+                });
+                categoryIconBtns.forEach(btn => btn.classList.remove('active'));
+
+                // Hide supported conversions when category icons are hidden
+                if (supportedConversions) {
+                    supportedConversions.style.display = 'none';
+                }
+            } else {
+                // Show supported conversions when category icons are shown
+                if (supportedConversions) {
+                    supportedConversions.style.display = 'block';
+                }
+            }
+        }
+    }
+
+    // Converter + button click
+    if (converterExpandBtn) {
+        converterExpandBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleCategoryIcons();
+        });
+    }
+
+    // Converter logo click
+    if (converterLogoLink) {
+        converterLogoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleCategoryIcons();
+        });
+    }
+
+    // 카테고리 아이콘 버튼 클릭 시 배지 표시
+    categoryIconBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.dataset.category;
+
+            // Show category icons if not shown
+            if (!categoryIconsNav.classList.contains('show')) {
+                categoryIconsNav.classList.add('show');
+                if (converterExpandBtn) {
+                    converterExpandBtn.classList.add('expanded');
+                }
+            }
+
+            // 모든 카테고리 아이콘 버튼에서 active 제거
+            categoryIconBtns.forEach(b => b.classList.remove('active'));
+            // 클릭한 버튼에 active 추가
+            btn.classList.add('active');
+
+            // 모든 카테고리에서 active와 show-badges 제거
+            const allCategories = document.querySelectorAll('.conversion-category');
+            allCategories.forEach(cat => {
+                cat.classList.remove('active');
+                cat.classList.remove('show-badges');
+            });
+
+            // 클릭한 카테고리를 active로 설정하고 배지 표시
+            const targetCategory = document.querySelector(`.conversion-category[data-category="${category}"]`);
+            if (targetCategory) {
+                targetCategory.classList.add('active');
+                targetCategory.classList.add('show-badges');
+
+                // Show supported conversions section
+                if (supportedConversions) {
+                    supportedConversions.style.display = 'block';
+                }
+            }
+        });
+    });
+
+    // --- DOWNLOADER EXPAND FUNCTIONALITY ---
+    const downloaderExpandBtn = document.getElementById('downloaderExpandBtn');
+    const downloaderLogoLink = document.querySelector('.sitemap-right .logo-link');
+    const platformIconsNav = document.querySelector('.platform-icons-nav');
+    const platformIconBtns = document.querySelectorAll('.platform-icon-btn');
+
+    // Function to toggle platform icons
+    function togglePlatformIcons() {
+        if (platformIconsNav) {
+            // Close CONVERTER panel if it's open (mutual exclusion)
+            const categoryNav = document.querySelector('.category-icons-nav');
+            const convExpandBtn = document.getElementById('converterExpandBtn');
+            const categoryBtns = document.querySelectorAll('.category-icon-btn');
+            const supportedConv = document.querySelector('.supported-conversions');
+
+            if (categoryNav && categoryNav.classList.contains('show')) {
+                categoryNav.classList.remove('show');
+                if (convExpandBtn) {
+                    convExpandBtn.classList.remove('expanded');
+                }
+                categoryBtns.forEach(btn => btn.classList.remove('active'));
+
+                // Also hide conversion categories and supported conversions
+                const allCategories = document.querySelectorAll('.conversion-category');
+                allCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.classList.remove('show-badges');
+                });
+                if (supportedConv) {
+                    supportedConv.style.display = 'none';
+                }
+            }
+
+            platformIconsNav.classList.toggle('show');
+            if (downloaderExpandBtn) {
+                downloaderExpandBtn.classList.toggle('expanded');
+            }
+
+            // If hiding, remove active states
+            if (!platformIconsNav.classList.contains('show')) {
+                platformIconBtns.forEach(btn => btn.classList.remove('active'));
+            }
+        }
+    }
+
+    // Downloader + button click
+    if (downloaderExpandBtn) {
+        downloaderExpandBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            togglePlatformIcons();
+        });
+    }
+
+    // Downloader logo click
+    if (downloaderLogoLink) {
+        downloaderLogoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            togglePlatformIcons();
+        });
+    }
+
+    // Platform icon button click handlers
+    platformIconBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Ignore clicks on disabled buttons
+            if (btn.disabled || btn.classList.contains('disabled')) {
+                return;
+            }
+
+            const platform = btn.dataset.platform;
+
+            // Show platform icons if not shown
+            if (!platformIconsNav.classList.contains('show')) {
+                platformIconsNav.classList.add('show');
+                if (downloaderExpandBtn) {
+                    downloaderExpandBtn.classList.add('expanded');
+                }
+            }
+
+            // Toggle active state
+            platformIconBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Navigate to platform-specific downloader page
+            // For now, just log - you can implement navigation later
+            console.log(`${platform} downloader selected`);
+            // window.location.href = `https://hqmx.net/downloader/${platform}`;
+        });
+    });
 });
