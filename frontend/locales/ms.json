@@ -62,7 +62,7 @@
   "unsupported_link": "Maaf, pautan ini belum disokong.",
   "urlInputPlaceholder": "Masukkan URL video atau audio...",
   "urlInputPlaceholderShort": "Masukkan URL...",
-  "urlSectionTitle": "Muat turun semua media dari semua platform di sini",
+  "urlSectionTitle": "Semua hak media terpelihara kepada pemegang hak cipta",
   "usageGuideDesc": "Ikuti tiga langkah mudah ini untuk memuat turun video dan muzik kegemaran anda dengan cepat.",
   "usageGuideTitle": "Cara menggunakan",
   "url_not_provided": "URL tidak disediakan",
@@ -79,4 +79,6 @@
   "download_complete_ready": "Muat turun selesai! Fail siap.",
   "unknown_critical_error": "Ralat kritikal yang tidak diketahui telah berlaku.",
   "file_not_found_or_incomplete": "Fail tidak ditemui atau muat turun tidak lengkap."
+,
+  "reddit_auth_required": "⚠️ Reddit memerlukan pengesahan untuk memuat turun kandungan. Platform ini pada masa ini tidak menyokong muat turun tanpa nama. Sila cuba platform lain yang disokong."
 }

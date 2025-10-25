@@ -62,7 +62,7 @@
   "unsupported_link": "عذراً، هذا الرابط غير مدعوم بعد.",
   "urlInputPlaceholder": "أدخل الفيديو أو عنوان URL للصوت ...",
   "urlInputPlaceholderShort": "أدخل URL...",
-  "urlSectionTitle": "قم بتنزيل جميع الوسائط من جميع المنصات هنا",
+  "urlSectionTitle": "جميع حقوق الوسائط محفوظة لصاحب حقوق الطبع",
   "url_not_provided": "لم يتم توفير الرابط",
   "usageGuideDesc": "اتبع هذه الخطوات الثلاث البسيطة لتنزيل مقاطع الفيديو والموسيقى المفضلة لديك بسرعة.",
   "usageGuideTitle": "كيفية استخدام",
@@ -79,4 +79,6 @@
   "download_complete_ready": "اكتمل التحميل! الملف جاهز.",
   "unknown_critical_error": "حدث خطأ حرج غير معروف.",
   "file_not_found_or_incomplete": "لم يتم العثور على الملف أو التحميل غير مكتمل."
+,
+  "reddit_auth_required": "⚠️ يتطلب Reddit المصادقة لتنزيل المحتوى. هذه المنصة لا تدعم حاليًا التنزيلات المجهولة. يرجى تجربة منصات أخرى مدعومة."
 }

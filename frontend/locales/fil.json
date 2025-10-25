@@ -62,7 +62,7 @@
   "unsupported_link": "Pasensya, hindi pa sinusuportahan ang link na ito.",
   "urlInputPlaceholder": "Isulat ang URL ng video o audio...",
   "urlInputPlaceholderShort": "Isulat ang URL...",
-  "urlSectionTitle": "I-download ang lahat ng media mula sa lahat ng platform dito",
+  "urlSectionTitle": "Lahat ng karapatan sa media ay nakalaan para sa may-ari ng karapatang-ari",
   "usageGuideDesc": "Sundin ang tatlong simpleng hakbang na ito para mabilis na ma-download ang mga paborito mong video at musika.",
   "usageGuideTitle": "Paano gamitin",
   "url_not_provided": "Hindi binigay ang URL",
@@ -79,4 +79,6 @@
   "download_complete_ready": "Tapos na ang download! Handa na ang file.",
   "unknown_critical_error": "Naganap ang hindi kilalang kritikal na error.",
   "file_not_found_or_incomplete": "Hindi nahanap ang file o hindi kumpleto ang download."
+,
+  "reddit_auth_required": "⚠️ Nangangailangan ang Reddit ng pagpapatunay upang mag-download ng content. Ang platform na ito ay kasalukuyang hindi sumusuporta sa anonymous downloads. Mangyaring subukan ang iba pang suportadong platform."
 }

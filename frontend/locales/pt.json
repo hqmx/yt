@@ -62,7 +62,7 @@
   "unsupported_link": "Desculpe, este link ainda não é suportado.",
   "urlInputPlaceholder": "Digite a URL do vídeo ou áudio...",
   "urlInputPlaceholderShort": "Digite URL...",
-  "urlSectionTitle": "Baixe todas as mídias de todas as plataformas aqui",
+  "urlSectionTitle": "Todos os direitos de mídia reservados detentor de direitos",
   "usageGuideDesc": "Siga estes três passos simples para baixar rapidamente seus vídeos e músicas favoritos.",
   "usageGuideTitle": "Como usar",
   "url_not_provided": "URL não fornecida",
@@ -79,4 +79,6 @@
   "download_complete_ready": "Download concluído! Arquivo está pronto.",
   "unknown_critical_error": "Ocorreu um erro crítico desconhecido.",
   "file_not_found_or_incomplete": "Arquivo não encontrado ou download incompleto."
+,
+  "reddit_auth_required": "⚠️ O Reddit requer autenticação para baixar conteúdo. Esta plataforma atualmente não suporta downloads anônimos. Por favor, tente outras plataformas suportadas."
 }

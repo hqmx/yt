@@ -62,7 +62,7 @@
   "unsupported_link": "Xin lỗi, liên kết này chưa được hỗ trợ.",
   "urlInputPlaceholder": "Nhập URL video hoặc âm thanh...",
   "urlInputPlaceholderShort": "Nhập URL...",
-  "urlSectionTitle": "Tải xuống tất cả media từ tất cả các nền tảng tại đây",
+  "urlSectionTitle": "Mọi quyền phương tiện được bảo lưu cho người giữ bản quyền",
   "usageGuideDesc": "Làm theo ba bước đơn giản này để tải xuống nhanh chóng video và âm nhạc yêu thích của bạn.",
   "usageGuideTitle": "Cách sử dụng",
   "url_not_provided": "URL không được cung cấp",
@@ -79,4 +79,6 @@
   "download_complete_ready": "Tải xuống hoàn tất! Tệp đã sẵn sàng.",
   "unknown_critical_error": "Đã xảy ra lỗi nghiêm trọng không xác định.",
   "file_not_found_or_incomplete": "Không tìm thấy tệp hoặc tải xuống chưa hoàn tất."
+,
+  "reddit_auth_required": "⚠️ Reddit yêu cầu xác thực để tải xuống nội dung. Nền tảng này hiện không hỗ trợ tải xuống ẩn danh. Vui lòng thử các nền tảng được hỗ trợ khác."
 }

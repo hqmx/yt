@@ -30,6 +30,10 @@
   "file_not_found_or_incomplete": "파일을 찾을 수 없거나 다운로드가 완료되지 않았습니다.",
   "footer": "&copy; 2024 HQMX. 모든 권리 보유.",
   "formatLabel": "형식:",
+  "fpsLabel": "프레임레이트:",
+  "originalQuality": "원본 화질",
+  "originalFps": "원본 fps",
+  "originalAudioQuality": "원본 음질",
   "mediaTitleDefault": "미디어 제목",
   "no_direct_streams_converting": "직접 스트림을 사용할 수 없습니다. {format}로 변환 중 (느림)...",
   "please_analyze_first": "먼저 URL을 분석해주세요.",
@@ -62,10 +66,11 @@
   "unsupported_link": "죄송합니다. 이 링크는 아직 지원되지 않습니다.",
   "urlInputPlaceholder": "비디오 또는 오디오 URL 입력...",
   "urlInputPlaceholderShort": "URL 입력...",
-  "urlSectionTitle": "모든 플랫폼의 미디어를 여기서 다운로드하세요",
+  "urlSectionTitle": "모든 미디어 권리 저작권자 보유",
   "usageGuideDesc": "이 세 가지 간단한 단계를 따라 좋아하는 비디오와 음악을 빠르게 다운로드하세요.",
   "usageGuideTitle": "사용 방법",
   "url_not_provided": "URL이 제공되지 않았습니다",
   "videoTab": "비디오",
-  "task_added_to_queue": "작업이 큐에 추가되었습니다..."
+  "task_added_to_queue": "작업이 큐에 추가되었습니다...",
+  "reddit_auth_required": "⚠️ Reddit은 콘텐츠 다운로드를 위해 인증이 필요합니다. 현재 익명 다운로드가 지원되지 않는 플랫폼입니다. 다른 지원 플랫폼을 이용해 주세요."
 }

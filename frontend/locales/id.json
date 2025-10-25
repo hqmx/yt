@@ -62,7 +62,7 @@
   "unsupported_link": "Maaf, link ini belum didukung.",
   "urlInputPlaceholder": "Masukkan URL video atau audio...",
   "urlInputPlaceholderShort": "Masukkan URL...",
-  "urlSectionTitle": "Unduh semua media dari semua platform di sini",
+  "urlSectionTitle": "Semua hak media dilindungi pemegang hak cipta",
   "usageGuideDesc": "Ikuti tiga langkah sederhana ini untuk mengunduh video dan musik favorit Anda dengan cepat.",
   "usageGuideTitle": "Cara menggunakan",
   "url_not_provided": "URL tidak disediakan",
@@ -79,4 +79,6 @@
   "download_complete_ready": "Download selesai! File siap.",
   "unknown_critical_error": "Terjadi kesalahan kritis yang tidak diketahui.",
   "file_not_found_or_incomplete": "File tidak ditemukan atau download tidak lengkap."
+,
+  "reddit_auth_required": "⚠️ Reddit memerlukan autentikasi untuk mengunduh konten. Platform ini saat ini tidak mendukung unduhan anonim. Silakan coba platform lain yang didukung."
 }

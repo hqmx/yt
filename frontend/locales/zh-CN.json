@@ -62,7 +62,7 @@
   "unsupported_link": "抱歉，此链接尚不支持。",
   "urlInputPlaceholder": "输入视频或音频 URL...",
   "urlInputPlaceholderShort": "输入 URL...",
-  "urlSectionTitle": "在此下载所有平台的所有媒体",
+  "urlSectionTitle": "所有媒体权利归版权持有者所有",
   "usageGuideDesc": "按照以下三个简单步骤快速下载您喜爱的视频和音乐。",
   "usageGuideTitle": "如何使用",
   "url_not_provided": "未提供URL",
@@ -79,4 +79,6 @@
   "download_complete_ready": "下载完成！文件已准备就绪。",
   "unknown_critical_error": "发生未知的严重错误。",
   "file_not_found_or_incomplete": "找不到文件或下载未完成。"
+,
+  "reddit_auth_required": "⚠️ Reddit需要身份验证才能下载内容。目前不支持匿名下载。请尝试其他支持的平台。"
 }

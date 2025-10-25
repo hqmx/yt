@@ -62,7 +62,7 @@
   "unsupported_link": "Désolé, ce lien n'est pas encore pris en charge.",
   "urlInputPlaceholder": "Entrez l'URL de la vidéo ou de l'audio...",
   "urlInputPlaceholderShort": "Entrez l'URL...",
-  "urlSectionTitle": "Téléchargez tous les médias de toutes les plateformes ici",
+  "urlSectionTitle": "Tous les droits médias réservés titulaire des droits",
   "usageGuideDesc": "Suivez ces trois étapes simples pour télécharger rapidement vos vidéos et votre musique préférées.",
   "usageGuideTitle": "Comment utiliser",
   "url_not_provided": "URL non fournie",
@@ -79,4 +79,6 @@
   "download_complete_ready": "Téléchargement terminé ! Le fichier est prêt.",
   "unknown_critical_error": "Une erreur critique inconnue s'est produite.",
   "file_not_found_or_incomplete": "Fichier introuvable ou téléchargement incomplet."
+,
+  "reddit_auth_required": "⚠️ Reddit nécessite une authentification pour télécharger du contenu. Cette plateforme ne prend actuellement pas en charge les téléchargements anonymes. Veuillez essayer d'autres plateformes prises en charge."
 }

@@ -30,6 +30,10 @@
   "file_not_found_or_incomplete": "File not found or download is not complete.",
   "footer": "&copy; 2024 HQMX. All Rights Reserved.",
   "formatLabel": "Format:",
+  "fpsLabel": "Frame Rate:",
+  "originalQuality": "Original Quality",
+  "originalFps": "Original FPS",
+  "originalAudioQuality": "Original Audio Quality",
   "mediaTitleDefault": "Media Title",
   "no_direct_streams_converting": "No direct streams available. Converting to {format} (slower)...",
   "please_analyze_first": "Please analyze a URL first.",
@@ -62,9 +66,10 @@
   "unsupported_link": "Sorry, this link is not supported yet.",
   "urlInputPlaceholder": "Enter video or audio URL...",
   "urlInputPlaceholderShort": "Enter URL...",
-  "urlSectionTitle": "Download all media on all platforms here",
+  "urlSectionTitle": "All media rights reserved copyright holder",
   "usageGuideDesc": "Follow these three simple steps to quickly download your favorite videos and music.",
   "usageGuideTitle": "How to Use",
   "url_not_provided": "URL not provided",
-  "videoTab": "Video"
+  "videoTab": "Video",
+  "reddit_auth_required": "⚠️ Reddit requires authentication to download content. This platform is currently not supported for anonymous downloads. Please try other supported platforms."
 }

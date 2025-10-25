@@ -31,9 +31,11 @@
         <!-- Navigation Header -->
         <nav class="top-nav">
             <div class="nav-left">
-                <div class="downloader-logo">
-                    <span class="downloader-text"><span class="downloader-d">D</span><span class="downloader-rest">OWNLOADER</span></span>
-                </div>
+                <a href="index.html" class="logo-link">
+                    <div class="downloader-logo">
+                        <span class="downloader-text"><span class="downloader-d">D</span><span class="downloader-rest">OWNLOADER</span></span>
+                    </div>
+                </a>
             </div>
 
             <div class="nav-center">
@@ -44,18 +46,12 @@
                     <span></span>
                 </button>
 
-                <div class="nav-menu">
-                    <a href="#" class="nav-link active" data-section="download">Download</a>
-                    <a href="#" class="nav-link" data-section="information">Information</a>
-                    <a href="#" class="nav-link" data-section="contact">Contact</a>
+                <div class="nav-menu" style="display: none;">
                 </div>
 
                 <!-- 모바일 메뉴 오버레이 -->
                 <div class="mobile-menu-overlay" id="mobileMenuOverlay">
                     <div class="mobile-menu-box">
-                        <a href="#" class="mobile-nav-link active" data-section="download">Download</a>
-                        <a href="#" class="mobile-nav-link" data-section="information">Information</a>
-                        <a href="#" class="mobile-nav-link" data-section="contact">Contact</a>
 
                         <div class="mobile-menu-controls">
                             <div class="mobile-control-item menu-divider">
@@ -142,7 +138,19 @@
         </header>
 
         <main class="main-content">
-            <section class="url-section">
+            <!-- 분석 완료 후 미리보기가 여기로 이동 -->
+            <div id="previewContainer"></div>
+
+            <!-- 광고 공간 (분석 완료 후 표시) -->
+            <section id="adBannerSection" class="ad-banner-section" style="display: none;">
+                <div class="ad-banner-placeholder">
+                    <!-- Google AdSense 또는 다른 광고 코드가 여기 들어갑니다 -->
+                    <p style="text-align: center; color: #888; padding: 20px;">Advertisement</p>
+                </div>
+            </section>
+
+            <!-- URL 입력 섹션 (초기 위치, 분석 후 하단 이동) -->
+            <section class="url-section" id="urlSection">
                 <div class="input-container">
                     <h4 data-i18n-key="urlSectionTitle">Download all media on all platforms here.</h4>
                     <div class="input-wrapper">
@@ -154,8 +162,8 @@
                         </button>
                     </div>
                     <p class="terms-notice" id="terms-notice" data-i18n-key="termsNotice">
-                        By using our service you accept our 
-                        <a href="terms.html" target="_blank">Terms of Service</a> and 
+                        By using our service you accept our
+                        <a href="terms.html" target="_blank">Terms of Service</a> and
                         <a href="privacy.html" target="_blank">Privacy Policy</a>.
                     </p>
                 </div>
@@ -192,6 +200,10 @@
                         <div class="option-row">
                             <label for="videoQuality" data-i18n-key="qualityLabel">Quality:</label>
                             <select id="videoQuality"></select>
+                        </div>
+                        <div class="option-row">
+                            <label for="videoFps" data-i18n-key="fpsLabel">Frame Rate:</label>
+                            <select id="videoFps"></select>
                         </div>
                         <div class="size-estimate" id="videoSizeEstimate" data-i18n-key="sizeEstimateDefault">Est. Size: --</div>
                     </div>
@@ -259,7 +271,7 @@
                 </div>
             </section>
 
-            <section class="platform-support-section">
+            <section class="platform-support-section" style="display: none;">
                 <h3 data-i18n-key="supportedPlatformsTitle">Supported Platforms</h3>
                 <div class="platform-grid">
                     <div class="platform-item">
@@ -295,6 +307,14 @@
                         <span>X (Twitter)</span>
                     </div>
                     <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/pinterest/E60023" alt="Pinterest">
+                        <span>Pinterest</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/vimeo/1AB7EA" alt="Vimeo">
+                        <span>Vimeo</span>
+                    </div>
+                    <div class="platform-item">
                         <img src="https://cdn.simpleicons.org/dailymotion/0066DC" alt="Dailymotion">
                         <span>Dailymotion</span>
                     </div>
@@ -305,6 +325,14 @@
                     <div class="platform-item">
                         <img src="https://cdn.simpleicons.org/soundcloud/FF5500" alt="SoundCloud">
                         <span>SoundCloud</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/twitch/9146FF" alt="Twitch">
+                        <span>Twitch</span>
+                    </div>
+                    <div class="platform-item">
+                        <img src="https://cdn.simpleicons.org/tumblr/36465D" alt="Tumblr">
+                        <span>Tumblr</span>
                     </div>
                     <div class="platform-item">
                         <img src="https://cdn.simpleicons.org/bilibili/00A1F1" alt="Bilibili">
@@ -353,31 +381,1906 @@
         
         <section class="sitemap">
             <div class="sitemap-content">
-                <div class="sitemap-top">
-                    <div class="hqmx-brand">
-                        <h1>HQM<span class="logo-x">X</span></h1>
-                    </div>
-                    <p class="sitemap-tagline">High Quality Media X</p>
-                </div>
-
                 <div class="sitemap-bottom">
                     <div class="sitemap-side sitemap-left">
-                        <div class="converter-logo">
-                            <span class="converter-text"><span class="converter-c">C</span><span class="converter-rest">ONVERTER</span></span>
-                        </div>
+                        <a href="https://hqmx.net/converter/" class="logo-link">
+                            <div class="converter-logo">
+                                <span class="converter-text"><span class="converter-c">C</span><span class="converter-rest">ONVERTER</span></span>
+                            </div>
+                        </a>
+                        <button class="sitemap-expand-btn converter-expand-btn" id="converterExpandBtn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="sitemap-center">
+                        <a href="https://hqmx.net" class="hqmx-brand-link">
+                            <div class="hqmx-brand">
+                                <h1>HQM<span class="logo-x">X</span></h1>
+                            </div>
+                        </a>
+                        <p class="sitemap-tagline">High Quality Media X</p>
+                        <h3 class="sitemap-title">Site Map</h3>
                     </div>
 
                     <div class="sitemap-side sitemap-right">
-                        <div class="downloader-logo">
-                            <span class="downloader-text"><span class="downloader-d">D</span><span class="downloader-rest">OWNLOADER</span></span>
+                        <a href="https://hqmx.net/downloader/" class="logo-link">
+                            <div class="downloader-logo">
+                                <span class="downloader-text"><span class="downloader-d">D</span><span class="downloader-rest">OWNLOADER</span></span>
+                            </div>
+                        </a>
+                        <button class="sitemap-expand-btn downloader-expand-btn" id="downloaderExpandBtn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Icon Navigation -->
+                <div class="category-icons-nav">
+                    <button class="category-icon-btn" data-category="cross-category" title="Cross-Category Conversions">
+                        <i class="fas fa-fire"></i>
+                    </button>
+                    <button class="category-icon-btn" data-category="video" title="Video Conversions">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="category-icon-btn" data-category="image" title="Image Conversions">
+                        <i class="fas fa-image"></i>
+                    </button>
+                    <button class="category-icon-btn" data-category="audio" title="Audio Conversions">
+                        <i class="fas fa-music"></i>
+                    </button>
+                    <button class="category-icon-btn" data-category="document" title="Document Conversions">
+                        <i class="fas fa-file-alt"></i>
+                    </button>
+                    <button class="category-icon-btn" data-category="archive" title="Archive Conversions">
+                        <i class="fas fa-file-archive"></i>
+                    </button>
+                </div>
+
+                <!-- Platform Icon Navigation (for Downloader) -->
+                <div class="platform-icons-nav">
+                    <button class="platform-icon-btn disabled" data-platform="youtube" title="YouTube Downloader (Coming Soon)" disabled>
+                        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
+                    </button>
+                    <a href="https://instagram.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="instagram" title="Instagram Downloader">
+                            <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
+                        </button>
+                    </a>
+                    <a href="https://tiktok.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="tiktok" title="TikTok Downloader">
+                            <img src="https://cdn.simpleicons.org/tiktok/010101" alt="TikTok">
+                        </button>
+                    </a>
+                    <a href="https://facebook.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="facebook" title="Facebook Downloader">
+                            <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook">
+                        </button>
+                    </a>
+                    <a href="https://twitter.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="twitter" title="X (Twitter) Downloader">
+                            <img src="https://cdn.simpleicons.org/x/000000" alt="X (Twitter)" class="x-icon">
+                        </button>
+                    </a>
+                    <a href="https://reddit.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="reddit" title="Reddit Downloader">
+                            <img src="https://cdn.simpleicons.org/reddit/FF4500" alt="Reddit">
+                        </button>
+                    </a>
+                    <a href="https://pinterest.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="pinterest" title="Pinterest Downloader">
+                            <img src="https://cdn.simpleicons.org/pinterest/E60023" alt="Pinterest">
+                        </button>
+                    </a>
+                    <a href="https://vimeo.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="vimeo" title="Vimeo Downloader">
+                            <img src="https://cdn.simpleicons.org/vimeo/1AB7EA" alt="Vimeo">
+                        </button>
+                    </a>
+                    <a href="https://soundcloud.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="soundcloud" title="SoundCloud Downloader">
+                            <img src="https://cdn.simpleicons.org/soundcloud/FF5500" alt="SoundCloud">
+                        </button>
+                    </a>
+                    <a href="https://dailymotion.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="dailymotion" title="Dailymotion Downloader">
+                            <img src="https://cdn.simpleicons.org/dailymotion/0066DC" alt="Dailymotion">
+                        </button>
+                    </a>
+                    <a href="https://twitch.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="twitch" title="Twitch Downloader">
+                            <img src="https://cdn.simpleicons.org/twitch/9146FF" alt="Twitch">
+                        </button>
+                    </a>
+                    <a href="https://tumblr.hqmx.net" class="platform-icon-link">
+                        <button class="platform-icon-btn" data-platform="tumblr" title="Tumblr Downloader">
+                            <img src="https://cdn.simpleicons.org/tumblr/36465D" alt="Tumblr">
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Supported Conversions Section -->
+                <div class="supported-conversions">
+                <p class="section-description">683 conversion combinations across 6 categories • Click any badge to start converting</p>
+
+                <!-- Cross-Category Conversions (High Priority) -->
+                <!-- CROSS-CATEGORY CONVERSIONS -->
+                <div class="conversion-category" data-category="cross-category">
+                    <div class="conversion-badges-container">
+                        <div class="conversion-badges">
+                                <a href="https://hqmx.net/convert/jpg-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">JPG-PDF</span>
+                                    <span class="badge-back">PDF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">PNG-PDF</span>
+                                    <span class="badge-back">PDF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">GIF-PDF</span>
+                                    <span class="badge-back">PDF-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">WEBP-PDF</span>
+                                    <span class="badge-back">PDF-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">HEIC-PDF</span>
+                                    <span class="badge-back">PDF-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">AVIF-PDF</span>
+                                    <span class="badge-back">PDF-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/svg-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">SVG-PDF</span>
+                                    <span class="badge-back">PDF-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bmp-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">BMP-PDF</span>
+                                    <span class="badge-back">PDF-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tiff-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">TIFF-PDF</span>
+                                    <span class="badge-back">PDF-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ico-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">ICO-PDF</span>
+                                    <span class="badge-back">PDF-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/psd-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">PSD-PDF</span>
+                                    <span class="badge-back">PDF-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tga-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">TGA-PDF</span>
+                                    <span class="badge-back">PDF-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">CR2-PDF</span>
+                                    <span class="badge-back">CR2-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">CR3-PDF</span>
+                                    <span class="badge-back">CR3-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">NEF-PDF</span>
+                                    <span class="badge-back">NEF-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">ARW-PDF</span>
+                                    <span class="badge-back">ARW-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">DNG-PDF</span>
+                                    <span class="badge-back">DNG-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">RAF-PDF</span>
+                                    <span class="badge-back">RAF-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">ORF-PDF</span>
+                                    <span class="badge-back">ORF-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">RW2-PDF</span>
+                                    <span class="badge-back">RW2-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">MP4-MP3</span>
+                                    <span class="badge-back">MP4-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-wav" class="conversion-badge">
+                                    <span class="badge-front">MP4-WAV</span>
+                                    <span class="badge-back">MP4-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-flac" class="conversion-badge">
+                                    <span class="badge-front">MP4-FLAC</span>
+                                    <span class="badge-back">MP4-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-aac" class="conversion-badge">
+                                    <span class="badge-front">MP4-AAC</span>
+                                    <span class="badge-back">MP4-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">MP4-OGG</span>
+                                    <span class="badge-back">MP4-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">MP4-M4A</span>
+                                    <span class="badge-back">MP4-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-wma" class="conversion-badge">
+                                    <span class="badge-front">MP4-WMA</span>
+                                    <span class="badge-back">MP4-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-opus" class="conversion-badge">
+                                    <span class="badge-front">MP4-OPUS</span>
+                                    <span class="badge-back">MP4-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">MP4-AIFF</span>
+                                    <span class="badge-back">MP4-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">MP4-AC3</span>
+                                    <span class="badge-back">MP4-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">AVI-MP3</span>
+                                    <span class="badge-back">AVI-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-wav" class="conversion-badge">
+                                    <span class="badge-front">AVI-WAV</span>
+                                    <span class="badge-back">AVI-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-flac" class="conversion-badge">
+                                    <span class="badge-front">AVI-FLAC</span>
+                                    <span class="badge-back">AVI-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-aac" class="conversion-badge">
+                                    <span class="badge-front">AVI-AAC</span>
+                                    <span class="badge-back">AVI-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">AVI-OGG</span>
+                                    <span class="badge-back">AVI-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">AVI-M4A</span>
+                                    <span class="badge-back">AVI-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-wma" class="conversion-badge">
+                                    <span class="badge-front">AVI-WMA</span>
+                                    <span class="badge-back">AVI-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-opus" class="conversion-badge">
+                                    <span class="badge-front">AVI-OPUS</span>
+                                    <span class="badge-back">AVI-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">AVI-AIFF</span>
+                                    <span class="badge-back">AVI-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">AVI-AC3</span>
+                                    <span class="badge-back">AVI-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">MOV-MP3</span>
+                                    <span class="badge-back">MOV-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-wav" class="conversion-badge">
+                                    <span class="badge-front">MOV-WAV</span>
+                                    <span class="badge-back">MOV-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-flac" class="conversion-badge">
+                                    <span class="badge-front">MOV-FLAC</span>
+                                    <span class="badge-back">MOV-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-aac" class="conversion-badge">
+                                    <span class="badge-front">MOV-AAC</span>
+                                    <span class="badge-back">MOV-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">MOV-OGG</span>
+                                    <span class="badge-back">MOV-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">MOV-M4A</span>
+                                    <span class="badge-back">MOV-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-wma" class="conversion-badge">
+                                    <span class="badge-front">MOV-WMA</span>
+                                    <span class="badge-back">MOV-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-opus" class="conversion-badge">
+                                    <span class="badge-front">MOV-OPUS</span>
+                                    <span class="badge-back">MOV-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">MOV-AIFF</span>
+                                    <span class="badge-back">MOV-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">MOV-AC3</span>
+                                    <span class="badge-back">MOV-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">MKV-MP3</span>
+                                    <span class="badge-back">MKV-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-wav" class="conversion-badge">
+                                    <span class="badge-front">MKV-WAV</span>
+                                    <span class="badge-back">MKV-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-flac" class="conversion-badge">
+                                    <span class="badge-front">MKV-FLAC</span>
+                                    <span class="badge-back">MKV-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-aac" class="conversion-badge">
+                                    <span class="badge-front">MKV-AAC</span>
+                                    <span class="badge-back">MKV-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">MKV-OGG</span>
+                                    <span class="badge-back">MKV-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">MKV-M4A</span>
+                                    <span class="badge-back">MKV-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-wma" class="conversion-badge">
+                                    <span class="badge-front">MKV-WMA</span>
+                                    <span class="badge-back">MKV-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-opus" class="conversion-badge">
+                                    <span class="badge-front">MKV-OPUS</span>
+                                    <span class="badge-back">MKV-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">MKV-AIFF</span>
+                                    <span class="badge-back">MKV-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">MKV-AC3</span>
+                                    <span class="badge-back">MKV-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">WEBM-MP3</span>
+                                    <span class="badge-back">WEBM-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-wav" class="conversion-badge">
+                                    <span class="badge-front">WEBM-WAV</span>
+                                    <span class="badge-back">WEBM-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-flac" class="conversion-badge">
+                                    <span class="badge-front">WEBM-FLAC</span>
+                                    <span class="badge-back">WEBM-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-aac" class="conversion-badge">
+                                    <span class="badge-front">WEBM-AAC</span>
+                                    <span class="badge-back">WEBM-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">WEBM-OGG</span>
+                                    <span class="badge-back">WEBM-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">WEBM-M4A</span>
+                                    <span class="badge-back">WEBM-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-wma" class="conversion-badge">
+                                    <span class="badge-front">WEBM-WMA</span>
+                                    <span class="badge-back">WEBM-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-opus" class="conversion-badge">
+                                    <span class="badge-front">WEBM-OPUS</span>
+                                    <span class="badge-back">WEBM-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">WEBM-AIFF</span>
+                                    <span class="badge-back">WEBM-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">WEBM-AC3</span>
+                                    <span class="badge-back">WEBM-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">FLV-MP3</span>
+                                    <span class="badge-back">FLV-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-wav" class="conversion-badge">
+                                    <span class="badge-front">FLV-WAV</span>
+                                    <span class="badge-back">FLV-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-flac" class="conversion-badge">
+                                    <span class="badge-front">FLV-FLAC</span>
+                                    <span class="badge-back">FLV-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-aac" class="conversion-badge">
+                                    <span class="badge-front">FLV-AAC</span>
+                                    <span class="badge-back">FLV-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">FLV-OGG</span>
+                                    <span class="badge-back">FLV-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">FLV-M4A</span>
+                                    <span class="badge-back">FLV-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-wma" class="conversion-badge">
+                                    <span class="badge-front">FLV-WMA</span>
+                                    <span class="badge-back">FLV-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-opus" class="conversion-badge">
+                                    <span class="badge-front">FLV-OPUS</span>
+                                    <span class="badge-back">FLV-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">FLV-AIFF</span>
+                                    <span class="badge-back">FLV-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">FLV-AC3</span>
+                                    <span class="badge-back">FLV-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">WMV-MP3</span>
+                                    <span class="badge-back">WMV-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-wav" class="conversion-badge">
+                                    <span class="badge-front">WMV-WAV</span>
+                                    <span class="badge-back">WMV-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-flac" class="conversion-badge">
+                                    <span class="badge-front">WMV-FLAC</span>
+                                    <span class="badge-back">WMV-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-aac" class="conversion-badge">
+                                    <span class="badge-front">WMV-AAC</span>
+                                    <span class="badge-back">WMV-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">WMV-OGG</span>
+                                    <span class="badge-back">WMV-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">WMV-M4A</span>
+                                    <span class="badge-back">WMV-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-wma" class="conversion-badge">
+                                    <span class="badge-front">WMV-WMA</span>
+                                    <span class="badge-back">WMV-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-opus" class="conversion-badge">
+                                    <span class="badge-front">WMV-OPUS</span>
+                                    <span class="badge-back">WMV-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">WMV-AIFF</span>
+                                    <span class="badge-back">WMV-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">WMV-AC3</span>
+                                    <span class="badge-back">WMV-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">M4V-MP3</span>
+                                    <span class="badge-back">M4V-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-wav" class="conversion-badge">
+                                    <span class="badge-front">M4V-WAV</span>
+                                    <span class="badge-back">M4V-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-flac" class="conversion-badge">
+                                    <span class="badge-front">M4V-FLAC</span>
+                                    <span class="badge-back">M4V-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-aac" class="conversion-badge">
+                                    <span class="badge-front">M4V-AAC</span>
+                                    <span class="badge-back">M4V-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">M4V-OGG</span>
+                                    <span class="badge-back">M4V-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">M4V-M4A</span>
+                                    <span class="badge-back">M4V-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-wma" class="conversion-badge">
+                                    <span class="badge-front">M4V-WMA</span>
+                                    <span class="badge-back">M4V-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-opus" class="conversion-badge">
+                                    <span class="badge-front">M4V-OPUS</span>
+                                    <span class="badge-back">M4V-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">M4V-AIFF</span>
+                                    <span class="badge-back">M4V-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">M4V-AC3</span>
+                                    <span class="badge-back">M4V-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">3GP-MP3</span>
+                                    <span class="badge-back">3GP-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-wav" class="conversion-badge">
+                                    <span class="badge-front">3GP-WAV</span>
+                                    <span class="badge-back">3GP-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-flac" class="conversion-badge">
+                                    <span class="badge-front">3GP-FLAC</span>
+                                    <span class="badge-back">3GP-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-aac" class="conversion-badge">
+                                    <span class="badge-front">3GP-AAC</span>
+                                    <span class="badge-back">3GP-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">3GP-OGG</span>
+                                    <span class="badge-back">3GP-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">3GP-M4A</span>
+                                    <span class="badge-back">3GP-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-wma" class="conversion-badge">
+                                    <span class="badge-front">3GP-WMA</span>
+                                    <span class="badge-back">3GP-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-opus" class="conversion-badge">
+                                    <span class="badge-front">3GP-OPUS</span>
+                                    <span class="badge-back">3GP-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">3GP-AIFF</span>
+                                    <span class="badge-back">3GP-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">3GP-AC3</span>
+                                    <span class="badge-back">3GP-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">MPEG-MP3</span>
+                                    <span class="badge-back">MPEG-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-wav" class="conversion-badge">
+                                    <span class="badge-front">MPEG-WAV</span>
+                                    <span class="badge-back">MPEG-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-flac" class="conversion-badge">
+                                    <span class="badge-front">MPEG-FLAC</span>
+                                    <span class="badge-back">MPEG-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-aac" class="conversion-badge">
+                                    <span class="badge-front">MPEG-AAC</span>
+                                    <span class="badge-back">MPEG-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">MPEG-OGG</span>
+                                    <span class="badge-back">MPEG-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">MPEG-M4A</span>
+                                    <span class="badge-back">MPEG-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-wma" class="conversion-badge">
+                                    <span class="badge-front">MPEG-WMA</span>
+                                    <span class="badge-back">MPEG-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-opus" class="conversion-badge">
+                                    <span class="badge-front">MPEG-OPUS</span>
+                                    <span class="badge-back">MPEG-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">MPEG-AIFF</span>
+                                    <span class="badge-back">MPEG-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">MPEG-AC3</span>
+                                    <span class="badge-back">MPEG-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-mp3" class="conversion-badge">
+                                    <span class="badge-front">OGV-MP3</span>
+                                    <span class="badge-back">OGV-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-wav" class="conversion-badge">
+                                    <span class="badge-front">OGV-WAV</span>
+                                    <span class="badge-back">OGV-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-flac" class="conversion-badge">
+                                    <span class="badge-front">OGV-FLAC</span>
+                                    <span class="badge-back">OGV-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-aac" class="conversion-badge">
+                                    <span class="badge-front">OGV-AAC</span>
+                                    <span class="badge-back">OGV-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">OGV-OGG</span>
+                                    <span class="badge-back">OGV-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">OGV-M4A</span>
+                                    <span class="badge-back">OGV-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-wma" class="conversion-badge">
+                                    <span class="badge-front">OGV-WMA</span>
+                                    <span class="badge-back">OGV-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-opus" class="conversion-badge">
+                                    <span class="badge-front">OGV-OPUS</span>
+                                    <span class="badge-back">OGV-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">OGV-AIFF</span>
+                                    <span class="badge-back">OGV-AIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">OGV-AC3</span>
+                                    <span class="badge-back">OGV-AC3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-gif" class="conversion-badge">
+                                    <span class="badge-front">MP4-GIF</span>
+                                    <span class="badge-back">GIF-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-gif" class="conversion-badge">
+                                    <span class="badge-front">AVI-GIF</span>
+                                    <span class="badge-back">GIF-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-gif" class="conversion-badge">
+                                    <span class="badge-front">MOV-GIF</span>
+                                    <span class="badge-back">GIF-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-gif" class="conversion-badge">
+                                    <span class="badge-front">MKV-GIF</span>
+                                    <span class="badge-back">GIF-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-gif" class="conversion-badge">
+                                    <span class="badge-front">WEBM-GIF</span>
+                                    <span class="badge-back">GIF-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-gif" class="conversion-badge">
+                                    <span class="badge-front">FLV-GIF</span>
+                                    <span class="badge-back">GIF-FLV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-gif" class="conversion-badge">
+                                    <span class="badge-front">WMV-GIF</span>
+                                    <span class="badge-back">GIF-WMV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-gif" class="conversion-badge">
+                                    <span class="badge-front">M4V-GIF</span>
+                                    <span class="badge-back">GIF-M4V</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-gif" class="conversion-badge">
+                                    <span class="badge-front">3GP-GIF</span>
+                                    <span class="badge-back">GIF-3GP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-gif" class="conversion-badge">
+                                    <span class="badge-front">MPEG-GIF</span>
+                                    <span class="badge-back">GIF-MPEG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogv-to-gif" class="conversion-badge">
+                                    <span class="badge-front">OGV-GIF</span>
+                                    <span class="badge-back">GIF-OGV</span>
+                                </a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+
+                <!-- VIDEO CONVERSIONS -->
+                <div class="conversion-category" data-category="video">
+                    <div class="conversion-badges-container">
+                        <div class="conversion-badges">
+                                <a href="https://hqmx.net/convert/mp4-to-avi" class="conversion-badge">
+                                    <span class="badge-front">MP4-AVI</span>
+                                    <span class="badge-back">AVI-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-mov" class="conversion-badge">
+                                    <span class="badge-front">MP4-MOV</span>
+                                    <span class="badge-back">MOV-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-mkv" class="conversion-badge">
+                                    <span class="badge-front">MP4-MKV</span>
+                                    <span class="badge-back">MKV-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-webm" class="conversion-badge">
+                                    <span class="badge-front">MP4-WEBM</span>
+                                    <span class="badge-back">WEBM-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-flv" class="conversion-badge">
+                                    <span class="badge-front">MP4-FLV</span>
+                                    <span class="badge-back">FLV-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-wmv" class="conversion-badge">
+                                    <span class="badge-front">MP4-WMV</span>
+                                    <span class="badge-back">WMV-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">MP4-M4V</span>
+                                    <span class="badge-back">M4V-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">MP4-3GP</span>
+                                    <span class="badge-back">3GP-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">MP4-MPEG</span>
+                                    <span class="badge-back">MPEG-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp4-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">MP4-OGV</span>
+                                    <span class="badge-back">OGV-MP4</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-mov" class="conversion-badge">
+                                    <span class="badge-front">AVI-MOV</span>
+                                    <span class="badge-back">MOV-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-mkv" class="conversion-badge">
+                                    <span class="badge-front">AVI-MKV</span>
+                                    <span class="badge-back">MKV-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-webm" class="conversion-badge">
+                                    <span class="badge-front">AVI-WEBM</span>
+                                    <span class="badge-back">WEBM-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-flv" class="conversion-badge">
+                                    <span class="badge-front">AVI-FLV</span>
+                                    <span class="badge-back">FLV-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-wmv" class="conversion-badge">
+                                    <span class="badge-front">AVI-WMV</span>
+                                    <span class="badge-back">WMV-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">AVI-M4V</span>
+                                    <span class="badge-back">M4V-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">AVI-3GP</span>
+                                    <span class="badge-back">3GP-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">AVI-MPEG</span>
+                                    <span class="badge-back">MPEG-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avi-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">AVI-OGV</span>
+                                    <span class="badge-back">OGV-AVI</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-mkv" class="conversion-badge">
+                                    <span class="badge-front">MOV-MKV</span>
+                                    <span class="badge-back">MKV-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-webm" class="conversion-badge">
+                                    <span class="badge-front">MOV-WEBM</span>
+                                    <span class="badge-back">WEBM-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-flv" class="conversion-badge">
+                                    <span class="badge-front">MOV-FLV</span>
+                                    <span class="badge-back">FLV-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-wmv" class="conversion-badge">
+                                    <span class="badge-front">MOV-WMV</span>
+                                    <span class="badge-back">WMV-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">MOV-M4V</span>
+                                    <span class="badge-back">M4V-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">MOV-3GP</span>
+                                    <span class="badge-back">3GP-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">MOV-MPEG</span>
+                                    <span class="badge-back">MPEG-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mov-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">MOV-OGV</span>
+                                    <span class="badge-back">OGV-MOV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-webm" class="conversion-badge">
+                                    <span class="badge-front">MKV-WEBM</span>
+                                    <span class="badge-back">WEBM-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-flv" class="conversion-badge">
+                                    <span class="badge-front">MKV-FLV</span>
+                                    <span class="badge-back">FLV-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-wmv" class="conversion-badge">
+                                    <span class="badge-front">MKV-WMV</span>
+                                    <span class="badge-back">WMV-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">MKV-M4V</span>
+                                    <span class="badge-back">M4V-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">MKV-3GP</span>
+                                    <span class="badge-back">3GP-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">MKV-MPEG</span>
+                                    <span class="badge-back">MPEG-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mkv-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">MKV-OGV</span>
+                                    <span class="badge-back">OGV-MKV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-flv" class="conversion-badge">
+                                    <span class="badge-front">WEBM-FLV</span>
+                                    <span class="badge-back">FLV-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-wmv" class="conversion-badge">
+                                    <span class="badge-front">WEBM-WMV</span>
+                                    <span class="badge-back">WMV-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">WEBM-M4V</span>
+                                    <span class="badge-back">M4V-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">WEBM-3GP</span>
+                                    <span class="badge-back">3GP-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">WEBM-MPEG</span>
+                                    <span class="badge-back">MPEG-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webm-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">WEBM-OGV</span>
+                                    <span class="badge-back">OGV-WEBM</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-wmv" class="conversion-badge">
+                                    <span class="badge-front">FLV-WMV</span>
+                                    <span class="badge-back">WMV-FLV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">FLV-M4V</span>
+                                    <span class="badge-back">M4V-FLV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">FLV-3GP</span>
+                                    <span class="badge-back">3GP-FLV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">FLV-MPEG</span>
+                                    <span class="badge-back">MPEG-FLV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flv-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">FLV-OGV</span>
+                                    <span class="badge-back">OGV-FLV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-m4v" class="conversion-badge">
+                                    <span class="badge-front">WMV-M4V</span>
+                                    <span class="badge-back">M4V-WMV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">WMV-3GP</span>
+                                    <span class="badge-back">3GP-WMV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">WMV-MPEG</span>
+                                    <span class="badge-back">MPEG-WMV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wmv-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">WMV-OGV</span>
+                                    <span class="badge-back">OGV-WMV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-3gp" class="conversion-badge">
+                                    <span class="badge-front">M4V-3GP</span>
+                                    <span class="badge-back">3GP-M4V</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">M4V-MPEG</span>
+                                    <span class="badge-back">MPEG-M4V</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4v-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">M4V-OGV</span>
+                                    <span class="badge-back">OGV-M4V</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-mpeg" class="conversion-badge">
+                                    <span class="badge-front">3GP-MPEG</span>
+                                    <span class="badge-back">MPEG-3GP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/3gp-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">3GP-OGV</span>
+                                    <span class="badge-back">OGV-3GP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mpeg-to-ogv" class="conversion-badge">
+                                    <span class="badge-front">MPEG-OGV</span>
+                                    <span class="badge-back">OGV-MPEG</span>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IMAGE CONVERSIONS -->
+                <div class="conversion-category" data-category="image">
+                    <div class="conversion-badges-container">
+                        <div class="conversion-badges">
+                                <a href="https://hqmx.net/convert/jpg-to-png" class="conversion-badge">
+                                    <span class="badge-front">JPG-PNG</span>
+                                    <span class="badge-back">PNG-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-gif" class="conversion-badge">
+                                    <span class="badge-front">JPG-GIF</span>
+                                    <span class="badge-back">GIF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-webp" class="conversion-badge">
+                                    <span class="badge-front">JPG-WEBP</span>
+                                    <span class="badge-back">WEBP-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-heic" class="conversion-badge">
+                                    <span class="badge-front">JPG-HEIC</span>
+                                    <span class="badge-back">HEIC-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-avif" class="conversion-badge">
+                                    <span class="badge-front">JPG-AVIF</span>
+                                    <span class="badge-back">AVIF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-svg" class="conversion-badge">
+                                    <span class="badge-front">JPG-SVG</span>
+                                    <span class="badge-back">SVG-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">JPG-BMP</span>
+                                    <span class="badge-back">BMP-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">JPG-TIFF</span>
+                                    <span class="badge-back">TIFF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-ico" class="conversion-badge">
+                                    <span class="badge-front">JPG-ICO</span>
+                                    <span class="badge-back">ICO-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-psd" class="conversion-badge">
+                                    <span class="badge-front">JPG-PSD</span>
+                                    <span class="badge-back">PSD-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/jpg-to-tga" class="conversion-badge">
+                                    <span class="badge-front">JPG-TGA</span>
+                                    <span class="badge-back">TGA-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-gif" class="conversion-badge">
+                                    <span class="badge-front">PNG-GIF</span>
+                                    <span class="badge-back">GIF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-webp" class="conversion-badge">
+                                    <span class="badge-front">PNG-WEBP</span>
+                                    <span class="badge-back">WEBP-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-heic" class="conversion-badge">
+                                    <span class="badge-front">PNG-HEIC</span>
+                                    <span class="badge-back">HEIC-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-avif" class="conversion-badge">
+                                    <span class="badge-front">PNG-AVIF</span>
+                                    <span class="badge-back">AVIF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-svg" class="conversion-badge">
+                                    <span class="badge-front">PNG-SVG</span>
+                                    <span class="badge-back">SVG-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">PNG-BMP</span>
+                                    <span class="badge-back">BMP-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">PNG-TIFF</span>
+                                    <span class="badge-back">TIFF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-ico" class="conversion-badge">
+                                    <span class="badge-front">PNG-ICO</span>
+                                    <span class="badge-back">ICO-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-psd" class="conversion-badge">
+                                    <span class="badge-front">PNG-PSD</span>
+                                    <span class="badge-back">PSD-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/png-to-tga" class="conversion-badge">
+                                    <span class="badge-front">PNG-TGA</span>
+                                    <span class="badge-back">TGA-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-webp" class="conversion-badge">
+                                    <span class="badge-front">GIF-WEBP</span>
+                                    <span class="badge-back">WEBP-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-heic" class="conversion-badge">
+                                    <span class="badge-front">GIF-HEIC</span>
+                                    <span class="badge-back">HEIC-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-avif" class="conversion-badge">
+                                    <span class="badge-front">GIF-AVIF</span>
+                                    <span class="badge-back">AVIF-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-svg" class="conversion-badge">
+                                    <span class="badge-front">GIF-SVG</span>
+                                    <span class="badge-back">SVG-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">GIF-BMP</span>
+                                    <span class="badge-back">BMP-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">GIF-TIFF</span>
+                                    <span class="badge-back">TIFF-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-ico" class="conversion-badge">
+                                    <span class="badge-front">GIF-ICO</span>
+                                    <span class="badge-back">ICO-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-psd" class="conversion-badge">
+                                    <span class="badge-front">GIF-PSD</span>
+                                    <span class="badge-back">PSD-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gif-to-tga" class="conversion-badge">
+                                    <span class="badge-front">GIF-TGA</span>
+                                    <span class="badge-back">TGA-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-heic" class="conversion-badge">
+                                    <span class="badge-front">WEBP-HEIC</span>
+                                    <span class="badge-back">HEIC-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-avif" class="conversion-badge">
+                                    <span class="badge-front">WEBP-AVIF</span>
+                                    <span class="badge-back">AVIF-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-svg" class="conversion-badge">
+                                    <span class="badge-front">WEBP-SVG</span>
+                                    <span class="badge-back">SVG-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">WEBP-BMP</span>
+                                    <span class="badge-back">BMP-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">WEBP-TIFF</span>
+                                    <span class="badge-back">TIFF-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-ico" class="conversion-badge">
+                                    <span class="badge-front">WEBP-ICO</span>
+                                    <span class="badge-back">ICO-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-psd" class="conversion-badge">
+                                    <span class="badge-front">WEBP-PSD</span>
+                                    <span class="badge-back">PSD-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/webp-to-tga" class="conversion-badge">
+                                    <span class="badge-front">WEBP-TGA</span>
+                                    <span class="badge-back">TGA-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-avif" class="conversion-badge">
+                                    <span class="badge-front">HEIC-AVIF</span>
+                                    <span class="badge-back">AVIF-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-svg" class="conversion-badge">
+                                    <span class="badge-front">HEIC-SVG</span>
+                                    <span class="badge-back">SVG-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">HEIC-BMP</span>
+                                    <span class="badge-back">BMP-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">HEIC-TIFF</span>
+                                    <span class="badge-back">TIFF-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-ico" class="conversion-badge">
+                                    <span class="badge-front">HEIC-ICO</span>
+                                    <span class="badge-back">ICO-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-psd" class="conversion-badge">
+                                    <span class="badge-front">HEIC-PSD</span>
+                                    <span class="badge-back">PSD-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/heic-to-tga" class="conversion-badge">
+                                    <span class="badge-front">HEIC-TGA</span>
+                                    <span class="badge-back">TGA-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-svg" class="conversion-badge">
+                                    <span class="badge-front">AVIF-SVG</span>
+                                    <span class="badge-back">SVG-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">AVIF-BMP</span>
+                                    <span class="badge-back">BMP-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">AVIF-TIFF</span>
+                                    <span class="badge-back">TIFF-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-ico" class="conversion-badge">
+                                    <span class="badge-front">AVIF-ICO</span>
+                                    <span class="badge-back">ICO-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-psd" class="conversion-badge">
+                                    <span class="badge-front">AVIF-PSD</span>
+                                    <span class="badge-back">PSD-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/avif-to-tga" class="conversion-badge">
+                                    <span class="badge-front">AVIF-TGA</span>
+                                    <span class="badge-back">TGA-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/svg-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">SVG-BMP</span>
+                                    <span class="badge-back">BMP-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/svg-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">SVG-TIFF</span>
+                                    <span class="badge-back">TIFF-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/svg-to-ico" class="conversion-badge">
+                                    <span class="badge-front">SVG-ICO</span>
+                                    <span class="badge-back">ICO-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/svg-to-psd" class="conversion-badge">
+                                    <span class="badge-front">SVG-PSD</span>
+                                    <span class="badge-back">PSD-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/svg-to-tga" class="conversion-badge">
+                                    <span class="badge-front">SVG-TGA</span>
+                                    <span class="badge-back">TGA-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bmp-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">BMP-TIFF</span>
+                                    <span class="badge-back">TIFF-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bmp-to-ico" class="conversion-badge">
+                                    <span class="badge-front">BMP-ICO</span>
+                                    <span class="badge-back">ICO-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bmp-to-psd" class="conversion-badge">
+                                    <span class="badge-front">BMP-PSD</span>
+                                    <span class="badge-back">PSD-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bmp-to-tga" class="conversion-badge">
+                                    <span class="badge-front">BMP-TGA</span>
+                                    <span class="badge-back">TGA-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tiff-to-ico" class="conversion-badge">
+                                    <span class="badge-front">TIFF-ICO</span>
+                                    <span class="badge-back">ICO-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tiff-to-psd" class="conversion-badge">
+                                    <span class="badge-front">TIFF-PSD</span>
+                                    <span class="badge-back">PSD-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tiff-to-tga" class="conversion-badge">
+                                    <span class="badge-front">TIFF-TGA</span>
+                                    <span class="badge-back">TGA-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ico-to-psd" class="conversion-badge">
+                                    <span class="badge-front">ICO-PSD</span>
+                                    <span class="badge-back">PSD-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ico-to-tga" class="conversion-badge">
+                                    <span class="badge-front">ICO-TGA</span>
+                                    <span class="badge-back">TGA-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/psd-to-tga" class="conversion-badge">
+                                    <span class="badge-front">PSD-TGA</span>
+                                    <span class="badge-back">TGA-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">CR2-JPG</span>
+                                    <span class="badge-back">CR2-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-png" class="conversion-badge">
+                                    <span class="badge-front">CR2-PNG</span>
+                                    <span class="badge-back">CR2-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-gif" class="conversion-badge">
+                                    <span class="badge-front">CR2-GIF</span>
+                                    <span class="badge-back">CR2-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-webp" class="conversion-badge">
+                                    <span class="badge-front">CR2-WEBP</span>
+                                    <span class="badge-back">CR2-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-heic" class="conversion-badge">
+                                    <span class="badge-front">CR2-HEIC</span>
+                                    <span class="badge-back">CR2-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-avif" class="conversion-badge">
+                                    <span class="badge-front">CR2-AVIF</span>
+                                    <span class="badge-back">CR2-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-svg" class="conversion-badge">
+                                    <span class="badge-front">CR2-SVG</span>
+                                    <span class="badge-back">CR2-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">CR2-BMP</span>
+                                    <span class="badge-back">CR2-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">CR2-TIFF</span>
+                                    <span class="badge-back">CR2-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-ico" class="conversion-badge">
+                                    <span class="badge-front">CR2-ICO</span>
+                                    <span class="badge-back">CR2-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-psd" class="conversion-badge">
+                                    <span class="badge-front">CR2-PSD</span>
+                                    <span class="badge-back">CR2-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr2-to-tga" class="conversion-badge">
+                                    <span class="badge-front">CR2-TGA</span>
+                                    <span class="badge-back">CR2-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">CR3-JPG</span>
+                                    <span class="badge-back">CR3-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-png" class="conversion-badge">
+                                    <span class="badge-front">CR3-PNG</span>
+                                    <span class="badge-back">CR3-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-gif" class="conversion-badge">
+                                    <span class="badge-front">CR3-GIF</span>
+                                    <span class="badge-back">CR3-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-webp" class="conversion-badge">
+                                    <span class="badge-front">CR3-WEBP</span>
+                                    <span class="badge-back">CR3-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-heic" class="conversion-badge">
+                                    <span class="badge-front">CR3-HEIC</span>
+                                    <span class="badge-back">CR3-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-avif" class="conversion-badge">
+                                    <span class="badge-front">CR3-AVIF</span>
+                                    <span class="badge-back">CR3-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-svg" class="conversion-badge">
+                                    <span class="badge-front">CR3-SVG</span>
+                                    <span class="badge-back">CR3-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">CR3-BMP</span>
+                                    <span class="badge-back">CR3-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">CR3-TIFF</span>
+                                    <span class="badge-back">CR3-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-ico" class="conversion-badge">
+                                    <span class="badge-front">CR3-ICO</span>
+                                    <span class="badge-back">CR3-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-psd" class="conversion-badge">
+                                    <span class="badge-front">CR3-PSD</span>
+                                    <span class="badge-back">CR3-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/cr3-to-tga" class="conversion-badge">
+                                    <span class="badge-front">CR3-TGA</span>
+                                    <span class="badge-back">CR3-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">NEF-JPG</span>
+                                    <span class="badge-back">NEF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-png" class="conversion-badge">
+                                    <span class="badge-front">NEF-PNG</span>
+                                    <span class="badge-back">NEF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-gif" class="conversion-badge">
+                                    <span class="badge-front">NEF-GIF</span>
+                                    <span class="badge-back">NEF-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-webp" class="conversion-badge">
+                                    <span class="badge-front">NEF-WEBP</span>
+                                    <span class="badge-back">NEF-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-heic" class="conversion-badge">
+                                    <span class="badge-front">NEF-HEIC</span>
+                                    <span class="badge-back">NEF-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-avif" class="conversion-badge">
+                                    <span class="badge-front">NEF-AVIF</span>
+                                    <span class="badge-back">NEF-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-svg" class="conversion-badge">
+                                    <span class="badge-front">NEF-SVG</span>
+                                    <span class="badge-back">NEF-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">NEF-BMP</span>
+                                    <span class="badge-back">NEF-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">NEF-TIFF</span>
+                                    <span class="badge-back">NEF-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-ico" class="conversion-badge">
+                                    <span class="badge-front">NEF-ICO</span>
+                                    <span class="badge-back">NEF-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-psd" class="conversion-badge">
+                                    <span class="badge-front">NEF-PSD</span>
+                                    <span class="badge-back">NEF-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/nef-to-tga" class="conversion-badge">
+                                    <span class="badge-front">NEF-TGA</span>
+                                    <span class="badge-back">NEF-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">ARW-JPG</span>
+                                    <span class="badge-back">ARW-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-png" class="conversion-badge">
+                                    <span class="badge-front">ARW-PNG</span>
+                                    <span class="badge-back">ARW-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-gif" class="conversion-badge">
+                                    <span class="badge-front">ARW-GIF</span>
+                                    <span class="badge-back">ARW-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-webp" class="conversion-badge">
+                                    <span class="badge-front">ARW-WEBP</span>
+                                    <span class="badge-back">ARW-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-heic" class="conversion-badge">
+                                    <span class="badge-front">ARW-HEIC</span>
+                                    <span class="badge-back">ARW-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-avif" class="conversion-badge">
+                                    <span class="badge-front">ARW-AVIF</span>
+                                    <span class="badge-back">ARW-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-svg" class="conversion-badge">
+                                    <span class="badge-front">ARW-SVG</span>
+                                    <span class="badge-back">ARW-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">ARW-BMP</span>
+                                    <span class="badge-back">ARW-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">ARW-TIFF</span>
+                                    <span class="badge-back">ARW-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-ico" class="conversion-badge">
+                                    <span class="badge-front">ARW-ICO</span>
+                                    <span class="badge-back">ARW-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-psd" class="conversion-badge">
+                                    <span class="badge-front">ARW-PSD</span>
+                                    <span class="badge-back">ARW-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/arw-to-tga" class="conversion-badge">
+                                    <span class="badge-front">ARW-TGA</span>
+                                    <span class="badge-back">ARW-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">DNG-JPG</span>
+                                    <span class="badge-back">DNG-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-png" class="conversion-badge">
+                                    <span class="badge-front">DNG-PNG</span>
+                                    <span class="badge-back">DNG-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-gif" class="conversion-badge">
+                                    <span class="badge-front">DNG-GIF</span>
+                                    <span class="badge-back">DNG-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-webp" class="conversion-badge">
+                                    <span class="badge-front">DNG-WEBP</span>
+                                    <span class="badge-back">DNG-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-heic" class="conversion-badge">
+                                    <span class="badge-front">DNG-HEIC</span>
+                                    <span class="badge-back">DNG-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-avif" class="conversion-badge">
+                                    <span class="badge-front">DNG-AVIF</span>
+                                    <span class="badge-back">DNG-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-svg" class="conversion-badge">
+                                    <span class="badge-front">DNG-SVG</span>
+                                    <span class="badge-back">DNG-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">DNG-BMP</span>
+                                    <span class="badge-back">DNG-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">DNG-TIFF</span>
+                                    <span class="badge-back">DNG-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-ico" class="conversion-badge">
+                                    <span class="badge-front">DNG-ICO</span>
+                                    <span class="badge-back">DNG-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-psd" class="conversion-badge">
+                                    <span class="badge-front">DNG-PSD</span>
+                                    <span class="badge-back">DNG-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/dng-to-tga" class="conversion-badge">
+                                    <span class="badge-front">DNG-TGA</span>
+                                    <span class="badge-back">DNG-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">RAF-JPG</span>
+                                    <span class="badge-back">RAF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-png" class="conversion-badge">
+                                    <span class="badge-front">RAF-PNG</span>
+                                    <span class="badge-back">RAF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-gif" class="conversion-badge">
+                                    <span class="badge-front">RAF-GIF</span>
+                                    <span class="badge-back">RAF-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-webp" class="conversion-badge">
+                                    <span class="badge-front">RAF-WEBP</span>
+                                    <span class="badge-back">RAF-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-heic" class="conversion-badge">
+                                    <span class="badge-front">RAF-HEIC</span>
+                                    <span class="badge-back">RAF-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-avif" class="conversion-badge">
+                                    <span class="badge-front">RAF-AVIF</span>
+                                    <span class="badge-back">RAF-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-svg" class="conversion-badge">
+                                    <span class="badge-front">RAF-SVG</span>
+                                    <span class="badge-back">RAF-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">RAF-BMP</span>
+                                    <span class="badge-back">RAF-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">RAF-TIFF</span>
+                                    <span class="badge-back">RAF-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-ico" class="conversion-badge">
+                                    <span class="badge-front">RAF-ICO</span>
+                                    <span class="badge-back">RAF-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-psd" class="conversion-badge">
+                                    <span class="badge-front">RAF-PSD</span>
+                                    <span class="badge-back">RAF-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/raf-to-tga" class="conversion-badge">
+                                    <span class="badge-front">RAF-TGA</span>
+                                    <span class="badge-back">RAF-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">ORF-JPG</span>
+                                    <span class="badge-back">ORF-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-png" class="conversion-badge">
+                                    <span class="badge-front">ORF-PNG</span>
+                                    <span class="badge-back">ORF-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-gif" class="conversion-badge">
+                                    <span class="badge-front">ORF-GIF</span>
+                                    <span class="badge-back">ORF-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-webp" class="conversion-badge">
+                                    <span class="badge-front">ORF-WEBP</span>
+                                    <span class="badge-back">ORF-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-heic" class="conversion-badge">
+                                    <span class="badge-front">ORF-HEIC</span>
+                                    <span class="badge-back">ORF-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-avif" class="conversion-badge">
+                                    <span class="badge-front">ORF-AVIF</span>
+                                    <span class="badge-back">ORF-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-svg" class="conversion-badge">
+                                    <span class="badge-front">ORF-SVG</span>
+                                    <span class="badge-back">ORF-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">ORF-BMP</span>
+                                    <span class="badge-back">ORF-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">ORF-TIFF</span>
+                                    <span class="badge-back">ORF-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-ico" class="conversion-badge">
+                                    <span class="badge-front">ORF-ICO</span>
+                                    <span class="badge-back">ORF-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-psd" class="conversion-badge">
+                                    <span class="badge-front">ORF-PSD</span>
+                                    <span class="badge-back">ORF-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/orf-to-tga" class="conversion-badge">
+                                    <span class="badge-front">ORF-TGA</span>
+                                    <span class="badge-back">ORF-TGA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-jpg" class="conversion-badge">
+                                    <span class="badge-front">RW2-JPG</span>
+                                    <span class="badge-back">RW2-JPG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-png" class="conversion-badge">
+                                    <span class="badge-front">RW2-PNG</span>
+                                    <span class="badge-back">RW2-PNG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-gif" class="conversion-badge">
+                                    <span class="badge-front">RW2-GIF</span>
+                                    <span class="badge-back">RW2-GIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-webp" class="conversion-badge">
+                                    <span class="badge-front">RW2-WEBP</span>
+                                    <span class="badge-back">RW2-WEBP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-heic" class="conversion-badge">
+                                    <span class="badge-front">RW2-HEIC</span>
+                                    <span class="badge-back">RW2-HEIC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-avif" class="conversion-badge">
+                                    <span class="badge-front">RW2-AVIF</span>
+                                    <span class="badge-back">RW2-AVIF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-svg" class="conversion-badge">
+                                    <span class="badge-front">RW2-SVG</span>
+                                    <span class="badge-back">RW2-SVG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-bmp" class="conversion-badge">
+                                    <span class="badge-front">RW2-BMP</span>
+                                    <span class="badge-back">RW2-BMP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-tiff" class="conversion-badge">
+                                    <span class="badge-front">RW2-TIFF</span>
+                                    <span class="badge-back">RW2-TIFF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-ico" class="conversion-badge">
+                                    <span class="badge-front">RW2-ICO</span>
+                                    <span class="badge-back">RW2-ICO</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-psd" class="conversion-badge">
+                                    <span class="badge-front">RW2-PSD</span>
+                                    <span class="badge-back">RW2-PSD</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rw2-to-tga" class="conversion-badge">
+                                    <span class="badge-front">RW2-TGA</span>
+                                    <span class="badge-back">RW2-TGA</span>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AUDIO CONVERSIONS -->
+                <div class="conversion-category" data-category="audio">
+                    <div class="conversion-badges-container">
+                        <div class="conversion-badges">
+                                <a href="https://hqmx.net/convert/mp3-to-wav" class="conversion-badge">
+                                    <span class="badge-front">MP3-WAV</span>
+                                    <span class="badge-back">WAV-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-flac" class="conversion-badge">
+                                    <span class="badge-front">MP3-FLAC</span>
+                                    <span class="badge-back">FLAC-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-aac" class="conversion-badge">
+                                    <span class="badge-front">MP3-AAC</span>
+                                    <span class="badge-back">AAC-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">MP3-OGG</span>
+                                    <span class="badge-back">OGG-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">MP3-M4A</span>
+                                    <span class="badge-back">M4A-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-wma" class="conversion-badge">
+                                    <span class="badge-front">MP3-WMA</span>
+                                    <span class="badge-back">WMA-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-opus" class="conversion-badge">
+                                    <span class="badge-front">MP3-OPUS</span>
+                                    <span class="badge-back">OPUS-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">MP3-AIFF</span>
+                                    <span class="badge-back">AIFF-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/mp3-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">MP3-AC3</span>
+                                    <span class="badge-back">AC3-MP3</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-flac" class="conversion-badge">
+                                    <span class="badge-front">WAV-FLAC</span>
+                                    <span class="badge-back">FLAC-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-aac" class="conversion-badge">
+                                    <span class="badge-front">WAV-AAC</span>
+                                    <span class="badge-back">AAC-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">WAV-OGG</span>
+                                    <span class="badge-back">OGG-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">WAV-M4A</span>
+                                    <span class="badge-back">M4A-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-wma" class="conversion-badge">
+                                    <span class="badge-front">WAV-WMA</span>
+                                    <span class="badge-back">WMA-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-opus" class="conversion-badge">
+                                    <span class="badge-front">WAV-OPUS</span>
+                                    <span class="badge-back">OPUS-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">WAV-AIFF</span>
+                                    <span class="badge-back">AIFF-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wav-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">WAV-AC3</span>
+                                    <span class="badge-back">AC3-WAV</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-aac" class="conversion-badge">
+                                    <span class="badge-front">FLAC-AAC</span>
+                                    <span class="badge-back">AAC-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">FLAC-OGG</span>
+                                    <span class="badge-back">OGG-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">FLAC-M4A</span>
+                                    <span class="badge-back">M4A-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-wma" class="conversion-badge">
+                                    <span class="badge-front">FLAC-WMA</span>
+                                    <span class="badge-back">WMA-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-opus" class="conversion-badge">
+                                    <span class="badge-front">FLAC-OPUS</span>
+                                    <span class="badge-back">OPUS-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">FLAC-AIFF</span>
+                                    <span class="badge-back">AIFF-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/flac-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">FLAC-AC3</span>
+                                    <span class="badge-back">AC3-FLAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aac-to-ogg" class="conversion-badge">
+                                    <span class="badge-front">AAC-OGG</span>
+                                    <span class="badge-back">OGG-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aac-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">AAC-M4A</span>
+                                    <span class="badge-back">M4A-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aac-to-wma" class="conversion-badge">
+                                    <span class="badge-front">AAC-WMA</span>
+                                    <span class="badge-back">WMA-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aac-to-opus" class="conversion-badge">
+                                    <span class="badge-front">AAC-OPUS</span>
+                                    <span class="badge-back">OPUS-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aac-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">AAC-AIFF</span>
+                                    <span class="badge-back">AIFF-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aac-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">AAC-AC3</span>
+                                    <span class="badge-back">AC3-AAC</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogg-to-m4a" class="conversion-badge">
+                                    <span class="badge-front">OGG-M4A</span>
+                                    <span class="badge-back">M4A-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogg-to-wma" class="conversion-badge">
+                                    <span class="badge-front">OGG-WMA</span>
+                                    <span class="badge-back">WMA-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogg-to-opus" class="conversion-badge">
+                                    <span class="badge-front">OGG-OPUS</span>
+                                    <span class="badge-back">OPUS-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogg-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">OGG-AIFF</span>
+                                    <span class="badge-back">AIFF-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ogg-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">OGG-AC3</span>
+                                    <span class="badge-back">AC3-OGG</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4a-to-wma" class="conversion-badge">
+                                    <span class="badge-front">M4A-WMA</span>
+                                    <span class="badge-back">WMA-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4a-to-opus" class="conversion-badge">
+                                    <span class="badge-front">M4A-OPUS</span>
+                                    <span class="badge-back">OPUS-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4a-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">M4A-AIFF</span>
+                                    <span class="badge-back">AIFF-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/m4a-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">M4A-AC3</span>
+                                    <span class="badge-back">AC3-M4A</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wma-to-opus" class="conversion-badge">
+                                    <span class="badge-front">WMA-OPUS</span>
+                                    <span class="badge-back">OPUS-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wma-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">WMA-AIFF</span>
+                                    <span class="badge-back">AIFF-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/wma-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">WMA-AC3</span>
+                                    <span class="badge-back">AC3-WMA</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/opus-to-aiff" class="conversion-badge">
+                                    <span class="badge-front">OPUS-AIFF</span>
+                                    <span class="badge-back">AIFF-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/opus-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">OPUS-AC3</span>
+                                    <span class="badge-back">AC3-OPUS</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/aiff-to-ac3" class="conversion-badge">
+                                    <span class="badge-front">AIFF-AC3</span>
+                                    <span class="badge-back">AC3-AIFF</span>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOCUMENT CONVERSIONS -->
+                <div class="conversion-category" data-category="document">
+                    <div class="conversion-badges-container">
+                        <div class="conversion-badges">
+                                <a href="https://hqmx.net/convert/doc-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">DOC-PDF</span>
+                                    <span class="badge-back">DOC-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/docx-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">DOCX-PDF</span>
+                                    <span class="badge-back">DOCX-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ppt-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">PPT-PDF</span>
+                                    <span class="badge-back">PPT-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/pptx-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">PPTX-PDF</span>
+                                    <span class="badge-back">PPTX-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/xls-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">XLS-PDF</span>
+                                    <span class="badge-back">XLS-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/xlsx-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">XLSX-PDF</span>
+                                    <span class="badge-back">XLSX-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/txt-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">TXT-PDF</span>
+                                    <span class="badge-back">TXT-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/rtf-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">RTF-PDF</span>
+                                    <span class="badge-back">RTF-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/odt-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">ODT-PDF</span>
+                                    <span class="badge-back">ODT-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/ods-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">ODS-PDF</span>
+                                    <span class="badge-back">ODS-PDF</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/odp-to-pdf" class="conversion-badge">
+                                    <span class="badge-front">ODP-PDF</span>
+                                    <span class="badge-back">ODP-PDF</span>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ARCHIVE CONVERSIONS -->
+                <div class="conversion-category" data-category="archive">
+                    <div class="conversion-badges-container">
+                        <div class="conversion-badges">
+                                <a href="https://hqmx.net/convert/zip-to-tar" class="conversion-badge">
+                                    <span class="badge-front">ZIP-TAR</span>
+                                    <span class="badge-back">TAR-ZIP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/zip-to-gz" class="conversion-badge">
+                                    <span class="badge-front">ZIP-GZ</span>
+                                    <span class="badge-back">GZ-ZIP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/zip-to-bz2" class="conversion-badge">
+                                    <span class="badge-front">ZIP-BZ2</span>
+                                    <span class="badge-back">BZ2-ZIP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/zip-to-xz" class="conversion-badge">
+                                    <span class="badge-front">ZIP-XZ</span>
+                                    <span class="badge-back">XZ-ZIP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/zip-to-7z" class="conversion-badge">
+                                    <span class="badge-front">ZIP-7Z</span>
+                                    <span class="badge-back">7Z-ZIP</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tar-to-gz" class="conversion-badge">
+                                    <span class="badge-front">TAR-GZ</span>
+                                    <span class="badge-back">GZ-TAR</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tar-to-bz2" class="conversion-badge">
+                                    <span class="badge-front">TAR-BZ2</span>
+                                    <span class="badge-back">BZ2-TAR</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tar-to-xz" class="conversion-badge">
+                                    <span class="badge-front">TAR-XZ</span>
+                                    <span class="badge-back">XZ-TAR</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/tar-to-7z" class="conversion-badge">
+                                    <span class="badge-front">TAR-7Z</span>
+                                    <span class="badge-back">7Z-TAR</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gz-to-bz2" class="conversion-badge">
+                                    <span class="badge-front">GZ-BZ2</span>
+                                    <span class="badge-back">BZ2-GZ</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gz-to-xz" class="conversion-badge">
+                                    <span class="badge-front">GZ-XZ</span>
+                                    <span class="badge-back">XZ-GZ</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/gz-to-7z" class="conversion-badge">
+                                    <span class="badge-front">GZ-7Z</span>
+                                    <span class="badge-back">7Z-GZ</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bz2-to-xz" class="conversion-badge">
+                                    <span class="badge-front">BZ2-XZ</span>
+                                    <span class="badge-back">XZ-BZ2</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/bz2-to-7z" class="conversion-badge">
+                                    <span class="badge-front">BZ2-7Z</span>
+                                    <span class="badge-back">7Z-BZ2</span>
+                                </a>
+                                <a href="https://hqmx.net/convert/xz-to-7z" class="conversion-badge">
+                                    <span class="badge-front">XZ-7Z</span>
+                                    <span class="badge-back">7Z-XZ</span>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+                </div><!-- /supported-conversions -->
+            </div><!-- /sitemap-content -->
+        </section><!-- /sitemap -->
 
         <footer>
-            <p data-i18n-key="footer">&copy; 2024 HQMX. All Rights Reserved.</p>
+            <div class="footer-social">
+                <a href="https://x.com/8hqmx" target="_blank" rel="noopener noreferrer" class="footer-twitter" aria-label="Follow us on X (Twitter)">
+                    <img src="/assets/x-twitter-footer.svg" alt="X (Twitter)" class="footer-social-icon">
+                </a>
+            </div>
+            <p>
+                <span>&copy; 2024 HQMX. All Rights Reserved.</span>
+                <span class="footer-contact"> • support@hqmx.net</span>
+            </p>
         </footer>
     </div>
     <script src="i18n.js"></script>

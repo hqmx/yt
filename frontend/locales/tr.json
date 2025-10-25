@@ -62,7 +62,7 @@
   "unsupported_link": "Üzgünüz, bu bağlantı henüz desteklenmiyor.",
   "urlInputPlaceholder": "Video veya ses URL'sini girin...",
   "urlInputPlaceholderShort": "URL girin...",
-  "urlSectionTitle": "Tüm platformlardaki tüm medyayı buradan indirin",
+  "urlSectionTitle": "Tüm medya hakları telif hakkı sahibine aittir",
   "usageGuideDesc": "Favori videolarınızı ve müziğinizi hızlıca indirmek için bu üç basit adımı takip edin.",
   "usageGuideTitle": "Nasıl kullanılır",
   "url_not_provided": "URL sağlanmadı",
@@ -79,4 +79,6 @@
   "download_complete_ready": "İndirme tamamlandı! Dosya hazır.",
   "unknown_critical_error": "Bilinmeyen kritik bir hata oluştu.",
   "file_not_found_or_incomplete": "Dosya bulunamadı veya indirme tamamlanmadı."
+,
+  "reddit_auth_required": "⚠️ Reddit içerik indirmek için kimlik doğrulaması gerektirir. Bu platform şu anda anonim indirmeleri desteklememektedir. Lütfen desteklenen diğer platformları deneyin."
 }

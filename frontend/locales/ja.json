@@ -53,7 +53,7 @@
   "unsupported_link": "申し訳ございませんが、このリンクはまだサポートされていません。",
   "urlInputPlaceholder": "ビデオまたはオーディオのURLを入力してください...",
   "urlInputPlaceholderShort": "URLを入力...",
-  "urlSectionTitle": "すべてのプラットフォームのメディアをここでダウンロード",
+  "urlSectionTitle": "すべてのメディア権利は著作権者が保有",
   "usageGuideDesc": "お気に入りのビデオや音楽をすばやくダウンロードするには、次の3つの簡単な手順に従ってください。",
   "usageGuideTitle": "使用方法",
   "url_not_provided": "URLが提供されていません",
@@ -68,4 +68,6 @@
   "high": "高",
   "standard": "標準",
   "normal": "通常"
+,
+  "reddit_auth_required": "⚠️ Redditはコンテンツのダウンロードに認証が必要です。現在、匿名ダウンロードはサポートされていません。他のサポートされているプラットフォームをお試しください。"
 }
