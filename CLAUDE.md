@@ -28,12 +28,128 @@ HQMX는 YouTube를 비롯한 다양한 SNS 플랫폼(Instagram, Facebook, TikTok
   - 주기적 업데이트로 사이트 변경사항 대응
 
 ### 프론트엔드 (바닐라 JS)
-- **메인 페이지**: [frontend/index.html](frontend/index.html) - 다국어 지원 (20개 언어)
+
+#### 메인 사이트 (통합 다운로더)
+- **메인 페이지**: [frontend/index.html](frontend/index.html) - 다국어 지원 (21개 언어)
 - **핵심 스크립트**:
   - [script.js](frontend/script.js): 메인 UI 로직, API 통신
   - [i18n.js](frontend/i18n.js): Google Translate API 연동, 다국어 처리
   - [userProfileCollector.js](frontend/js/userProfileCollector.js): 사용자 프로파일링
 - **스타일링**: [style.css](frontend/style.css) - 반응형 디자인, 다크모드 지원
+- **도메인**: https://hqmx.net
+
+#### 플랫폼별 SEO 페이지 (서브도메인 구조)
+각 플랫폼별로 전용 SEO 페이지를 서브도메인으로 제공하여 검색 엔진 최적화. 현재 **11개 플랫폼** 운영 중:
+
+**1. Instagram 다운로더**:
+- **URL 구조**: `instagram.hqmx.net/{언어코드}` (예: instagram.hqmx.net/en, instagram.hqmx.net/ko)
+- **로컬 경로**: [instagram/en/](instagram/en/) - 언어별 디렉토리 구조
+- **메인 파일**: [instagram/en/index.html](instagram/en/index.html)
+- **다국어 파일**: [instagram/en/locales/*.json](instagram/en/locales/) - 21개 언어
+- **아이콘**: [instagram/en/assets/instagram-icon.png](instagram/en/assets/instagram-icon.png) - 공식 Instagram 아이콘
+- **스타일**: [instagram/en/style.css](instagram/en/style.css)
+- **스크립트**: [instagram/en/script.js](instagram/en/script.js), [instagram/en/i18n.js](instagram/en/i18n.js)
+
+**2. TikTok 다운로더**:
+- **URL 구조**: `tiktok.hqmx.net/{언어코드}`
+- **로컬 경로**: [tiktok/en/](tiktok/en/)
+- **아이콘**: [tiktok/en/assets/tiktok-icon.png](tiktok/en/assets/tiktok-icon.png)
+- **특징**: 비디오, 사진, 스토리 다운로드, 워터마크 제거
+
+**3. Facebook 다운로더**:
+- **URL 구조**: `facebook.hqmx.net/{언어코드}`
+- **로컬 경로**: [facebook/en/](facebook/en/)
+- **아이콘**: [facebook/en/assets/facebook-icon.png](facebook/en/assets/facebook-icon.png)
+- **특징**: 비디오, 사진, 스토리 다운로드
+
+**4. Twitter/X 다운로더**:
+- **URL 구조**: `twitter.hqmx.net/{언어코드}`
+- **로컬 경로**: [twitter/en/](twitter/en/)
+- **아이콘**: [twitter/en/assets/twitter-icon.png](twitter/en/assets/twitter-icon.png)
+- **특징**: 트윗, 비디오, GIF 다운로드
+
+**5. Reddit 다운로더**:
+- **URL 구조**: `reddit.hqmx.net/{언어코드}`
+- **로컬 경로**: [reddit/en/](reddit/en/)
+- **아이콘**: [reddit/en/assets/reddit-icon.png](reddit/en/assets/reddit-icon.png)
+- **특징**: 게시물, 비디오, 이미지 다운로드
+
+**6. Pinterest 다운로더**:
+- **URL 구조**: `pinterest.hqmx.net/{언어코드}`
+- **로컬 경로**: [pinterest/en/](pinterest/en/)
+- **아이콘**: [pinterest/en/assets/pinterest-icon.png](pinterest/en/assets/pinterest-icon.png)
+- **특징**: 핀, 이미지, 비디오 다운로드
+
+**7. Vimeo 다운로더**:
+- **URL 구조**: `vimeo.hqmx.net/{언어코드}`
+- **로컬 경로**: [vimeo/en/](vimeo/en/)
+- **아이콘**: [vimeo/en/assets/vimeo-icon.png](vimeo/en/assets/vimeo-icon.png)
+- **특징**: 고품질 비디오 다운로드
+
+**8. SoundCloud 다운로더**:
+- **URL 구조**: `soundcloud.hqmx.net/{언어코드}`
+- **로컬 경로**: [soundcloud/en/](soundcloud/en/)
+- **아이콘**: [soundcloud/en/assets/soundcloud-icon.png](soundcloud/en/assets/soundcloud-icon.png)
+- **특징**: 오디오 트랙, 플레이리스트 다운로드
+
+**9. Dailymotion 다운로더**:
+- **URL 구조**: `dailymotion.hqmx.net/{언어코드}`
+- **로컬 경로**: [dailymotion/en/](dailymotion/en/)
+- **아이콘**: [dailymotion/en/assets/dailymotion-icon.png](dailymotion/en/assets/dailymotion-icon.png)
+- **특징**: 비디오 다운로드
+
+**10. Twitch 다운로더**:
+- **URL 구조**: `twitch.hqmx.net/{언어코드}`
+- **로컬 경로**: [twitch/en/](twitch/en/)
+- **아이콘**: [twitch/en/assets/twitch-icon.png](twitch/en/assets/twitch-icon.png)
+- **특징**: 클립, VOD, 하이라이트 다운로드
+
+**11. Tumblr 다운로더**:
+- **URL 구조**: `tumblr.hqmx.net/{언어코드}`
+- **로컬 경로**: [tumblr/en/](tumblr/en/)
+- **아이콘**: [tumblr/en/assets/tumblr-icon.png](tumblr/en/assets/tumblr-icon.png)
+- **특징**: 게시물, 비디오, 이미지 다운로드
+
+**SEO 페이지 공통 특징**:
+- ✅ **21개 언어 지원**: en, ko, ja, zh-CN, zh-TW, es, fr, de, pt, ru, it, tr, ar, hi, id, vi, th, my, fil, ms, bn
+- ✅ **플랫폼 특화**: 각 플랫폼 특성에 맞는 UI/UX 및 브랜딩
+- ✅ **SEO 최적화**: 플랫폼별 키워드 최적화, 메타 태그, Schema.org 구조화 데이터
+- ✅ **공식 아이콘**: SimpleIcons CDN에서 다운로드한 각 플랫폼의 공식 PNG 아이콘
+- ✅ **클릭 가능 로고**: "PLATFORM", "HQMX", "CONVERTER", "DOWNLOADER" 텍스트 로고 모두 링크 버튼화
+- ✅ **독립 운영**: 각 플랫폼별 독립적인 브랜딩 및 마케팅 가능
+- ✅ **일관된 구조**: 모든 플랫폼이 동일한 디렉토리 구조 및 파일 조직 (index.html, style.css, script.js, i18n.js, locales/*.json)
+
+#### URL 구조 전략 논의
+
+**현재 구조 (서브도메인)**:
+```
+instagram.hqmx.net/{언어코드}
+tiktok.hqmx.net/{언어코드}
+...
+```
+
+**장단점 분석**:
+| 항목 | 현재 (서브도메인) | 대안 1 (서브경로) | 대안 2 (downloader 서브경로) |
+|------|------------------|------------------|---------------------------|
+| URL 예시 | `instagram.hqmx.net/en` | `hqmx.net/en/instagram` | `downloader.hqmx.net/en/instagram` |
+| DNS 레코드 | 11개 | 0개 (메인만) | 1개 |
+| Nginx 설정 | 11개 | 1개 | 1개 |
+| 코드 중복 | 높음 | 낮음 | 낮음 |
+| 배포 복잡도 | 높음 (11번) | 낮음 (1번) | 낮음 (1번) |
+| SEO 권위 | ⭐⭐⭐⭐⭐ 최상 | ⭐⭐⭐ 양호 | ⭐⭐⭐⭐ 좋음 |
+| 브랜딩 | 독립 브랜드 | HQMX 하위 | Downloader 하위 |
+| 관리 효율 | ⭐⭐ 낮음 | ⭐⭐⭐⭐⭐ 최상 | ⭐⭐⭐⭐⭐ 최상 |
+
+**권장 전략 (미래 고려사항)**:
+1. **단기**: 현재 서브도메인 구조 유지 (SEO 권위 우선)
+2. **중기**: `downloader.hqmx.net/en/instagram` 전환 (관리 효율 + SEO 균형)
+3. **장기**: 템플릿 시스템 도입으로 코드 중복 최소화
+
+**전환 시 고려사항**:
+- 301 리다이렉트로 SEO 점수 유지
+- hreflang 태그 업데이트
+- Sitemap XML 재생성
+- Google Search Console 재등록
 
 ## 필수 설정
 
@@ -190,11 +306,18 @@ bash deploy-frontend.sh
 ### 1. yt-dlp 기반 다운로드 시스템
 **yt-dlp**를 사용하여 1000+ 사이트 지원:
 - **YouTube**: SmartProxy + HTTP + iOS client로 봇 감지 우회 (상세: [YT-SC.md](YT-SC.md))
+  - 360p 제한 (PO Token 이슈로 고품질 불가)
+  - 별도 스트림 병합 필수 (`bv*+ba/b`)
 - **Instagram**: SmartProxy + HTTP로 안정적 다운로드
-- **Facebook**: SmartProxy + HTTP로 안정적 다운로드
-- **TikTok**: 워터마크 제거 옵션
-- **Twitter/X**: 비디오, GIF
-- 기타 1000+ 사이트 자동 지원 (직접 연결)
+  - 고품질 다운로드 가능
+  - 사전 병합 포맷 우선 (`b/bv*+ba`)
+- **Facebook**: 직접 HTTPS 연결로 최적화 ⚡
+  - SmartProxy 제거로 50-60% 속도 향상
+  - 사전 병합 포맷 우선 (`b/bv*+ba`)
+  - 파일명 길이 제한 (80바이트) 적용
+- **TikTok**: 워터마크 제거 옵션, 직접 연결
+- **Twitter/X**: 비디오, GIF, 직접 연결
+- 기타 1000+ 사이트 자동 지원 (직접 연결, 사전 병합 우선)
 
 ### 2. 스트리밍 및 메모리 최적화
 ```python
@@ -208,12 +331,17 @@ def generate():
             yield chunk
 ```
 
-### 3. SmartProxy 봇 감지 우회 시스템
-**YouTube/Instagram/Facebook**: SmartProxy residential IP로 봇 감지 우회
+### 3. 플랫폼별 최적화 전략
+**YouTube/Instagram**: SmartProxy residential IP로 봇 감지 우회
 - **HTTP 변환**: HTTPS → HTTP로 변환하여 PO Token 요구 회피
 - **Residential IP**: SmartProxy를 통해 일반 사용자처럼 접근
 - **iOS Client**: yt-dlp의 iOS player client로 추가 제한 회피
 - **성공률**: YouTube 다운로드 100% 성공 (상세: [YT-SC.md](YT-SC.md))
+
+**Facebook/TikTok/기타**: 직접 HTTPS 연결로 최대 속도
+- **프록시 제거**: 봇 감지가 약한 플랫폼은 직접 연결로 속도 최적화
+- **사전 병합 우선**: `b/bv*+ba` 포맷 전략으로 병합 단계 최소화
+- **비용 절감**: 프록시 사용을 YouTube/Instagram만으로 제한
 
 ### 4. 성능 특징
 - **분석 시간**: yt-dlp의 빠른 메타데이터 추출
@@ -279,12 +407,22 @@ curl http://52.55.219.204:5000/health
 - ✅ **스트리밍 다운로드**: 청크 기반 메모리 효율적 처리
 - ✅ **다국어 지원**: 20개 언어 완벽 지원
 - ✅ **자동 정리**: APScheduler로 임시 파일 관리
+- ✅ **플랫폼별 최적화**: 각 플랫폼 특성에 맞는 다운로드 전략
 
 ### 주요 장점
 - **단순성**: Python Flask + yt-dlp로 복잡도 최소화
 - **안정성**: yt-dlp의 검증된 다운로드 엔진
 - **확장성**: yt-dlp 업데이트로 새 사이트 자동 지원
 - **유지보수성**: 적은 의존성, 명확한 구조
+- **성능 최적화**: 플랫폼별 맞춤 전략으로 다운로드 속도 향상
+
+### 최근 업데이트 (2025-10-25)
+- ✅ **Facebook 최적화**: 프록시 제거로 50-60% 속도 향상
+- ✅ **포맷 선택 개선**: 플랫폼별 최적 포맷 전략 적용 (`b/bv*+ba` for non-YouTube)
+- ✅ **파일명 길이 제한**: 긴 타이틀로 인한 다운로드 실패 해결 (80바이트 제한)
+- ✅ **비용 최적화**: 프록시 사용을 YouTube/Instagram으로 제한
+- ✅ **MKV/WEBM/MOV 지원**: FFmpegVideoConvertor로 컨테이너 변환 지원
+- ✅ **파일 크기 예측 개선**: 코덱 인식 비트레이트 + 컨테이너 오버헤드 반영
 
 ## 디버깅 및 트러블슈팅
 
@@ -484,6 +622,36 @@ scp -i hqmx-ec2.pem frontend/*.{html,css,js} ubuntu@52.55.219.204:/home/ubuntu/h
 - **메모리 효율**: 청크 기반 스트리밍 (1MB)
 - **임시 파일**: APScheduler로 자동 정리
 - **확장성**: yt-dlp 업데이트로 새 사이트 자동 지원
+
+## 플랫폼별 다운로드 전략
+
+| 플랫폼 | 프록시 | HTTP 변환 | 포맷 전략 | 특징 |
+|--------|--------|-----------|----------|------|
+| YouTube | ✅ SmartProxy | ✅ HTTP | `bv*+ba/b` | 봇 감지 우회, 360p 제한 |
+| Instagram | ✅ SmartProxy | ✅ HTTP | `b/bv*+ba` | 봇 감지 우회, 고품질 가능 |
+| Facebook | ❌ 직접 | ❌ HTTPS | `b/bv*+ba` | ⚡ 50-60% 빠름, 사전 병합 우선 |
+| TikTok | ❌ 직접 | ❌ HTTPS | `b/bv*+ba` | 직접 연결, 워터마크 제거 |
+| 기타 1800+ | ❌ 직접 | ❌ HTTPS | `b/bv*+ba` | 직접 연결, 사전 병합 우선 |
+
+## 포맷 지원 및 변환
+
+### 비디오 포맷
+- **MP4** (기본): 가장 빠름, 변환 없음
+- **MKV**: FFmpeg 리먹싱 (+3% 오버헤드)
+- **WEBM**: FFmpeg 리먹싱 (+2% 오버헤드)
+- **MOV**: FFmpeg 리먹싱 (+4% 오버헤드)
+
+### 오디오 포맷
+- **MP3**: 192/256/320 kbps
+- **M4A**: AAC 인코딩
+- **FLAC**: 무손실
+- **WAV**: PCM 무손실
+
+### 파일 크기 예측
+- **직접 크기 사용**: 백엔드가 제공하는 정확한 파일 크기 우선
+- **코덱 인식 비트레이트**: AV1/VP9 vs H.264 구분
+- **컨테이너 오버헤드**: MKV/WEBM/MOV 변환 시 2-4% 추가
+- **즉시 업데이트**: 분석 완료, 품질/포맷 변경 시 즉시 반영
 
 ## 회사 정보 (푸터 표시)
 - Company: OROMANO
