@@ -824,7 +824,12 @@ body[data-theme="dark"] .language-selector-btn {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 0.25rem;
+    background: white;
     transition: box-shadow 0.3s ease;
+}
+
+body[data-theme="dark"] .input-wrapper {
+    background: rgba(17, 24, 39, 0.6);
 }
 
 .input-wrapper:focus-within {
