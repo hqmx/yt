@@ -1486,7 +1486,7 @@ body[data-theme="dark"] .platform-item img[src*="tumblr"] {
     align-items: center;
     gap: 0.5rem;
     flex: 0 0 auto;
-    margin-top: 8rem;
+    margin-top: 12rem;
 }
 
 .sitemap-center {

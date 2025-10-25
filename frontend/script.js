@@ -1489,14 +1489,7 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
         });
     }
 
-    // Converter logo click
-    if (converterLogoLink) {
-        converterLogoLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleCategoryIcons();
-        });
-    }
+    // Converter logo click - Removed (now just a link to hqmx.net)
 
     // 카테고리 아이콘 버튼 클릭 시 배지 표시
     categoryIconBtns.forEach(btn => {
@@ -1591,14 +1584,7 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
         });
     }
 
-    // Downloader logo click
-    if (downloaderLogoLink) {
-        downloaderLogoLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            togglePlatformIcons();
-        });
-    }
+    // Downloader logo click - Removed (now just a link to downloader.hqmx.net)
 
     // Platform icon button click handlers
     platformIconBtns.forEach(btn => {
